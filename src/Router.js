@@ -5,7 +5,7 @@ import SignUp from './Component/Screens/SignUp';
 
 const RouterComponent = () => {
     return (
-        <Router navigationBarStyle={{backgroundColor: '#000',borderBottomColor: '#333'}}>
+        <Router navigationBarStyle={{backgroundColor: '#000',borderBottomColor: '#333'}} titleStyle={{color: '#ddd'}}>
             <Scene key="default" hideNavBar={true}>
                 <Scene key="home" component={Home} />
             </Scene>
