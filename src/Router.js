@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import Home from './Component/Screens/Home';
 import SignUp from './Component/Screens/SignUp';
+import Main from './Component/Screens/Main';
 
 const RouterComponent = () => {
     return (
@@ -17,6 +18,13 @@ const RouterComponent = () => {
                     title="Create Wallet"
                     leftTitle="Back"
                     onLeft={() => Actions.default()} />
+            </Scene>
+
+            <Scene key="Dashboard">
+                <Scene 
+                    key="main" 
+                    component={Main} 
+                    title="Dashboard" />
             </Scene>
         </Router>
     );
