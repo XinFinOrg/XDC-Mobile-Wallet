@@ -1,3 +1,0 @@
-export {
-    signup
-} from './signup';
