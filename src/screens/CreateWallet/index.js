@@ -61,9 +61,13 @@ class CreateWallet extends Component {
     confirmationPinCode: '',
     pinCode: '',
     isConfirmation: false,
+    isDisabled: false,
   };
 
   onBackPress = () => {
+    this.setState({
+      isDisabled: false,
+    })
     if (!this.state.isConfirmation) {
       this.setState(prevState => ({
         pinCode: prevState.pinCode.slice(0, -1),
@@ -108,6 +112,9 @@ class CreateWallet extends Component {
           this.state.confirmationPinCode.length === 4 &&
           this.state.pinCode === this.state.confirmationPinCode
         ) {
+          this.setState({
+            isDisabled: true
+          })
           this.props.setPinCode(this.state.pinCode);
 
           if (this.props.navigation.getParam('recoverMode', false)) {
@@ -122,6 +129,11 @@ class CreateWallet extends Component {
             WalletUtils.generateWallet();
           }
 
+          if (this.props.navigation.getParam('editMode', false)) {
+            this.props.navigation.navigate('WalletHome');
+            return;
+          }
+
           setTimeout(() => {
             this.props.navigation.navigate('Wallet');
           });
@@ -131,6 +143,7 @@ class CreateWallet extends Component {
               pinCode: '',
               confirmationPinCode: '',
               isConfirmation: false,
+              isDisabled: false,
             },
             () => {
               Alert.alert(
@@ -193,6 +206,7 @@ class CreateWallet extends Component {
               onBackPress={this.onBackPress}
               onKeyPress={this.onKeyPress}
               showBackButton={pinCode.length > 0}
+              isDisabled={this.state.isDisabled}
             />
           </View>
           

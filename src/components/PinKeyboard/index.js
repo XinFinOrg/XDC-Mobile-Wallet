@@ -32,6 +32,7 @@ export default class PinKeyboard extends Component {
     onBackPress: PropTypes.func.isRequired,
     onKeyPress: PropTypes.func.isRequired,
     showBackButton: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -39,12 +40,14 @@ export default class PinKeyboard extends Component {
   };
 
   render() {
+    console.log('pinkeyboard', this.props)
     return (
       <View>
         {chunk(range(1, 10), 3).map((numbersGroup, index) => (
           <View style={styles.keyboardRow} key={index}>
             {numbersGroup.map((number, index2) => (
               <TouchableOpacity
+                disabled={this.props.isDisabled}
                 style={styles.keyboardKey}
                 key={index2}
                 onPress={() => {
@@ -57,10 +60,13 @@ export default class PinKeyboard extends Component {
           </View>
         ))}
         <View style={styles.keyboardRow}>
-          <TouchableOpacity style={styles.keyboardKey}>
+          <TouchableOpacity 
+            disabled={this.props.isDisabled} 
+            style={styles.keyboardKey}>
             <Text style={styles.textPlaceholder}>0</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={this.props.isDisabled}
             style={styles.keyboardKey}
             onPress={() => {
               this.props.onKeyPress(0);
