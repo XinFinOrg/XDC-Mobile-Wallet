@@ -46,6 +46,15 @@ XDC Wallet is a Mobile Application that allows users to send XDC and XDCE tokens
 
 For debugging, we recommend using React Native Debugger
 
+## To use OAUTH
+
+```
+React-native-Oauth
+    add 
+        mWebView.getSettings().setUserAgentString("Mozilla/5.0 Google");
+     in
+         node_modules/react-native-oath/android/src/main/java/io/fullstack/oauth/oAuthManagerDialogFragment.java
+
 
 # How it works
 
