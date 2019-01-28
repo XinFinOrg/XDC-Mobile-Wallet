@@ -106,7 +106,7 @@ export default class CreateWallet extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigation.goBack()}
+            // onBackPress={() => this.props.navigation.goBack()}
             title="Recover wallet"
           />
           <View>
