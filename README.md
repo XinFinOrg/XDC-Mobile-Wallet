@@ -54,6 +54,8 @@ React-native-Oauth
         mWebView.getSettings().setUserAgentString("Mozilla/5.0 Google");
      in
          node_modules/react-native-oath/android/src/main/java/io/fullstack/oauth/oAuthManagerDialogFragment.java
+         
+ ```
 
 
 # How it works
