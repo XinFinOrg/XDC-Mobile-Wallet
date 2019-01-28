@@ -8,6 +8,19 @@ buildscript {
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
     }
+    subprojects {
+  project.configurations.all {
+      afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 26
+                buildToolsVersion '26.0.2'
+            }
+        }
+    }
+  }
+}
+
     repositories {
         google()
         jcenter()
@@ -25,6 +38,7 @@ allprojects {
         mavenLocal()
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"

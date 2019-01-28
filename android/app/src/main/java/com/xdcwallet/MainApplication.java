@@ -3,6 +3,13 @@ package com.xdcwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
+import io.fullstack.oauth.OAuthManagerPackage;
+import com.horcrux.svg.SvgPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.bitgo.randombytes.RandomBytesPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,6 +31,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
+            new ReactNativeFingerprintScannerPackage(),
+            new OAuthManagerPackage(),
+            new SvgPackage(),
+            new LinearGradientPackage(),
+            new RNCameraPackage(),
+            new RandomBytesPackage(),
             new RNGoogleSigninPackage()
       );
     }
