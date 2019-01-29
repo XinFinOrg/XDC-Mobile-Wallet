@@ -214,14 +214,11 @@ class WalletHome extends Component {
   };
 
   render() {
-    console.log('selectedToken', this.props.selectedToken);
-    console.log('currentBalance::::::', this.state.currentBalance);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
             hamBurgerPress={() => {
-              console.log('props wallethome:', this.props);
               this.props.navigation.dispatch(DrawerActions.openDrawer())
             }}
             title="Dashboard"

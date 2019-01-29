@@ -78,7 +78,6 @@ class BalanceRow extends Component {
   };
 
   toggleModal = (transactionDetails) => {
-    console.log('transactionDetails', transactionDetails);
     this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
   }
   // tokenChange = (data) => {

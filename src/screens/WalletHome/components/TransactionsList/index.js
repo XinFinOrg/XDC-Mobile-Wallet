@@ -104,7 +104,6 @@ export default class TransactionsList extends Component {
   };
 
   toggleModal = (transactionDetails) => {
-    console.log('transactionDetails', transactionDetails);
     this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
   }
 

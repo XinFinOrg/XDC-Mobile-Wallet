@@ -40,7 +40,6 @@ export default class PinKeyboard extends Component {
   };
 
   render() {
-    console.log('pinkeyboard', this.props)
     return (
       <View>
         {chunk(range(1, 10), 3).map((numbersGroup, index) => (

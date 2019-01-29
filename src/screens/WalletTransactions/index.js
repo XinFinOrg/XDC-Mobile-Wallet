@@ -124,7 +124,6 @@ class WalletTransactions extends Component {
   onRefresh = () => {
     this.fetchBalance();
     this.fetchTransactions();
-    this.signInWithGoogle();
   };
 
   handleAppStateChange = nextAppState => {
@@ -144,14 +143,6 @@ class WalletTransactions extends Component {
   removeEventListeners = () => {
     AppState.removeEventListener('change', this.handleAppStateChange);
   };
-
-  signInWithGoogle = async () => {
-    const status = await WalletUtils.OAuthSignIn();
-
-    this.setState({
-      status,
-    })
-  }
 
   fetchBalance = async () => {
     const currentBalance = await WalletUtils.getBalance(
@@ -185,19 +176,15 @@ class WalletTransactions extends Component {
   };
 
   tokenChange = (val) => {
-    console.log('token change to: ', val);
     this.props.setDefaultToken(token);
   }
 
   render() {
-    console.log('selectedToken', this.props.selectedToken);
-    console.log('currentBalance::::::', this.state.currentBalance);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
             hamBurgerPress={() => {
-              console.log('props wallethome:', this.props);
               this.props.navigation.dispatch(DrawerActions.openDrawer())
             }}
             onBackPress={() => this.props.navigation.goBack()}

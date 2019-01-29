@@ -96,7 +96,6 @@ class Balances extends Component {
             tokenBalancesLength: stateBalance,
             tokenBalances: stateBalanceObj
           })
-          console.log('balance state', this.state.tokenBalances, this.state.tokenBalancesLength)
             // .then(resp => {
             //   balanceObj[index] = {
             //     [token.name]: index
@@ -148,7 +147,6 @@ class Balances extends Component {
 
     let tokens = null;
     if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
-      console.log('lengthcheck 1', this.state.tokenList, this.state.tokenBalances)
       tokens = this.state.tokenList.map((token, index) => {
         
         return(

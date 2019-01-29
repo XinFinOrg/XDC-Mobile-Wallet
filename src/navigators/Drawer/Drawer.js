@@ -85,7 +85,6 @@ class CustomDrawer extends Component {
         let activeTabStyle = [styles.navItemStyle, styles.activeLink];
         let normalTabStyle = [styles.navItemStyle];
         
-        console.log('draweritem', this.props.navigation.state.routes["0"].routes[length - 1].routeName);
         return (
           <View style={styles.container}>
             <ScrollView>

@@ -38,18 +38,15 @@ class TokenPicker extends Component {
 
   componentWillMount() {
     const currentNetwork = this.props.network;
-    console.log('list of tokens:', this.props.availableTokens);
     this.setState({
       tokenList: this.props.availableTokens,
     })
     AsyncStorage.setItem('availableTokens', JSON.stringify(this.props.availableTokens));
     AsyncStorage.getItem('availableTokens')
       .then(r => {
-        console.log('datalist:::', JSON.parse(r));
         this.setState({
           tokenList: JSON.parse(r),
         });
-        console.log('this.state.tokenlist',this.state.tokenList);
         const listOfTokens = this.state.tokenList;  
         const menuOptions = [
           ...listOfTokens.

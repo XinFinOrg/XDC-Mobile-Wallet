@@ -79,7 +79,6 @@ class WalletReceive extends Component {
   };
 
   tokenChange = (val) => {
-    console.log('token change to: ', val);
     this.props.setDefaultToken(token);
   }
 

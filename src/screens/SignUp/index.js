@@ -60,8 +60,6 @@ class SignUp extends Component {
 
     manager.configure(config);
 
-    console.log(manager);
-
     const googleUrl = 'https://www.googleapis.com/plus/v1/people/me';
     const slackUrl = 'https://www.slack.com/api/users.identity';
 
@@ -69,10 +67,8 @@ class SignUp extends Component {
       manager.authorize('google', { scopes })
         .then(
           resp => {
-            console.log(resp);
             manager.makeRequest('google', googleUrl, resp)
               .then(resp => {
-                console.log('Data -> ', resp.data);
                 AsyncStorage.setItem('UserEmail', resp.data.emails[0].value);
                 if(AsyncStorage.getItem('UserEmail')) {
                   this.props.navigation.navigate('Home');
@@ -85,7 +81,6 @@ class SignUp extends Component {
     } else if(provider === 'slack') {
       manager.authorize('slack', { scopes })
         .then(resp => {
-          console.log(resp);
           manager.makeRequest('slack', slackUrl, resp)
             .then(resp => {
               console.log(resp);

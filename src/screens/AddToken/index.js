@@ -58,7 +58,6 @@ class AddToken extends Component {
         )
           .then(response => response.json())
           .then(data => {
-            console.log('add token data',data);
             this.setState({
               name: data.name || '',
               symbol: data.symbol || '',
@@ -80,7 +79,6 @@ class AddToken extends Component {
     /^0x([A-Fa-f0-9]{40})$/.test(this.state.contractAddress);
 
   addToken = () => {
-    console.log("state check 1:", this.state)
     const token = {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
@@ -117,7 +115,6 @@ class AddToken extends Component {
             onSymbolChange={symbol => this.setState({ symbol })}
             onCameraPress={this.onCameraPress}
             onNetworkChange={network => {
-              console.log("network check 1:", network)
               this.setState({ network })}}
             symbol={this.state.symbol}
             network={this.state.network}

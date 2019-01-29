@@ -98,19 +98,8 @@ class AppLoading extends Component {
     return AsyncStorage.multiRemove(keys);
   };
 
-  componentWillMount() {
-    console.log('splash screen will mount');
-  }
-
   render() {
-    
-    console.log('splash screen will mount render');
-    const splash = <View style={{flex: 1, backgroundColor: 'green',}}>
-                      
-                    </View>
-    console.log('splash:', splash);
-
-    return splash;
+    return null;
   }
 }
 

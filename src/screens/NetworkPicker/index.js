@@ -52,7 +52,6 @@ class NetworkPicker extends Component {
           onPress: async () => {
             this.props.resetTokens();
             this.props.onNetworkChange(network);
-            console.log(network, 'network');
             const resetAction = StackActions.reset({
               index: 0,
               actions: [
