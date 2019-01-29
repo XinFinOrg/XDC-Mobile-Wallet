@@ -1,9 +1,9 @@
 
        
        
-# XDC Wallet
+# XDC Mobile Wallet
 
-## A multicurrency mobile wallet for XDC, XDCE, Ethereum, and Custom Tokens.
+## XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing.
 
 XDC Wallet is:
 
@@ -20,6 +20,18 @@ XDC Wallet is:
 # Introduction Summary
 
 XDC Wallet is a Mobile Application that allows users to send XDC and XDCE tokens from one account to another, just in a few clicks. XDC Wallet initially allows wallet creation on public/private blockchain with any of the ERC standards.It allows the user to then send transactions on public/private blockchain depending on which network the token is deployed. It also enables user to add their custom token which is deployed either on public/private blockchain.
+
+## Main Features of XDC wallet :
+
+> Multiple wallet creation and management in-app
+> Intuitive wallets
+> Easy spending proposal flow for shared wallets and group payments
+> Device-based security: all private keys are stored locally, not in the cloud
+> Support for Xinfin testnet wallets
+> Payment protocol XDC01 support: easily-identifiable payment requests and verifiable, secure token payments
+> Email notifications for payments and transfers
+> Push notifications (only available for ios and android versions)
+> Customizable wallet naming and background colors
 
 ---
 
