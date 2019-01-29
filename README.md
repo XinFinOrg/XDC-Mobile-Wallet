@@ -23,15 +23,15 @@ XDC Wallet is a Mobile Application that allows users to send XDC and XDCE tokens
 
 ## Main Features of XDC wallet :
 
-> Multiple wallet creation and management in-app
-> Intuitive wallets
-> Easy spending proposal flow for shared wallets and group payments
-> Device-based security: all private keys are stored locally, not in the cloud
-> Support for Xinfin testnet wallets
-> Payment protocol XDC01 support: easily-identifiable payment requests and verifiable, secure token payments
-> Email notifications for payments and transfers
-> Push notifications (only available for ios and android versions)
-> Customizable wallet naming and background colors
+* Multiple wallet creation and management in-app
+* Intuitive wallets
+* Easy spending proposal flow for shared wallets and group payments
+* Device-based security: all private keys are stored locally, not in the cloud
+* Support for Xinfin testnet wallets
+* Payment protocol XDC01 support: easily-identifiable payment requests and verifiable, secure token payments
+* Email notifications for payments and transfers
+* Push notifications (only available for ios and android versions)
+* Customizable wallet naming and background colors
 
 ---
 
