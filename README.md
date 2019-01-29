@@ -3,7 +3,7 @@
        
 # XDC Wallet
 
-## XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing..
+## A multicurrency mobile wallet for XDC, XDCE, Ethereum, and Custom Tokens.
 
 XDC Wallet is:
 
@@ -68,10 +68,21 @@ React-native-Oauth
 * A transactions list shows all the transactions done by the user.
 * The application is secured with mpin from wallet creation to logout,
 
+# Screenshots
+
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/signup.jpeg">
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/mpin.jpeg">
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/Dashboard.jpeg">
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/drawer.jpeg">
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/send.jpeg">
+<img width="540" height="1080" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/addtoken.jpeg">
+
+
+
 
 **Contribution and Collobration: 
 
-MyContract.co invites Community Contribution for developmnet of various usecase library for Bond Creation, real estate tokenization and Security token creation as per local law etc. Feel free to add usecase library.   
+XDC Wallet invites Community Contribution for developmnet of various usecase library for Bond Creation and Security token creation as per local law etc. Feel free to add usecase library.   
 
     How to Contribte: 
     
