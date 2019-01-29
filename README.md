@@ -68,3 +68,20 @@ React-native-Oauth
 * A transactions list shows all the transactions done by the user.
 * The application is secured with mpin from wallet creation to logout,
 
+
+**Contribution and Collobration: 
+
+MyContract.co invites Community Contribution for developmnet of various usecase library for Bond Creation, real estate tokenization and Security token creation as per local law etc. Feel free to add usecase library.   
+
+    How to Contribte: 
+    
+    Fork Repository (https://github.com/XinFinOrg/XDCWallet-RN/fork)
+    
+    Create your feature branch (git checkout -b feature/fooBar)
+    
+    Commit your changes (git commit -am 'Add some fooBar')
+    
+    Push to the branch (git push origin feature/fooBar)
+    
+    Create a new Pull Request
+
