@@ -70,7 +70,8 @@ React-native-Oauth
 
 # Screenshots
 
-<img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/signup.jpeg"> <img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/mpin.jpeg">
+<img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/signup.jpeg"> 
+<img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/mpin.jpeg">
 <img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/Dashboard.jpeg">
 <img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/drawer.jpeg">
 <img width="220" height="540" src="https://github.com/XinFinOrg/XDC-Mobile-Wallet/blob/master/screenshots/send.jpeg">
