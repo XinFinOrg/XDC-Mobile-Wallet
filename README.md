@@ -3,7 +3,7 @@
        
 # XDC Wallet
 
-## A multicurrency mobile wallet for XDC, XDCE, Ethereum, and Custom Tokens.
+## XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing..
 
 XDC Wallet is:
 
