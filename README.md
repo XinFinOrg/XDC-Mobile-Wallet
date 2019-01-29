@@ -3,7 +3,7 @@
        
 # XDC Mobile Wallet
 
-## XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing.
+XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing.
 
 XDC Wallet is:
 
@@ -42,7 +42,6 @@ XDC Wallet is a Mobile Application that allows users to send XDC and XDCE tokens
     https://nodejs.org/en/download/
 
 ### Install React Native CLI
-
     npm install -g react-native-cli
     
  ### Checkout develop branch & install node_modules
