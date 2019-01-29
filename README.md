@@ -1,6 +1,5 @@
 
        
-       
 # XDC Mobile Wallet
 
 XDC Mobile Wallet is an easy-to-use, open-source, multiplatform, secure XDC and ERC20 wallet platform for both individuals and companies. XDC Mobile Wallet uses XDC01 Network for peer synchronization and network interfacing.
@@ -21,17 +20,75 @@ XDC Wallet is:
 
 XDC Wallet is a Mobile Application that allows users to send XDC and XDCE tokens from one account to another, just in a few clicks. XDC Wallet initially allows wallet creation on public/private blockchain with any of the ERC standards.It allows the user to then send transactions on public/private blockchain depending on which network the token is deployed. It also enables user to add their custom token which is deployed either on public/private blockchain.
 
-## Main Features of XDC wallet :
+**1. Application - functionalities Onboarding :** 
 
-* Multiple wallet creation and management in-app
-* Intuitive wallets
-* Easy spending proposal flow for shared wallets and group payments
-* Device-based security: all private keys are stored locally, not in the cloud
-* Support for Xinfin testnet wallets
-* Payment protocol XDC01 support: easily-identifiable payment requests and verifiable, secure token payments
-* Email notifications for payments and transfers
-* Push notifications (only available for ios and android versions)
-* Customizable wallet naming and background colors
+The user will be welcomed with a splash screen displaying the company’s logo, application name and application version.
+
+* Log in and registration
+* Users can register and log in using (To Get Verify user accounts #KYC):
+* E-mail address
+* Google login
+* FaceBook
+* OAuth
+
+**2. Registration requires adding: :** 
+
+* E-mail address  (We will send OTP over email to verify account at time of withdrawal)
+* Client Side PIN and FingerPrint (Only on Supported Devices)
+
+**3. No Option for Forgot Password:** 
+
+ We are not storing any private key for user on cloud hence recovery of User wallet won’t be possible from server, User are sole responsible for there private key or account.
+ 
+ **4. No Option for Forgot Password:** 
+
+Recover Account using Private key :-  We will give option for Application holder to use there existing private key on our app, Over here they will have to confirm email id authentication to get idea address-mapping.
+
+
+**Navigation bar**
+
+* At the bottom of the application, there is a navigation bar with options:
+
+1. Home
+2. Send
+3. Receive 
+4. Transactions
+
+**Application - Flow**
+
+* User can sign up with google login or email at start if his accounts doesn’t exist.
+
+* After logging in the user has his option to export or backup the private key with various options(Shareit,Whatsapp,Messenger).
+
+* The user will have a send tab where he can enter the receiver's address or scan receivers barcode to automatically enter the address.He can select the token which he wants to send and further after entering the amount he can send particular amount of tokens.
+
+* The user has a receive tab to show he own account address.
+
+* The transactions tab will display all the transactions made by particular users account.
+
+* The settings tab may provide options to change the mpin,edit email,export private key and logout.
+
+* There would be a option to add a custom token on the balance tab which will also display the users token balances.
+
+
+
+
+**Application - Technicalities**
+
+
+* On creation of account the private key of the user will be only stored on the mobile device in encrypted form.
+
+* The address of users and email would be mapped in  table on the server.
+
+* The account creation process creates a public/private keypair on client side.
+
+* On an attempt of sending a transaction by user the transaction will be signed with the users private key and then the transaction will be sent to server and it will be verified on server and will be sent further.
+
+* The user has an option to add a custom token other than XDC which exists on network and all the operations for the particular token would be maintained on client side.
+
+* The internet connectivity is necessary to send the transactions.
+
+* To export the private key user will be verified first with his mpin.
 
 ---
 
