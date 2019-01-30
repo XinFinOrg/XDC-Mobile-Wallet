@@ -180,8 +180,8 @@ export default class Form extends Component {
             selectedValue={network}
             style={styles.formInput }
             onValueChange={onNetworkChange}>
-            <Picker.Item label="Mainnet" value="mainnet" />
-            <Picker.Item label="Ropsten" value="ropsten" />
+            <Picker.Item label="Private" value="private" />
+            <Picker.Item label="Public" value="public" />
           </Picker>
         </View>
       </ScrollContainer>

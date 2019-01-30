@@ -9,7 +9,7 @@ const defaultTokens = [
     contractAddress: contractAddress,
     decimals: 18,
     currencySymbol: 'USD',
-    network: 'mainnet',
+    network: 'private',
   },
   {
     name: 'MXDC',
@@ -27,7 +27,7 @@ const defaultTokens = [
     contractAddress: "0x5B0e5360CC8974A007da9F05BeDc3d370e1a924f",
     decimals: 18,
     currencySymbol: 'USD',
-    network: 'ropsten',
+    network: 'public',
   },
 ];
 

@@ -383,7 +383,6 @@ export default class WalletUtils {
     
      return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
-        console.log('wallet', walletAddress)
         console.log('send tra', data, error)
         web3.eth.sendTransaction(
           {

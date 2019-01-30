@@ -100,7 +100,7 @@ class AddToken extends Component {
           <Header
             hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
-            title="Add token"
+            title='Add token'
           />
           <Form
             amount={this.state.amount}
