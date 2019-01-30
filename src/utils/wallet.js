@@ -378,22 +378,28 @@ export default class WalletUtils {
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
   static sendETHTransaction(toAddress,amount){
+    const { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance();
     
      return new Promise((resolve, reject) => {
-      web3.eth.sendTransaction(
-        {
-          to: toAddress,
-          value: amount * Math.pow(10, 18),
-        },
-        (error, transaction) => {
-          if (error) {
-            reject(error);
-          }
+      web3.eth.getTransactionCount(walletAddress, function (error, data) {
+        console.log('wallet', walletAddress)
+        console.log('send tra', data, error)
+        web3.eth.sendTransaction(
+          {
+            nounce: data,
+            to: toAddress,
+            value: amount * Math.pow(10, 18),
+          },
+          (error, transaction) => {
+            if (error) {
+              reject(error);
+            }
 
-          resolve(transaction);
-        },
-      )
+            resolve(transaction);
+          },
+        )
+      });
     });
   }
 }

@@ -132,14 +132,14 @@ class CustomDrawer extends Component {
                             Change Pin
                         </Text>
                     </View>
-                    <View style={styles.navSectionStyle}>
+                    {/* <View style={styles.navSectionStyle}>
                         <Image source={network} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('NetworkPicker', false)}>
                             Change Network
                         </Text>
-                    </View>
+                    </View> */}
                     <View style={styles.navSectionStyle}>
                         <Image source={privatekey} style={styles.Icon}/>
                         <Text 
