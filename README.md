@@ -148,6 +148,8 @@ React-native-Oauth
 
 
 
+Mobile App Download Link: (http://xinfin.network/xdc-wallet.apk) 
+
 **Contribution and Collobration: 
 
 XDC Wallet invites Community Contribution for developmnet of various usecase library for Bond Creation and Security token creation as per local law etc. Feel free to add usecase library.   
