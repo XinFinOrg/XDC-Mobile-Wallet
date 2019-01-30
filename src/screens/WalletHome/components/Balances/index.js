@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, ScrollView, AsyncStorage } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, ScrollView, AsyncStorage, Text as RNText } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     marginBottom: 20,
   },
   balanceWrap: {
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     backgroundColor: 'transparent',
+    marginVertical: 10,
   },
   usdBalance: {
     position: 'absolute',
@@ -53,9 +54,8 @@ const styles = StyleSheet.create({
   },
   graphListDetails: {
     width: '100%',
-    padding: 10,
     backgroundColor: '#fff',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   tokenName: {
     color: '#000', 
@@ -153,7 +153,6 @@ class Balances extends Component {
 
     const { labelWidth, selectedSlice } = this.state;
     const { label, value } = selectedSlice;
-    const keys = ['google', 'facebook', 'linkedin'];
     const values = [45, 25, 110];
     const colors = ['#254a81', '#8e44ad', '#f39c12', '#16a085', '#2c3e50']
 
@@ -167,12 +166,12 @@ class Balances extends Component {
               <Text style={styles.tokenName} letterSpacing={2}>
                 {token.name}
               </Text>
-              <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
-              </Text>
-              <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[token.name].balance.toFixed(2)}
-              </Text>
+              <RNText style={{color: '#333'}} letterSpacing={2}>
+                USD: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+              </RNText>
+              <RNText style={{color: '#333'}} letterSpacing={2}>
+                {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
+              </RNText>
             </View>
           </View>
         )
@@ -186,15 +185,12 @@ class Balances extends Component {
         
         return(
           <View style={styles.graphListDetails} key={index}>
-            <View style={{width: '100%', borderTopColor: colors[index], borderTopWidth: 5, marginVertical: 10}}>
+            <View style={{width: '100%', borderTopColor: colors[index], borderTopWidth: 5, padding: 10}}>
               <Text style={styles.tokenName} letterSpacing={2}>
                 {token.name}
               </Text>
               <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
-              </Text>
-              <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[token.name].balance.toFixed(2)}
+                Price chart coming soon
               </Text>
             </View>
           </View>
