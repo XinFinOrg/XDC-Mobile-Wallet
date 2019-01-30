@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'relative',
   },
+  graphListWrap: {
+    alignItems: 'stretch',
+    width: '100%',
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
   usdBalance: {
     position: 'absolute',
     width: '100%',
@@ -44,6 +50,12 @@ const styles = StyleSheet.create({
   balanceDetails: {
     width: '50%',
     padding: 10,
+  },
+  graphListDetails: {
+    width: '100%',
+    padding: 10,
+    backgroundColor: '#fff',
+    marginVertical: 20,
   },
   tokenName: {
     color: '#000', 
@@ -168,6 +180,29 @@ class Balances extends Component {
       });
     }
 
+    let graphList = null;
+    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
+      graphList = this.state.tokenList.map((token, index) => {
+        
+        return(
+          <View style={styles.graphListDetails} key={index}>
+            <View style={{width: '100%', borderTopColor: colors[index], borderTopWidth: 5, marginVertical: 10}}>
+              <Text style={styles.tokenName} letterSpacing={2}>
+                {token.name}
+              </Text>
+              <Text style={{color: '#333'}} letterSpacing={2}>
+                {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+              </Text>
+              <Text style={{color: '#333'}} letterSpacing={2}>
+                {this.state.tokenBalances[token.name].balance.toFixed(2)}
+              </Text>
+            </View>
+          </View>
+        )
+        
+      });
+    }
+
     let data = null;
     let balanceInfo = null;
     if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
@@ -214,6 +249,10 @@ class Balances extends Component {
           <View style={styles.balances}>
               {tokens}
           </View>
+        </View>
+
+        <View style={styles.graphListWrap}>
+          {graphList}
         </View>
         
       </View>

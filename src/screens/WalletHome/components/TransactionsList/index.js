@@ -176,7 +176,7 @@ export default class TransactionsList extends Component {
                   <Text style={styles.ModalItemTitle}>Status: </Text>Completed
                 </Text>
                 <LinearGradient
-                  colors={['#7f0fc9', '#4d00ff']}
+                  colors={['#254a81', '#254a81']}
                   locations={[0, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}

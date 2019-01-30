@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
-        padding: 10,
+        paddingVertical: 15,
         backgroundColor: 'lightgrey'
     },
     drawerHeader: {
@@ -160,9 +160,9 @@ class CustomDrawer extends Component {
                     </View>
                 </View>
             </ScrollView>
-            <View style={styles.footerContainer}>
-                <Image source={logout} style={styles.Icon}/>
+            <View>
                 <TouchableOpacity
+                    style={styles.footerContainer}
                     onPress = { () => 
                         Alert.alert(
                           'Logout',
@@ -185,7 +185,8 @@ class CustomDrawer extends Component {
                         )
                     }
                 >
-                    <Text style={{fontWeight: 'bold'}}>Logout</Text>
+                    <Image source={logout} style={styles.Icon}/>
+                    <Text style={normalTabStyle}>Logout</Text>
                 </TouchableOpacity>
             </View>
           </View>
