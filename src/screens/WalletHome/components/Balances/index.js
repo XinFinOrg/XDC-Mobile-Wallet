@@ -56,18 +56,11 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#fff',
     marginVertical: 10,
+    padding: 10,
   },
   tokenName: {
     color: '#000', 
     paddingTop: 10,
-  },
-  boxWithShadow: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,  
-    elevation: 5,
-    padding: 10,
   },
 });
 
@@ -192,7 +185,7 @@ class Balances extends Component {
       graphList = this.state.tokenList.map((token, index) => {
         
         return(
-          <View style={styles.graphListDetails}>
+          <View style={styles.graphListDetails} key={index}>
             <TouchableOpacity
               style={styles.footerContainer}
               onPress = { () => 
@@ -200,8 +193,7 @@ class Balances extends Component {
                     'Price Chart',
                     'Price Chart Coming Soon'
                   )
-              }
-              key={index}>
+              }>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
                 {token.name} Price
               </RNText>

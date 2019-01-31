@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
   },
 });
 
