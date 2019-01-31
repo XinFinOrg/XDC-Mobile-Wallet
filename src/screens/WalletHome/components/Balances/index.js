@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, ScrollView, AsyncStorage, Text as RNText } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, ScrollView, Alert, AsyncStorage, Text as RNText } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
@@ -59,8 +59,16 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     color: '#000', 
-    paddingTop: 10
-  }
+    paddingTop: 10,
+  },
+  boxWithShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,  
+    elevation: 5,
+    padding: 10,
+  },
 });
 
 class Balances extends Component {
@@ -128,7 +136,7 @@ class Balances extends Component {
             //     })
             //   }
             // })
-        
+         
   }
 
   componentWillMount() {
@@ -184,15 +192,26 @@ class Balances extends Component {
       graphList = this.state.tokenList.map((token, index) => {
         
         return(
-          <View style={styles.graphListDetails} key={index}>
-            <View style={{width: '100%', borderTopColor: colors[index], borderTopWidth: 5, padding: 10}}>
-              <Text style={styles.tokenName} letterSpacing={2}>
-                {token.name}
-              </Text>
-              <Text style={{color: '#333'}} letterSpacing={2}>
-                Price chart coming soon
-              </Text>
-            </View>
+          <View style={styles.graphListDetails}>
+            <TouchableOpacity
+              style={styles.footerContainer}
+              onPress = { () => 
+                  Alert.alert(
+                    'Price Chart',
+                    'Price Chart Coming Soon'
+                  )
+              }
+              key={index}>
+              <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
+                {token.name} Price
+              </RNText>
+              <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
+                US$: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+              </RNText>
+              <RNText style={{color: '#777', textAlign: 'center'}}>
+                See charts
+              </RNText>
+            </TouchableOpacity>
           </View>
         )
         
