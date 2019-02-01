@@ -12,6 +12,7 @@ import {
   HomeScreen,
   SignUpScreen,
   NetworkPickerScreen,
+  CurrencyPickerScreen,
   PinCodeScreen,
   PrivateKeyScreen,
   RecoverWalletScreen,
@@ -71,6 +72,9 @@ const WalletMainNavigator = createStackNavigator(
     },
     NetworkPicker: {
       screen: NetworkPickerScreen,
+    },
+    CurrencyPicker: {
+      screen: CurrencyPickerScreen,
     },
     PrivateKey: {
       screen: PrivateKeyScreen,
