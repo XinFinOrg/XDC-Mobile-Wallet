@@ -141,6 +141,14 @@ class CustomDrawer extends Component {
                         </Text>
                     </View> */}
                     <View style={styles.navSectionStyle}>
+                        <Image source={network} style={styles.Icon}/>
+                        <Text 
+                            style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('NetworkPicker', false)}>
+                            Set Default Currency
+                        </Text>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={privatekey} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'PrivateKey' ? activeTabStyle : normalTabStyle}

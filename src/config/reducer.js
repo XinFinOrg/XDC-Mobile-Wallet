@@ -8,18 +8,21 @@ import {
   SET_CALL_TO_ACTION_DISMISSED,
   SET_DEFAULT_TOKEN,
   SET_NETWORK,
+  SET_CURRENCY,
   SET_PIN_CODE,
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
 } from './actionTypes';
 import { defaultTokens } from '../utils/constants';
 import AnalyticsUtils from '../utils/analytics';
+import { stat } from 'fs';
 
 const defaultState = {
   availableTokens: defaultTokens,
   callToActionDismissed: false,
   selectedToken: defaultTokens[0],
   network: 'mainnet',
+  currentCurrency: 'USD'
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -82,6 +85,11 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         network: action.network,
+      };
+    case SET_CURRENCY:
+      return {
+        ...state,
+        currentCurrency: action.currentCurrency,
       };
     case SET_PIN_CODE:
       return {
