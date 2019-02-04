@@ -45,6 +45,7 @@ export default class WalletUtils {
     });
 
     this.storeWallet(wallet);
+  
   }
 
   /**
@@ -90,7 +91,8 @@ export default class WalletUtils {
         );
       default:
         return new Web3.providers.HttpProvider(
-          "http://5.152.223.197:8545",
+          "http:rpc.testnet.xinfin.network:8545",
+          // "http://5.152.223.197:8545",
           // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
         );
     }
@@ -216,6 +218,9 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getBalance({ contractAddress, symbol, decimals }) {
+    const { walletAddress, privateKey } = store.getState();
+    console.log("Wallet Address",walletAddress);
+    console.log("Private Key",privateKey);
     if(symbol === 'MXDC') {
       return this.getEthBalance();
     } else {
@@ -224,11 +229,14 @@ export default class WalletUtils {
   }
 
   static getEthBalance() {
+    console.log("ethBalance me aya");
     const { walletAddress } = store.getState();
+    
     const web3 = new Web3(this.getWeb3HTTPProvider());
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
+        console.log("MXDC",weiBalance);
         if (e) {
           reject(e);
         }

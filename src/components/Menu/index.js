@@ -67,7 +67,7 @@ export default class Menu extends Component {
         >
           <TouchableWithoutFeedback onPress={option.onPress}>
             <View style={styles.rowContainer}>
-              <Text style={styles.rowText}>{option.title}</Text>
+              <Text style={styles.rowText}>{option}</Text>
               <Image source={arrow} style={styles.rowIcon} />
             </View>
           </TouchableWithoutFeedback>
@@ -78,7 +78,7 @@ export default class Menu extends Component {
     return (
       <TouchableOpacity onPress={option.onPress} key={index}>
         <View style={styles.rowContainer}>
-          <Text style={styles.rowText}>{option.title}</Text>
+          <Text style={styles.rowText}>{option}</Text>
           <Image source={check} style={styles.rowIcon} />
         </View>
       </TouchableOpacity>

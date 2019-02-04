@@ -14,6 +14,7 @@ import WalletHomeScreen from './WalletHome';
 import WalletTransactionsScreen from './WalletTransactions';
 import WalletReceiveScreen from './WalletReceive';
 import WalletSendScreen from './WalletSend';
+import CurrencyPickerScreen from './CurrencyPicker';
 
 export {
   AddTokenScreen,
@@ -22,6 +23,7 @@ export {
   CreateWalletScreen,
   HomeScreen,
   SignUpScreen,
+  CurrencyPickerScreen,
   NetworkPickerScreen,
   PinCodeScreen,
   PrivateKeyScreen,

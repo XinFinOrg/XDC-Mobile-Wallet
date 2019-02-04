@@ -13,16 +13,16 @@ import {
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
 } from './actionTypes';
-import { defaultTokens } from '../utils/constants';
+import { defaultTokens, currencyList } from '../utils/constants';
 import AnalyticsUtils from '../utils/analytics';
-import { stat } from 'fs';
 
 const defaultState = {
   availableTokens: defaultTokens,
   callToActionDismissed: false,
   selectedToken: defaultTokens[0],
   network: 'mainnet',
-  currentCurrency: 'USD'
+  currentCurrency: 'USD',
+  currencyList: currencyList,
 };
 
 const appReducer = (state = defaultState, action) => {

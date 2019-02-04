@@ -31,6 +31,33 @@ const defaultTokens = [
   },
 ];
 
+
+const currencyList = [
+    'AUD',
+    'BGN',
+    'CAD',
+    'CHF',
+    'CNY',
+    'DKK',
+    'EUR',
+    'GBP',
+    'HKD',
+    'HRK',
+    'IDR',
+    'ILS',
+    'INR',
+    'KRW',
+    'NOK',
+    'NZD',
+    'PHP',
+    'RON',
+    'SEK',
+    'SGD',
+    'THB',
+    'USD',
+    'ZAR',
+];
+
 const erc20Abi = [
   {
     name: 'balanceOf',
@@ -74,4 +101,4 @@ const erc20Abi = [
   },
 ];
 
-export { defaultTokens, erc20Abi };
+export { defaultTokens, erc20Abi, currencyList };

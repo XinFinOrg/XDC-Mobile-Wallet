@@ -25,17 +25,7 @@ class CurrencyPicker extends Component {
     resetTokens: PropTypes.func.isRequired,
   };
 
-  menuOptions = [
-    {
-      title: 'Public Network',
-      onPress: () => this.setNetwork('mainnet'),
-    },
-    {
-      title: 'Private Network',
-      onPress: () => this.setNetwork('ropsten'),
-    },
-   
-  ];
+  menuOptions = this.props.currencyList;
 
   setNetwork = network => {
     Alert.alert(
@@ -68,6 +58,7 @@ class CurrencyPicker extends Component {
   };
 
   render() {
+    console.log(this.props.currencyList);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -77,7 +68,7 @@ class CurrencyPicker extends Component {
             title="Change network"
           />
 
-          <Menu options={this.menuOptions} />
+          <Menu options={this.props.currencyList} />
 
           <Footer
             activeTab="home"
@@ -101,7 +92,11 @@ const mapDispatchToProps = dispatch => ({
   resetTokens: () => dispatch({ type: RESET_TOKENS }),
 });
 
+const mapStateToProps = state => ({
+  currencyList: state.currencyList,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(CurrencyPicker);
