@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Image,
   ScrollView,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Menu extends Component {
+class Menu extends Component {
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({
@@ -79,7 +80,7 @@ export default class Menu extends Component {
       <TouchableOpacity onPress={option.onPress} key={index}>
         <View style={styles.rowContainer}>
           <Text style={styles.rowText}>{option.title}</Text>
-          <Image source={check} style={styles.rowIcon} />
+          {this.props.defaultCurrency === option.title ? <Image source={check} style={styles.rowIcon} /> : null }
         </View>
       </TouchableOpacity>
     );
@@ -93,3 +94,10 @@ export default class Menu extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  defaultCurrency: state.currentCurrency,
+});
+
+export default connect(mapStateToProps)(Menu);
+
