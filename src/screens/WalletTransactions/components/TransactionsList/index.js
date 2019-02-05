@@ -114,6 +114,8 @@ export default class TransactionsList extends Component {
       transactions,
       walletAddress,
     } = this.props;
+    console.log('moment', transactions)
+    // console.log('moment test', moment(transactions[0].timestamp * 1000).fromNow());
 
     return (
       <FlatList
@@ -175,7 +177,7 @@ export default class TransactionsList extends Component {
                   <Text style={styles.ModalItemTitle}>Status: </Text>Completed
                 </Text>
                 <LinearGradient
-                  colors={['#254a81', '#254a81/']}
+                  colors={['#254a81', '#254a81']}
                   locations={[0, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}

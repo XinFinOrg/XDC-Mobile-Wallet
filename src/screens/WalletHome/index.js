@@ -159,7 +159,6 @@ class WalletHome extends Component {
   };
 
   onRefresh = () => {
-    console.log("On refresh me aya");
     this.fetchBalance();
     this.fetchTransactions();
   };
@@ -184,7 +183,6 @@ class WalletHome extends Component {
 
 
   fetchBalance = async () => {
-    console.log("fetchBalance me aya");
     const currentBalance = await WalletUtils.getBalance(
       this.props.selectedToken,
     );

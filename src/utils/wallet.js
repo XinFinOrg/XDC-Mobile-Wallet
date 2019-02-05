@@ -177,7 +177,7 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getTransactions({ contractAddress, decimals, symbol }) {
-    return this.getERC20Transactions(contractAddress, decimals);
+    return this.getERC20Transactions(contractAddress, decimals, symbol);
   }
 
   /**
@@ -185,8 +185,10 @@ export default class WalletUtils {
    *
    * @param {String} contractAddress
    */
-  static async getERC20Transactions(contractAddress, decimals) {
-    const { walletAddress } = store.getState();
+  static async getERC20Transactions(contractAddress, decimals, symbol) {
+    // const { walletAddress } = store.getState();
+    
+    const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
 
     return fetch(
       // `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
@@ -200,15 +202,25 @@ export default class WalletUtils {
           console.log(data);
           return [];
         }
-
-        return data.result.map(t => ({
-          from: t.from,
-          to: t.to,
-          timestamp: t.timeStamp,
-          transactionHash: t.hash,
-          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
-        }));
-      });
+        if(symbol === 'MXDC') {
+          return data.result.map(t => ({
+            from: t.from,
+            to: t.to,
+            timestamp: t.timestamp.toString(),
+            transactionHash: t.hash,
+            value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          }));
+        } else {
+          return data.result.map(t => ({
+            from: t.from,
+            to: t.to,
+            timestamp: t.timeStamp,
+            transactionHash: t.hash,
+            value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          }));
+        }
+      })
+      .catch(err => console.log('errrr', err));
   }
 
 
@@ -224,16 +236,13 @@ export default class WalletUtils {
     console.log("Wallet Address",walletAddress);
     console.log("Private Key",privateKey);
     if(symbol === 'MXDC') {
-      console.log("ethBalance me aya");
       return this.getEthBalance();
     } else {
-      console.log("ethBalance me nai aya");
       return this.getERC20Balance(contractAddress, decimals);
     }
   }
 
   static getEthBalance() {
-    console.log("ethBalance me aya");
     const { walletAddress } = store.getState();
     
     const web3 = new Web3(this.getWeb3HTTPProvider());
