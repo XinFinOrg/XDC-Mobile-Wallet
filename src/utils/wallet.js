@@ -189,13 +189,15 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
 
     return fetch(
-      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
-      Config.ETHERSCAN_API_KEY
-      }`,
+      // `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
+      // Config.ETHERSCAN_API_KEY
+      // }`,
+      `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`,
     )
       .then(response => response.json())
       .then(data => {
         if (data.message !== 'OK') {
+          console.log(data);
           return [];
         }
 
@@ -222,8 +224,10 @@ export default class WalletUtils {
     console.log("Wallet Address",walletAddress);
     console.log("Private Key",privateKey);
     if(symbol === 'MXDC') {
+      console.log("ethBalance me aya");
       return this.getEthBalance();
     } else {
+      console.log("ethBalance me nai aya");
       return this.getERC20Balance(contractAddress, decimals);
     }
   }
