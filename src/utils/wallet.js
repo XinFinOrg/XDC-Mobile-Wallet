@@ -176,8 +176,16 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getTransactions({ contractAddress, decimals, symbol }) {
-    return this.getERC20Transactions(contractAddress, decimals, symbol);
+  static getTransactions({ contractAddress, decimals, symbol, network }) {
+    if(network === 'public') {
+      return this.getERC20Transactions(contractAddress, decimals, symbol);
+    } else {
+      if(symbol === 'MXDC') {
+        return this.getMXDCTransactions(contractAddress, decimals, symbol);
+      } else {
+        return this.getPrivateTransactions(contractAddress, decimals, symbol);
+      }
+    }
   }
 
   /**
@@ -185,15 +193,12 @@ export default class WalletUtils {
    *
    * @param {String} contractAddress
    */
-  static async getERC20Transactions(contractAddress, decimals, symbol) {
+  static async getMXDCTransactions(contractAddress, decimals, symbol) {
     // const { walletAddress } = store.getState();
     
     const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
 
     return fetch(
-      // `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
-      // Config.ETHERSCAN_API_KEY
-      // }`,
       `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`,
     )
       .then(response => response.json())
@@ -202,29 +207,69 @@ export default class WalletUtils {
           console.log(data);
           return [];
         }
-        if(symbol === 'MXDC') {
-          return data.result.map(t => ({
-            from: t.from,
-            to: t.to,
-            timestamp: t.timestamp.toString(),
-            transactionHash: t.hash,
-            value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
-          }));
-        } else {
-          return data.result.map(t => ({
-            from: t.from,
-            to: t.to,
-            timestamp: t.timeStamp,
-            transactionHash: t.hash,
-            value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
-          }));
-        }
+        return data.result.map(t => ({
+          from: t.from,
+          to: t.to,
+          timestamp: t.timestamp.toString(),
+          transactionHash: t.hash,
+          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+        }));
       })
       .catch(err => console.log('errrr', err));
   }
 
 
-  
+  static async getERC20Transactions(contractAddress, decimals, symbol) {
+    const { walletAddress } = store.getState();
+    
+    return fetch(
+      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
+      Config.ETHERSCAN_API_KEY
+      }`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        if (data.message !== 'OK') {
+          console.log(data);
+          return [];
+        }
+        
+        return data.result.map(t => ({
+          from: t.from,
+          to: t.to,
+          timestamp: t.timeStamp,
+          transactionHash: t.hash,
+          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+        }));
+        
+      })
+      .catch(err => console.log('errrr', err));
+  }
+
+  static async getPrivateTransactions(contractAddress, decimals, symbol) {
+    const { walletAddress } = store.getState();
+    
+    return fetch(
+      `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=YourApiKeyToken`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        if (data.message !== 'OK') {
+          console.log(data);
+          return [];
+        }
+        
+        return data.result.map(t => ({
+          from: t.from,
+          to: t.to,
+          timestamp: t.timestamp.toString(),
+          transactionHash: t.hash,
+          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+        }));
+        
+      })
+      .catch(err => console.log('errrr', err));
+  }
 
   /**
    * Get the user's wallet balance of a given token

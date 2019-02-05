@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { StackActions, NavigationActions, DrawerActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
-import { RESET_TOKENS, SET_NETWORK } from '../../config/actionTypes';
+import { RESET_TOKENS, SET_NETWORK, SET_CURRENCY } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
@@ -21,16 +21,32 @@ class CurrencyPicker extends Component {
       dispatch: PropTypes.func.isRequired,
       goBack: PropTypes.func.isRequired,
     }).isRequired,
-    onNetworkChange: PropTypes.func.isRequired,
-    resetTokens: PropTypes.func.isRequired,
+    onCurrencyChange: PropTypes.func.isRequired,
   };
 
-  menuOptions = this.props.currencyList;
+  state = {
+    menuOptions: [],
+  }
 
-  setNetwork = network => {
+  componentWillMount() {
+    const currencyList = this.props.currencyList;
+    const menuOptions = [
+        ...currencyList
+        .map(currency => ({
+          title: currency,
+          onPress: () => this.setCurrency(currency),
+        })),
+    ];
+
+    this.setState({
+      menuOptions: menuOptions,
+    });
+  }
+
+  setCurrency = currency => {
     Alert.alert(
-      'Change network',
-      'Switching to another XDC network will reset your list of custom tokens, are you sure you want to continue?',
+      'Change Currency',
+      'Are you sure you want to set default currency as '+ currency +'?',
       [
         {
           text: 'Cancel',
@@ -40,8 +56,8 @@ class CurrencyPicker extends Component {
         {
           text: 'OK',
           onPress: async () => {
-            this.props.resetTokens();
-            this.props.onNetworkChange(network);
+            console.log('currency test 1', currency)
+            this.props.onCurrencyChange(currency);
             const resetAction = StackActions.reset({
               index: 0,
               actions: [
@@ -65,10 +81,10 @@ class CurrencyPicker extends Component {
           <Header
             hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
-            title="Change network"
+            title="Change Currency"
           />
 
-          <Menu options={this.props.currencyList} />
+          <Menu options={this.state.menuOptions} />
 
           <Footer
             activeTab="home"
@@ -88,8 +104,7 @@ class CurrencyPicker extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onNetworkChange: network => dispatch({ type: SET_NETWORK, network }),
-  resetTokens: () => dispatch({ type: RESET_TOKENS }),
+  onCurrencyChange: currency => dispatch({ type: SET_CURRENCY, currency }),
 });
 
 const mapStateToProps = state => ({
