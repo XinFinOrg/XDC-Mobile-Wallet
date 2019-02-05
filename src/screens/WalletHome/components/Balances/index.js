@@ -168,7 +168,7 @@ class Balances extends Component {
                 {token.name}
               </Text>
               <RNText style={{color: '#333'}} letterSpacing={2}>
-                USD: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#333'}} letterSpacing={2}>
                 {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
@@ -198,7 +198,7 @@ class Balances extends Component {
                 {token.name} Price
               </RNText>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
-                US$: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#777', textAlign: 'center'}}>
                 See charts
@@ -267,8 +267,9 @@ class Balances extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => (console.log('balances', state), {
   selectedToken: state.selectedToken,
+  defaultCurrency: state.currentCurrency,
 });
 
 export default connect(mapStateToProps)(Balances);

@@ -89,7 +89,7 @@ const appReducer = (state = defaultState, action) => {
     case SET_CURRENCY:
       return {
         ...state,
-        currentCurrency: action.currentCurrency,
+        currentCurrency: action.currency,
       };
     case SET_PIN_CODE:
       return {
