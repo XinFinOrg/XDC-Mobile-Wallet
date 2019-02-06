@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   privateKeyTitle: {
     paddingHorizontal: 15,
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
     paddingBottom: 20,
     fontSize: 18,
@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingHorizontal: 15,
     paddingTop: 40,
+  },
+  warning:{
+    paddingHorizontal:20,
+    paddingBottom: 20,
+    color: "#000",
+    textAlign:"center"
   },
 });
 
@@ -53,6 +59,7 @@ class PrivateKey extends Component {
             title="Private key"
           />
           <View>
+          <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
             <Text style={styles.privateKeyTitle}>Private key</Text>
             <Text style={styles.privateKey}>{this.props.privateKey}</Text>
           </View>

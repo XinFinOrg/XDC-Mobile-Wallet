@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3a3a3a',
     borderBottomWidth: 1,
     paddingHorizontal: 15,
-    paddingTop: Platform.OS === 'ios' ? 20 : 30,
+    paddingTop: Platform.OS === 'ios' ? 20 : 50,
     paddingBottom: 15,
   },
   formLabel: {
@@ -58,6 +58,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingHorizontal: 15,
     paddingTop: 40,
+  },
+  warningContainer:{
+    flex: 1,
+    justifyContent: "center",
+    // justifyContent: "space-between"
+  },
+  warning:{
+    padding:10,
+    color:"#000"
   },
 });
 
@@ -109,7 +118,8 @@ export default class CreateWallet extends Component {
             onBackPress={() => this.props.navigation.goBack()}
             title="Recover wallet"
           />
-          <View>
+          <View style={styles.warningContainer}>
+          <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
             <View style={styles.formElement}>
               <Text style={styles.formLabel}>Private key</Text>
               <View style={styles.formInputRow}>
