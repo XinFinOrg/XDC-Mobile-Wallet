@@ -210,21 +210,35 @@ class Balances extends Component {
         const keyName = this.props.tokenList[index].name;
         const key = keyName;
         balanceInfo += this.state.tokenBalances[keyName].usdBalance;
-        return {
-            key,
-            value: this.state.tokenBalances[keyName].usdBalance,
-            svg: { fill: colors[index] },
-            arc: { 
-              outerRadius: '100%',
-              innerRadius: '75%', 
-              padAngle: label === token ? 0.1 : 0 
-            },
-            onPress: () => this.setState({ selectedSlice: { label: token, value: values[index] } })
+
+        console.log('balanceInfo pie', balanceInfo);
+        if( balanceInfo > 0 ) {
+          return {
+              key,
+              value: this.state.tokenBalances[keyName].usdBalance,
+              svg: { fill: colors[index] },
+              arc: { 
+                outerRadius: '100%',
+                innerRadius: '75%', 
+                padAngle: label === token ? 0.1 : 0 
+              },
+              onPress: () => this.setState({ selectedSlice: { label: token, value: values[index] } })
+          }
+        } else {
+          return {
+              key,
+              value: 10,
+              svg: { fill: '#ddd' },
+              arc: { 
+                outerRadius: '100%',
+                innerRadius: '75%', 
+                padAngle: 0 
+              },
+          }
         }
       });
       
     }
-    
     
     return (
       <View style={styles.container}>
