@@ -99,7 +99,7 @@ class Form extends Component {
               autoCorrect={false}
               onChangeText={onAddressChange}
               placeholder="0x..."
-              placeholderTextColor="#000"
+              placeholderTextColor="#9d9d9d"
               onSubmitEditing={() => {
                 this.amountInput.focus();
               }}
@@ -125,7 +125,7 @@ class Form extends Component {
               keyboardType="numeric"
               onChangeText={onAmountChange}
               placeholder="1000"
-              placeholderTextColor="#000"
+              placeholderTextColor="#9d9d9d"
               ref={input => {
                 this.amountInput = input;
               }}

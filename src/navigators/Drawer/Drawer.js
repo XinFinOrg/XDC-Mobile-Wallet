@@ -29,7 +29,9 @@ const styles = StyleSheet.create({
     navSectionStyle: {
         flexDirection:"row",
         alignItems:"center",
-        width:"100%"
+        width:"100%",
+        justifyContent: "space-between",
+        paddingHorizontal:10,
     },
     sectionHeadingStyle: {
         paddingVertical: 10,
