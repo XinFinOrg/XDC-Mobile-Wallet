@@ -1,5 +1,6 @@
 import uuid from 'react-native-uuid';
 const contractAddress = '0xc573c48ad1037dd92cb39281e5f55dcb5e033a70';
+const contractAddressXDCE = '0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2';
 
 const defaultTokens = [
   {
@@ -19,6 +20,15 @@ const defaultTokens = [
     decimals: 18,
     currencySymbol: 'USD',
     network: 'private',
+  },
+  {
+    name: 'XDCE',
+    id: uuid.v4(),
+    symbol: 'XDCE',
+    contractAddress: contractAddressXDCE,
+    decimals: 18,
+    currencySymbol: 'USD',
+    network: 'public',
   },
   // {
   //   name: 'DAIVIK',

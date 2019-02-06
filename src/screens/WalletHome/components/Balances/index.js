@@ -72,7 +72,6 @@ class Balances extends Component {
       value: 0
     },
     labelWidth: 0,
-    tokenList: null,
     tokenBalances: null,
     tokenBalancesLength: null,
   }
@@ -86,7 +85,6 @@ class Balances extends Component {
   }
 
   fetchDashboardData = async (token, index) => {
-    
           const balanceInfo = await WalletUtils.getBalance(token);
           let stateBalance = [];
           let stateBalanceObj = {};
@@ -132,18 +130,12 @@ class Balances extends Component {
          
   }
 
-  componentWillMount() {
-    AsyncStorage.getItem('availableTokens')
-    .then(r => {
-      this.setState({
-        tokenList: JSON.parse(r),
-      });
-      if(this.state.tokenList != null) {
-        this.state.tokenList.map((token, index) => {
-          this.fetchDashboardData(token);
-        })
-      }
-    }).catch(e=>console.log(e));
+  componentDidMount() {
+    if(this.props.tokenList != null) {
+      this.props.tokenList.map((token, index) => {
+        this.fetchDashboardData(token);
+      })
+    }
   }
 
   render() {
@@ -158,8 +150,8 @@ class Balances extends Component {
     const colors = ['#254a81', '#8e44ad', '#f39c12', '#16a085', '#2c3e50']
 
     let tokens = null;
-    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
-      tokens = this.state.tokenList.map((token, index) => {
+    if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
+      tokens = this.props.tokenList.map((token, index) => {
         
         return(
           <View style={styles.balanceDetails} key={index}>
@@ -181,8 +173,8 @@ class Balances extends Component {
     }
 
     let graphList = null;
-    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
-      graphList = this.state.tokenList.map((token, index) => {
+    if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
+      graphList = this.props.tokenList.map((token, index) => {
         
         return(
           <View style={styles.graphListDetails} key={index}>
@@ -212,10 +204,10 @@ class Balances extends Component {
 
     let data = null;
     let balanceInfo = null;
-    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
+    if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       
       data = this.state.tokenBalancesLength.map((token, index) => {
-        const keyName = this.state.tokenList[index].name;
+        const keyName = this.props.tokenList[index].name;
         const key = keyName;
         balanceInfo += this.state.tokenBalances[keyName].usdBalance;
         return {
@@ -267,7 +259,8 @@ class Balances extends Component {
   }
 }
 
-const mapStateToProps = state => (console.log('balances', state), {
+const mapStateToProps = state => ({
+  tokenList: state.availableTokens,
   selectedToken: state.selectedToken,
   defaultCurrency: state.currentCurrency,
 });

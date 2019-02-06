@@ -56,7 +56,6 @@ class CurrencyPicker extends Component {
         {
           text: 'OK',
           onPress: async () => {
-            console.log('currency test 1', currency)
             this.props.onCurrencyChange(currency);
             const resetAction = StackActions.reset({
               index: 0,
@@ -74,7 +73,6 @@ class CurrencyPicker extends Component {
   };
 
   render() {
-    console.log(this.props.currencyList);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

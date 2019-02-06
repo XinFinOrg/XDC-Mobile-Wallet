@@ -20,7 +20,7 @@ const defaultState = {
   availableTokens: defaultTokens,
   callToActionDismissed: false,
   selectedToken: defaultTokens[0],
-  network: 'mainnet',
+  network: 'public',
   currentCurrency: 'USD',
   currencyList: currencyList,
 };

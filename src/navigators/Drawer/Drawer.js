@@ -161,7 +161,7 @@ class CustomDrawer extends Component {
                         <TouchableOpacity
                             onPress = { () => 
                             {
-                                Linking.openURL('http://google.com')
+                                Linking.openURL('https://ewallet.xinfin.org/')
                             }} >
                             <Text style={normalTabStyle}>Login to Web Wallet</Text>
                         </TouchableOpacity>

@@ -51,7 +51,7 @@ class AddToken extends Component {
         contractAddress,
       },
       () => {
-        if (this.props.network !== 'mainnet') return;
+        if (this.props.network !== 'public') return;
 
         fetch(
           `https://api.ethplorer.io/getTokenInfo/${contractAddress}?apiKey=freekey`,

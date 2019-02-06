@@ -114,8 +114,6 @@ export default class TransactionsList extends Component {
       transactions,
       walletAddress,
     } = this.props;
-    console.log('moment', transactions)
-    // console.log('moment test', moment(transactions[0].timestamp * 1000).fromNow());
 
     return (
       <FlatList

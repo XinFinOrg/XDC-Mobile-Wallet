@@ -28,11 +28,11 @@ class NetworkPicker extends Component {
   menuOptions = [
     {
       title: 'Public Network',
-      onPress: () => this.setNetwork('mainnet'),
+      onPress: () => this.setNetwork('public'),
     },
     {
       title: 'Private Network',
-      onPress: () => this.setNetwork('ropsten'),
+      onPress: () => this.setNetwork('private'),
     },
    
   ];

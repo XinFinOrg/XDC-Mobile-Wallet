@@ -91,7 +91,7 @@ class Settings extends Component {
       // case 'rinkeby':
       //   return 'ETH Rinkeby';
       default:
-        return 'XDC Mainnet';
+        return 'XDC [public]';
     }
   };
 

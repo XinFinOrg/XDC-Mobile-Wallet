@@ -137,7 +137,7 @@ export default class WalletUtils {
   static loadTokensList() {
     const { availableTokens, network, walletAddress } = store.getState();
 
-    if (network !== 'mainnet') return Promise.resolve();
+    if (network !== 'public') return Promise.resolve();
 
     const availableTokensAddresses = availableTokens
       .filter(token => token.symbol !== 'XDC')
@@ -194,9 +194,9 @@ export default class WalletUtils {
    * @param {String} contractAddress
    */
   static async getMXDCTransactions(contractAddress, decimals, symbol) {
-    // const { walletAddress } = store.getState();
+    const { walletAddress } = store.getState();
     
-    const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
+    // const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
 
     return fetch(
       `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`,
@@ -204,7 +204,6 @@ export default class WalletUtils {
       .then(response => response.json())
       .then(data => {
         if (data.message !== 'OK') {
-          console.log(data);
           return [];
         }
         return data.result.map(t => ({
@@ -230,7 +229,6 @@ export default class WalletUtils {
       .then(response => response.json())
       .then(data => {
         if (data.message !== 'OK') {
-          console.log(data);
           return [];
         }
         
@@ -255,7 +253,6 @@ export default class WalletUtils {
       .then(response => response.json())
       .then(data => {
         if (data.message !== 'OK') {
-          console.log(data);
           return [];
         }
         
@@ -277,24 +274,21 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getBalance({ contractAddress, symbol, decimals }) {
-    const { walletAddress, privateKey } = store.getState();
-    console.log("Wallet Address",walletAddress);
-    console.log("Private Key",privateKey);
+    const { walletAddress, privateKey, currentCurrency } = store.getState();
     if(symbol === 'MXDC') {
-      return this.getEthBalance();
+      return this.getEthBalance(currentCurrency);
     } else {
-      return this.getERC20Balance(contractAddress, decimals);
+      return this.getERC20Balance(contractAddress, decimals, currentCurrency);
     }
   }
 
-  static getEthBalance() {
+  static getEthBalance(currentCurrency) {
     const { walletAddress } = store.getState();
     
     const web3 = new Web3(this.getWeb3HTTPProvider());
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
-        console.log("MXDC",weiBalance);
         if (e) {
           reject(e);
         }
@@ -302,7 +296,7 @@ export default class WalletUtils {
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/1027/?convert=USD`)
+        fetch(`https://api.coinmarketcap.com/v2/ticker/1027/?convert=`+ currentCurrency)
           .then(res => res.json())
           .then(function (response) {
             usdBalance = response.data.quotes.USD.price * balance;
@@ -325,12 +319,10 @@ export default class WalletUtils {
   /**
    * Get the user's wallet ETH balance
    */
-  static getERC20Balance(contractAddress, decimals) {
+  static getERC20Balance(contractAddress, decimals, currentCurrency) {
 
     const { walletAddress, privateKey } = store.getState();
     const web3 = new Web3(this.getWeb3HTTPProvider());
-
-
 
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
@@ -345,7 +337,7 @@ export default class WalletUtils {
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=USD`)
+        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=`+currentCurrency)
           .then(res => res.json())
           .then(function (response) {
             usdBalance = response.data.quotes.USD.price * balance;
@@ -354,6 +346,7 @@ export default class WalletUtils {
               'usdBalance': usdBalance
             };
             resolve(balanceData);
+            
           })
           .catch(error => console.error('Error:', error));
 
@@ -449,7 +442,6 @@ export default class WalletUtils {
     
      return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
-        console.log('send tra', data, error)
         web3.eth.sendTransaction(
           {
             nounce: data,
