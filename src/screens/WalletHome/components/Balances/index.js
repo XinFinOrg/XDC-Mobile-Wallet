@@ -151,6 +151,7 @@ class Balances extends Component {
 
     let tokens = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
+      console.log('market price', this.state.tokenBalances)
       tokens = this.props.tokenList.map((token, index) => {
         
         return(
@@ -160,7 +161,7 @@ class Balances extends Component {
                 {token.name}
               </Text>
               <RNText style={{color: '#333'}} letterSpacing={2}>
-                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(5)}
               </RNText>
               <RNText style={{color: '#333'}} letterSpacing={2}>
                 {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
@@ -175,7 +176,12 @@ class Balances extends Component {
     let graphList = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       graphList = this.props.tokenList.map((token, index) => {
-        
+        let tokenWChart;
+        if(this.state.tokenBalances[token.name].marketPrice != null) {
+          tokenWChart = this.state.tokenBalances[token.name].marketPrice.price.toFixed(5)
+        } else {
+          tokenWChart = "NAN"
+        }
         return(
           <View style={styles.graphListDetails} key={index}>
             <TouchableOpacity
@@ -190,7 +196,7 @@ class Balances extends Component {
                 {token.name} Price
               </RNText>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
-                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {tokenWChart}
               </RNText>
               <RNText style={{color: '#777', textAlign: 'center'}}>
                 See charts

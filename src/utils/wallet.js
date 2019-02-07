@@ -45,7 +45,7 @@ export default class WalletUtils {
     });
 
     this.storeWallet(wallet);
-  
+
   }
 
   /**
@@ -77,21 +77,17 @@ export default class WalletUtils {
 
   static getWeb3HTTPProvider() {
     switch (store.getState().network) {
-      case 'ropsten':
+      case 'private':
         return new Web3.providers.HttpProvider(
-          `https://ropsten.infura.io/${Config.INFURA_API_KEY}`,
+          'http:rpc.testnet.xinfin.network:8545',
         );
-      case 'kovan':
+      case 'public':
         return new Web3.providers.HttpProvider(
-          `https://kovan.infura.io/${Config.INFURA_API_KEY}`,
-        );
-      case 'rinkeby':
-        return new Web3.providers.HttpProvider(
-          `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
+          `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
         );
       default:
         return new Web3.providers.HttpProvider(
-          "http:rpc.testnet.xinfin.network:8545",
+          `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
           // "http://5.152.223.197:8545",
           // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
         );
@@ -177,10 +173,10 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getTransactions({ contractAddress, decimals, symbol, network }) {
-    if(network === 'public') {
+    if (network === 'public') {
       return this.getERC20Transactions(contractAddress, decimals, symbol);
     } else {
-      if(symbol === 'MXDC') {
+      if (symbol === 'MXDC') {
         return this.getMXDCTransactions(contractAddress, decimals, symbol);
       } else {
         return this.getPrivateTransactions(contractAddress, decimals, symbol);
@@ -195,7 +191,7 @@ export default class WalletUtils {
    */
   static async getMXDCTransactions(contractAddress, decimals, symbol) {
     const { walletAddress } = store.getState();
-    
+
     // const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
 
     return fetch(
@@ -220,18 +216,16 @@ export default class WalletUtils {
 
   static async getERC20Transactions(contractAddress, decimals, symbol) {
     const { walletAddress } = store.getState();
-    
+
     return fetch(
-      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
-      Config.ETHERSCAN_API_KEY
-      }`,
+      `http://api.etherscan.io/api?module=account&action=tokentx&address=0x93cb04e08e24cc50731f4c1d52c04e220eab105b&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
     )
       .then(response => response.json())
       .then(data => {
         if (data.message !== 'OK') {
           return [];
         }
-        
+
         return data.result.map(t => ({
           from: t.from,
           to: t.to,
@@ -239,14 +233,14 @@ export default class WalletUtils {
           transactionHash: t.hash,
           value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
         }));
-        
+
       })
       .catch(err => console.log('errrr', err));
   }
 
   static async getPrivateTransactions(contractAddress, decimals, symbol) {
     const { walletAddress } = store.getState();
-    
+
     return fetch(
       `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=YourApiKeyToken`,
     )
@@ -255,7 +249,7 @@ export default class WalletUtils {
         if (data.message !== 'OK') {
           return [];
         }
-        
+
         return data.result.map(t => ({
           from: t.from,
           to: t.to,
@@ -263,7 +257,7 @@ export default class WalletUtils {
           transactionHash: t.hash,
           value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
         }));
-        
+
       })
       .catch(err => console.log('errrr', err));
   }
@@ -275,7 +269,7 @@ export default class WalletUtils {
    */
   static getBalance({ contractAddress, symbol, decimals }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
-    if(symbol === 'MXDC') {
+    if (symbol === 'MXDC') {
       return this.getEthBalance(currentCurrency);
     } else {
       return this.getERC20Balance(contractAddress, decimals, currentCurrency);
@@ -284,11 +278,15 @@ export default class WalletUtils {
 
   static getEthBalance(currentCurrency) {
     const { walletAddress } = store.getState();
-    
-    const web3 = new Web3(this.getWeb3HTTPProvider());
+
+    // const web3 = new Web3.providers.HttpProvider('http:rpc.testnet.xinfin.network:8545');
+    const web3 = new Web3(new Web3.providers.HttpProvider(
+      'http:rpc.testnet.xinfin.network:8545',
+    ));
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
+        console.log("balance mxdc",e,weiBalance);
         if (e) {
           reject(e);
         }
@@ -296,13 +294,16 @@ export default class WalletUtils {
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/1027/?convert=`+ currentCurrency)
+        let marketPrice = null;
+        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=` + currentCurrency)
           .then(res => res.json())
           .then(function (response) {
-            usdBalance = response.data.quotes.USD.price * balance;
+            marketPrice = response.data.quotes[currentCurrency];
+            usdBalance = response.data.quotes[currentCurrency].price * balance;
             balanceData = {
               'balance': balance,
-              'usdBalance': usdBalance
+              'usdBalance': usdBalance,
+              'marketPrice': marketPrice,
             };
             resolve(balanceData);
           })
@@ -322,11 +323,13 @@ export default class WalletUtils {
   static getERC20Balance(contractAddress, decimals, currentCurrency) {
 
     const { walletAddress, privateKey } = store.getState();
-    const web3 = new Web3(this.getWeb3HTTPProvider());
+    const web3 = new Web3(new Web3.providers.HttpProvider(
+      `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
+    ));
 
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
-      
+
 
       var instancecontract = MyContract.at(contractAddress);
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
@@ -337,16 +340,17 @@ export default class WalletUtils {
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=`+currentCurrency)
+        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=` + currentCurrency)
           .then(res => res.json())
           .then(function (response) {
-            usdBalance = response.data.quotes.USD.price * balance;
+            usdBalance = response.data.quotes[currentCurrency].price * balance;
             balanceData = {
               'balance': balance,
-              'usdBalance': usdBalance
+              'usdBalance': usdBalance,
+              'marketPrice': null,
             };
             resolve(balanceData);
-            
+
           })
           .catch(error => console.error('Error:', error));
 
@@ -372,8 +376,8 @@ export default class WalletUtils {
     toAddress,
     amount,
   ) {
-    if(symbol==='MXDC'){
-      return this.sendETHTransaction(toAddress,amount);
+    if (symbol === 'MXDC') {
+      return this.sendETHTransaction(toAddress, amount);
     }
     return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount);
   }
@@ -400,8 +404,8 @@ export default class WalletUtils {
         web3.eth.estimateGas({
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
-          at(contractAddress)
-          .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+            at(contractAddress)
+            .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
         }, function (err, gasLimit) {
           web3.eth.getTransactionCount(walletAddress, function (error, data) {
             const txParams = {
@@ -436,11 +440,11 @@ export default class WalletUtils {
 
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
-  static sendETHTransaction(toAddress,amount){
+  static sendETHTransaction(toAddress, amount) {
     const { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance();
-    
-     return new Promise((resolve, reject) => {
+
+    return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
         web3.eth.sendTransaction(
           {

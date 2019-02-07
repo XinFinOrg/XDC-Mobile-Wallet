@@ -126,9 +126,9 @@ class BalanceRow extends Component {
         onBackdropPress={() => this.toggleModal(null)}
         isVisible={this.state.isModalVisible} 
         style={styles.ModalContainer}>
-        <View style={styles.ModalView}>
+        {/* <View style={styles.ModalView}> */}
           <TokenPicker toggleModal={this.toggleModal} />
-        </View>
+        {/* </View> */}
       </Modal>
 
         {/* <View style={styles.balanceContainer}>
