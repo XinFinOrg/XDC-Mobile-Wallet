@@ -110,13 +110,22 @@ export default class WalletUtils {
   /**
    * Returns a web3 instance with the user's wallet
    */
-  static getWeb3Instance() {
+  static getWeb3Instance(network) {
     const wallet = this.getWallet();
 
     const engine = new ProviderEngine();
 
     engine.addProvider(new WalletSubprovider(wallet, {}));
-    engine.addProvider(new ProviderSubprovider(this.getWeb3HTTPProvider()));
+
+    if(network === 'private') {
+      engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
+        'http:rpc.testnet.xinfin.network:8545',
+      )));
+    } else {
+      engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
+        `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
+      )));
+    }
 
     engine.start();
 
@@ -372,14 +381,14 @@ export default class WalletUtils {
    * @param {String} amount
    */
   static sendTransaction(
-    { contractAddress, symbol, decimals },
+    { contractAddress, symbol, decimals, network },
     toAddress,
     amount,
   ) {
     if (symbol === 'MXDC') {
-      return this.sendETHTransaction(toAddress, amount);
+      return this.sendETHTransaction(toAddress, amount, network);
     }
-    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount);
+    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network);
   }
 
 
@@ -389,9 +398,9 @@ export default class WalletUtils {
    * @param {String} toAddress
    * @param {String} amount
    */
-  static sendERC20Transaction(contractAddress, decimals, toAddress, amount) {
+  static sendERC20Transaction(contractAddress, decimals, toAddress, amount, network) {
     const { walletAddress, privateKey } = store.getState();
-    const web3 = this.getWeb3Instance();
+    const web3 = this.getWeb3Instance(network);
 
 
     AnalyticsUtils.trackEvent('Send ERC20 transaction', {
@@ -440,9 +449,9 @@ export default class WalletUtils {
 
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
-  static sendETHTransaction(toAddress, amount) {
+  static sendETHTransaction(toAddress, amount, network) {
     const { walletAddress } = store.getState();
-    const web3 = this.getWeb3Instance();
+    const web3 = this.getWeb3Instance(network);
 
     return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
