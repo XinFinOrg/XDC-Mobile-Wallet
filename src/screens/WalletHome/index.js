@@ -214,6 +214,7 @@ class WalletHome extends Component {
   };
 
   render() {
+    console.log('screen test 1')
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

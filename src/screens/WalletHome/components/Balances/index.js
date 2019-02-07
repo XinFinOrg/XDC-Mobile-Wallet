@@ -151,7 +151,6 @@ class Balances extends Component {
 
     let tokens = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
-      console.log('market price', this.state.tokenBalances)
       tokens = this.props.tokenList.map((token, index) => {
         
         return(
@@ -161,7 +160,7 @@ class Balances extends Component {
                 {token.name}
               </Text>
               <RNText style={{color: '#333'}} letterSpacing={2}>
-                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(5)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#333'}} letterSpacing={2}>
                 {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
@@ -176,12 +175,7 @@ class Balances extends Component {
     let graphList = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       graphList = this.props.tokenList.map((token, index) => {
-        let tokenWChart;
-        if(this.state.tokenBalances[token.name].marketPrice != null) {
-          tokenWChart = this.state.tokenBalances[token.name].marketPrice.price.toFixed(5)
-        } else {
-          tokenWChart = "NAN"
-        }
+        
         return(
           <View style={styles.graphListDetails} key={index}>
             <TouchableOpacity
@@ -196,7 +190,7 @@ class Balances extends Component {
                 {token.name} Price
               </RNText>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
-                {this.props.defaultCurrency}: {tokenWChart}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#777', textAlign: 'center'}}>
                 See charts
@@ -216,9 +210,6 @@ class Balances extends Component {
         const keyName = this.props.tokenList[index].name;
         const key = keyName;
         balanceInfo += this.state.tokenBalances[keyName].usdBalance;
-
-        console.log('balanceInfo pie', balanceInfo);
-        if( balanceInfo > 0 ) {
           return {
               key,
               value: this.state.tokenBalances[keyName].usdBalance,
@@ -230,20 +221,27 @@ class Balances extends Component {
               },
               onPress: () => this.setState({ selectedSlice: { label: token, value: values[index] } })
           }
-        } else {
-          return {
-              key,
-              value: 10,
-              svg: { fill: '#ddd' },
-              arc: { 
-                outerRadius: '100%',
-                innerRadius: '75%', 
-                padAngle: 0 
-              },
-          }
-        }
       });
+
       
+      if(balanceInfo == 0) {
+        const pieData = [ 1 ]
+
+        data = pieData
+            .filter(value => value > 0)
+            .map((value, index) => ({
+                value,
+                svg: {
+                    fill: "#ddd",
+                },
+                arc: { 
+                  outerRadius: '100%',
+                  innerRadius: '75%', 
+                  padAngle: 0 
+                },
+                key: `pie-${index}`,
+            }))
+      }
     }
     
     return (
