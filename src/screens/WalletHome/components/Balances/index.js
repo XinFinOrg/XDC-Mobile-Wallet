@@ -107,41 +107,26 @@ class Balances extends Component {
             tokenBalancesLength: stateBalance,
             tokenBalances: stateBalanceObj
           })
-            // .then(resp => {
-            //   balanceObj[index] = {
-            //     [token.name]: index
-            //   }
-            //   this.setState({
-            //     tokenBalances: balanceObj 
-            //   })
-            // })
-            // .catch(err => {
-            //   console.log('err',err)
-            //   balanceObj[index] = {
-            //     [token.name]: index
-            //   }
-            //   if(this.state.tokenList.length === balanceObj.length) {
-            //     console.log('balance obj length', balanceObj.length, balanceObj)
-            //     this.setState({
-            //       tokenBalances: JSON.parse(JSON.stringify(balanceObj)) 
-            //     })
-            //   }
-            // })
-         
+
   }
 
   componentDidMount() {
     if(this.props.tokenList != null) {
       this.props.tokenList.map((token, index) => {
-        this.fetchDashboardData(token);
+        this.willFocus(token)
       })
     }
   }
+
+  willFocus = (token) => this.props.navigation.addListener('willFocus', () => {
+    this.fetchDashboardData(token);
+  });
 
   render() {
     const {
       currentBalance,
       selectedToken,
+      navigation,
     } = this.props;
 
     const { labelWidth, selectedSlice } = this.state;

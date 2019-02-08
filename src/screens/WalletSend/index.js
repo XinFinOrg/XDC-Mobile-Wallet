@@ -88,6 +88,14 @@ class WalletSend extends Component {
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
+  willFocus = () => this.props.navigation.addListener('willFocus', () => {
+    console.log('will focus walletSend')
+  });
+
+  componentDidMount() {
+    this.willFocus();
+  }
+
   sendTransaction = async () => {
     try {
       this.setState({

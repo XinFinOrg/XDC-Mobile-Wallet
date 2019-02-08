@@ -14,7 +14,7 @@ import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import { relative } from 'path';
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, withNavigationFocus } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -159,8 +159,9 @@ class WalletHome extends Component {
   };
 
   onRefresh = () => {
+    console.log('this.onrefresh called');
     this.fetchBalance();
-    this.fetchTransactions();
+    // this.fetchTransactions();
   };
 
   handleAppStateChange = nextAppState => {
@@ -212,9 +213,8 @@ class WalletHome extends Component {
   loadTokensList = () => {
     WalletUtils.loadTokensList();
   };
-
+  
   render() {
-    console.log('screen test 1')
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -224,55 +224,19 @@ class WalletHome extends Component {
             }}
             title="Dashboard"
           />
-          <ScrollView style={styles.topContainer}>
-            <Balances currentBalance={this.state.currentBalance} />
+          <ScrollView 
+            style={styles.topContainer}>
+            <Balances navigation={this.props.navigation} currentBalance={this.state.currentBalance} />
           </ScrollView>
           {/* <View style={styles.topContainer}>
-            <View style={styles.gradientHeaderWrapper}>
-              <LinearGradient
-                colors={['#254a81', '#254a81']}
-                locations={[0, 1]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientHeader}
-              >
-                <Text style={styles.coinName} letterSpacing={2}>
-                  {this.props.selectedToken.name}
-                </Text>
-                <BalanceRow
-                  currentBalance={this.state.currentBalance}
-                  onTokenChangeIconPress={() =>
-                    // this.props.navigation.navigate('TokenPicker')
-                    this.props.navigation.dispatch(DrawerActions.openDrawer())
-                  }
-                  onSettingsIconPress={() =>
-                    this.props.navigation.navigate('Settings')
-                  }
-                />
-              </LinearGradient>
-            </View>
+            
             {!this.props.callToActionDismissed && (
               <CallToAction
                 onDismiss={this.onCallToActionDismiss}
                 onPress={this.onCallToActionPress}
               />
             )}
-            <View style={styles.bannerContainer}>
-              <Text style={styles.bannerText}>
-                Showing recent {this.props.selectedToken.name} transactions
-              </Text>
-            </View>
-            <View style={styles.listContainer}>
-              {!!this.props.walletAddress && (
-                <TransactionsList
-                  selectedToken={this.props.selectedToken}
-                  transactions={this.state.transactions}
-                  walletAddress={this.props.walletAddress}
-                  onRefresh={this.onRefresh}
-                  refreshing={this.state.refreshingTransactions}
-                />
-              )}
-            </View>
+            
           </View> */}
           <Footer
             activeTab="home"
