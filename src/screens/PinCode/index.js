@@ -42,7 +42,7 @@ class PinCode extends Component {
   };
 
   onAuthSuccess = () => {
-    console.log("Navigation",this.props.navigation)
+    console.log("Navigation",this.props.navigation.getParam('screen'))
     this.props.navigation.navigate('Wallet');
   };
 

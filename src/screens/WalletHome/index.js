@@ -168,9 +168,11 @@ class WalletHome extends Component {
     const currentState = this.state.appState;
 
     this.setState({ appState: nextAppState });
-
+    console.log('handleappstate', this.props.navigation)
     if (currentState === 'background' && nextAppState === 'active') {
-      this.props.navigation.navigate('PinCode');
+      this.props.navigation.navigate('PinCode', {
+        screen: 'send'
+      });
     }
   };
 
