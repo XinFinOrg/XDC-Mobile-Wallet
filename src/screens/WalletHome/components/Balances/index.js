@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View, ScrollView, Alert, AsyncStorage, Text as RNText } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Modal from 'react-native-modal';
 import { Text } from '../../../../components';
 import { PieChart } from 'react-native-svg-charts';
 import WalletUtils from '../../../../utils/wallet';
@@ -61,6 +62,14 @@ const styles = StyleSheet.create({
   tokenName: {
     color: '#000', 
     paddingTop: 10,
+  },
+  AuthModalContainer: {
+    backgroundColor:"#fff",
+  },
+  AuthModalView: {
+    backgroundColor:'#fff',
+    paddingVertical: 100,
+    paddingHorizontal: 50,
   },
 });
 
@@ -238,7 +247,16 @@ class Balances extends Component {
               style={{ height: 175, width: '100%' }}
               data={data}
           />
-        : null }
+        : <Modal
+            isVisible={true} 
+            style={styles.AuthModalContainer}>
+            <View style={styles.AuthModalView}>
+              {/* <View style={styles.fingerPrintWrap}>
+                <Image source={fingerPrint} style={styles.fingerPrint} />
+              </View> */}
+              <RNText>Fingerprint Authentication</RNText>
+            </View>
+          </Modal> }
 
         { balanceInfo != null ?
           <View style={styles.usdBalance}>
