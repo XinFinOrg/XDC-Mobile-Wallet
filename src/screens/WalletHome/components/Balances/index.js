@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, ScrollView, Alert, AsyncStorage, Text as RNText } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, ActivityIndicator, ScrollView, Alert, AsyncStorage, Text as RNText } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import { Text } from '../../../../components';
 import { PieChart } from 'react-native-svg-charts';
 import WalletUtils from '../../../../utils/wallet';
+import loader from './images/loader.gif';
 
 const styles = StyleSheet.create({
   container: {
@@ -64,12 +65,22 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   AuthModalContainer: {
-    backgroundColor:"#fff",
+    backgroundColor:"transparent",
+    
   },
   AuthModalView: {
     backgroundColor:'#fff',
     paddingVertical: 100,
     paddingHorizontal: 50,
+  },
+  fingerPrintWrap: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  fingerPrint: {
+    height: 60,
+    width: 60,
   },
 });
 
@@ -251,10 +262,9 @@ class Balances extends Component {
             isVisible={true} 
             style={styles.AuthModalContainer}>
             <View style={styles.AuthModalView}>
-              {/* <View style={styles.fingerPrintWrap}>
-                <Image source={fingerPrint} style={styles.fingerPrint} />
-              </View> */}
-              <RNText>Fingerprint Authentication</RNText>
+              <View style={styles.fingerPrintWrap}>
+                <ActivityIndicator color='#254a81' size="large" />
+              </View>
             </View>
           </Modal> }
 
