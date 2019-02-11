@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
-import { ADD_TOKEN, SET_DEFAULT_TOKEN } from '../../config/actionTypes';
+import { ADD_TOKEN, SET_DEFAULT_TOKEN, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import AnalyticsUtils from '../../utils/analytics';
 import { DrawerActions } from 'react-navigation';
 import Footer from '../UIComponents/Footer/index';
@@ -94,7 +94,18 @@ class AddToken extends Component {
     this.props.navigation.navigate('WalletHome');
   };
 
+  setRoute = (route) => {
+
+    this.props.setRoute(route);
+  }
+  
+  componentDidMount() {
+    console.log('add token screen',this.props.navigation.state.routeName)
+    this.setRoute(this.props.navigation.state.routeName);
+  }
+
   render() {
+    
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -156,6 +167,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addToken: token => dispatch({ type: ADD_TOKEN, token }),
   setDefaultToken: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(

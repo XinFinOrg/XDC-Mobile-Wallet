@@ -159,7 +159,6 @@ class WalletHome extends Component {
   };
 
   onRefresh = () => {
-    console.log('this.onrefresh called');
     this.fetchBalance();
     // this.fetchTransactions();
   };
@@ -168,10 +167,11 @@ class WalletHome extends Component {
     const currentState = this.state.appState;
 
     this.setState({ appState: nextAppState });
-    console.log('handleappstate', this.props.navigation)
+    console.log('hnadleappstate', this.props.navigation.state.key.split('-')[2]);
+    const stackId = this.props.navigation.state.key.split('-')[2];
     if (currentState === 'background' && nextAppState === 'active') {
       this.props.navigation.navigate('PinCode', {
-        screen: 'send'
+        stackId: stackId
       });
     }
   };
@@ -217,6 +217,7 @@ class WalletHome extends Component {
   };
   
   render() {
+    console.log('wallet home called everytime')
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -226,10 +227,14 @@ class WalletHome extends Component {
             }}
             title="Dashboard"
           />
-          <ScrollView 
-            style={styles.topContainer}>
-            <Balances navigation={this.props.navigation} currentBalance={this.state.currentBalance} />
-          </ScrollView>
+          {this.props.currentRoute === 'WalletHome' || this.props.currentRoute === 'Wallet' ?
+            
+            <ScrollView 
+              style={styles.topContainer}>
+              <Balances navigation={this.props.navigation} currentBalance={this.state.currentBalance} />
+            </ScrollView>
+
+          : null}
           {/* <View style={styles.topContainer}>
             
             {!this.props.callToActionDismissed && (
@@ -241,7 +246,7 @@ class WalletHome extends Component {
             
           </View> */}
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -261,6 +266,7 @@ const mapStateToProps = state => ({
   callToActionDismissed: state.callToActionDismissed,
   selectedToken: state.selectedToken,
   walletAddress: state.walletAddress,
+  currentRoute: state.currentRoute,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { SET_CURRENT_ROUTE } from '../../../config/actionTypes';
 import { Text } from '../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
@@ -76,6 +78,26 @@ class Footer extends Component {
     activeTab: PropTypes.string.isRequired,
   };
 
+  onHomePress = () => {
+    this.props.setRoute('WalletHome');
+    this.props.onHomePress();
+  }
+
+  onSendPress = () => {
+    this.props.setRoute('Send');
+    this.props.onSendPress();
+  }
+
+  onReceivePress = () => {
+    this.props.setRoute('Receive');
+    this.props.onReceivePress();
+  }
+
+  onTransactionsPress = () => {
+    this.props.setRoute('WalletTransactions');
+    this.props.onTransactionsPress();
+  }
+
   render() {
     const { onReceivePress, onSendPress, onHomePress, ontransactionsPress, activeTab } = this.props;
 
@@ -92,8 +114,8 @@ class Footer extends Component {
               >
         <View style={styles.container}>
           <TouchableOpacity
-            onPress={onHomePress}
-            style={activeTab === "home" ? activeTabStyle : normalTabStyle}
+            onPress={this.onHomePress}
+            style={activeTab === "WalletHome" ? activeTabStyle : normalTabStyle}
           >
             <Image style={styles.buttonIcon} source={qrcodeIcon} />
             <Text style={styles.buttonText}>Home</Text>
@@ -101,24 +123,24 @@ class Footer extends Component {
           
 
           <TouchableOpacity
-            onPress={onSendPress}
-            style={activeTab === "send" ? activeTabStyle : normalTabStyle}
+            onPress={this.onSendPress}
+            style={activeTab === "Send" ? activeTabStyle : normalTabStyle}
           >
             <Image style={styles.buttonIcon} source={sendIcon} />
             <Text style={styles.buttonText}>Send</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onReceivePress}
-            style={activeTab === "receive" ? activeTabStyle : normalTabStyle}
+            onPress={this.onReceivePress}
+            style={activeTab === "Receive" ? activeTabStyle : normalTabStyle}
           >
             <Image style={styles.buttonIcon} source={qrcodeIcon} />
             <Text style={styles.buttonText}>Receive</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={ontransactionsPress}
-            style={activeTab === "transactions" ? activeTabStyle : normalTabStyle}
+            onPress={this.ontransactionsPress}
+            style={activeTab === "WalletTransactions" ? activeTabStyle : normalTabStyle}
           >
             <Image source={transfer} style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Transactions</Text>
@@ -145,4 +167,12 @@ class Footer extends Component {
 }
 
 
-export default Footer;
+
+const mapDispatchToProps = dispatch => ({
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Footer);

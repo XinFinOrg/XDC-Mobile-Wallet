@@ -42,8 +42,17 @@ class PinCode extends Component {
   };
 
   onAuthSuccess = () => {
-    console.log("Navigation",this.props.navigation.getParam('screen'))
-    this.props.navigation.navigate('Wallet');
+    // if(this.props.currentRoute === 'AddToken') {
+    //   this.props.navigation.navigate('AddToken');
+    // } else {
+    //   this.props.navigation.navigate('Wallet');
+    // }
+    console.log('onauthsuccess', this.props.currentRoute)
+    if(this.props.currentRoute === 'home') {
+      this.props.navigation.navigate('Wallet');
+    } else {
+      this.props.navigation.navigate(this.props.currentRoute);
+    }
   };
 
   onBackPress = () => {
@@ -103,8 +112,9 @@ class PinCode extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => (console.log('pincode state:', state), {
   pinCode: state.pinCode,
+  currentRoute: state.currentRoute,
 });
 
 export default connect(mapStateToProps)(PinCode);

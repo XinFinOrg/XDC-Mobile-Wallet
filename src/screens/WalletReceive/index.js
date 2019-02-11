@@ -134,7 +134,7 @@ class WalletReceive extends Component {
             />
           </View>
           <Footer
-            activeTab="receive"
+            activeTab="Receive"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>

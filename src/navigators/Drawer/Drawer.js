@@ -14,7 +14,7 @@ import token from './images/addtoken.png';
 import privatekey from './images/private.png';
 import PropTypes from 'prop-types';
 import { persistor } from '../../config/store';
-import { LOGOUT } from '../../config/actionTypes';
+import { LOGOUT, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 
 const styles = StyleSheet.create({
     container: {
@@ -76,6 +76,7 @@ class CustomDrawer extends Component {
                 editMode: editMode
             },
         });
+        this.props.setRoute(route);
         this.props.navigation.dispatch(navigateAction);
     }
     
@@ -214,6 +215,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch({ type: LOGOUT });
       await persistor.flush();
     },
+    setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 export default connect(null, mapDispatchToProps)(CustomDrawer);

@@ -12,6 +12,7 @@ import {
   SET_PIN_CODE,
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
+  SET_CURRENT_ROUTE,
 } from './actionTypes';
 import { defaultTokens, currencyList } from '../utils/constants';
 import AnalyticsUtils from '../utils/analytics';
@@ -23,6 +24,7 @@ const defaultState = {
   network: 'public',
   currentCurrency: 'USD',
   currencyList: currencyList,
+  currentRoute: 'Wallet',
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -101,6 +103,11 @@ const appReducer = (state = defaultState, action) => {
         ...state,
         privateKey: action.privateKey,
       };
+    case SET_CURRENT_ROUTE:
+      return {
+        ...state,
+        currentRoute: action.route
+      }
     case SET_WALLET_ADDRESS:
       return {
         ...state,
