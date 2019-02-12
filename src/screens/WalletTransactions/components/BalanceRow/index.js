@@ -81,7 +81,6 @@ class BalanceRow extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
   }
   // tokenChange = (data) => {
-  //   console.log('token change balancerow', this.props);
   //   this.props.tokenChange(data)
   // }
 

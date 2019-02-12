@@ -167,7 +167,6 @@ class WalletHome extends Component {
     const currentState = this.state.appState;
 
     this.setState({ appState: nextAppState });
-    console.log('hnadleappstate', this.props.navigation.state.key.split('-')[2]);
     const stackId = this.props.navigation.state.key.split('-')[2];
     if (currentState === 'background' && nextAppState === 'active') {
       this.props.navigation.navigate('PinCode', {
@@ -217,7 +216,6 @@ class WalletHome extends Component {
   };
   
   render() {
-    console.log('wallet home called everytime')
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

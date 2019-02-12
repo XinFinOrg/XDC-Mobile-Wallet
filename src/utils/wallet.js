@@ -79,7 +79,7 @@ export default class WalletUtils {
     switch (store.getState().network) {
       case 'private':
         return new Web3.providers.HttpProvider(
-          'http:rpc.testnet.xinfin.network:8545',
+          'http://rpc.testnet.xinfin.network:8545',
         );
       case 'public':
         return new Web3.providers.HttpProvider(
@@ -295,7 +295,6 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
-        console.log("balance mxdc",e,weiBalance);
         if (e) {
           reject(e);
         }

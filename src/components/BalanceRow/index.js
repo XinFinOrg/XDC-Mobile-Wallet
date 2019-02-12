@@ -80,36 +80,20 @@ class BalanceRow extends Component {
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-    onTokenChangeIconPress: PropTypes.func.isRequired,
-    tokenChange: PropTypes.func.isRequired,
   };
 
   toggleModal = (transactionDetails) => {
     this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
   }
-  // tokenChange = (data) => {
-  //   console.log('token change balancerow', this.props);
-  //   this.props.tokenChange(data)
-  // }
 
   render() {
     const {
       currentBalance,
       selectedToken,
-      onTokenChangeIconPress,
-      tokenChange
     } = this.props;
 
     return (
       <View style={styles.container}>
-
-      {/* <Picker
-        selectedValue={selectedToken.name}
-        style={{width: '100%', height: 50}}
-        onValueChange={(itemValue, itemIndex) => tokenChange(itemValue)}>
-        <Picker.Item label="XDC" value="xdc" />
-        <Picker.Item label="ETH" value="eth" />
-      </Picker> */}
 
       <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
         <View style={styles.tokenTitle}>
@@ -130,21 +114,6 @@ class BalanceRow extends Component {
           <TokenPicker toggleModal={this.toggleModal} />
         {/* </View> */}
       </Modal>
-
-        {/* <View style={styles.balanceContainer}>
-          <Text style={styles.balance} letterSpacing={1}>
-            {currentBalance.usdBalance.toFixed(2)}
-          </Text>
-          <Text style={styles.coinSymbol} letterSpacing={2}>
-            {selectedToken.currencySymbol}
-          </Text>
-        </View>
-        
-        <View style={styles.iconsContainer}>
-          <TouchableOpacity onPress={onTokenChangeIconPress}>
-            <Image source={switchIcon} style={styles.switchIcon} />
-          </TouchableOpacity>
-        </View> */}
       </View>
     );
   }

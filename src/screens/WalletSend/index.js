@@ -88,14 +88,6 @@ class WalletSend extends Component {
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
-  willFocus = () => this.props.navigation.addListener('willFocus', () => {
-    console.log('will focus walletSend')
-  });
-
-  componentDidMount() {
-    this.willFocus();
-  }
-
   sendTransaction = async () => {
     try {
       this.setState({
@@ -162,13 +154,6 @@ class WalletSend extends Component {
 
             <BalanceRow
               currentBalance={this.state.currentBalance}
-              onTokenChangeIconPress={() =>
-                this.props.navigation.navigate('TokenPicker')
-              }
-              onSettingsIconPress={() =>
-                this.props.navigation.navigate('Settings')
-              }
-              tokenChange={this.tokenChange}
             />
           </LinearGradient>
 

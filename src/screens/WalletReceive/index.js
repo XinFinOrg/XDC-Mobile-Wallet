@@ -100,13 +100,6 @@ class WalletReceive extends Component {
           
             <BalanceRow
               currentBalance={this.state.currentBalance}
-              onTokenChangeIconPress={() =>
-                this.props.navigation.navigate('TokenPicker')
-              }
-              onSettingsIconPress={() =>
-                this.props.navigation.navigate('Settings')
-              }
-              tokenChange={this.tokenChange}
             />
 
           </LinearGradient>

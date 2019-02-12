@@ -201,17 +201,7 @@ class WalletTransactions extends Component {
               >
                 <BalanceRow
                   currentBalance={this.state.currentBalance}
-                  onTokenChangeIconPress={() =>
-                    this.props.navigation.navigate('TokenPicker')
-                  }
-                  onSettingsIconPress={() =>
-                    this.props.navigation.navigate('Settings')
-                  }
-                  tokenChange={this.tokenChange}
                 />
-                {/* <Text style={styles.coinName} letterSpacing={2}>
-                  {this.props.selectedToken.name}
-                </Text> */}
 
               </LinearGradient>
             </View>

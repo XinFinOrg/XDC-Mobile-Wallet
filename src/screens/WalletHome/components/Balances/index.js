@@ -6,7 +6,6 @@ import Modal from 'react-native-modal';
 import { Text } from '../../../../components';
 import { PieChart } from 'react-native-svg-charts';
 import WalletUtils from '../../../../utils/wallet';
-import loader from './images/loader.gif';
 
 const styles = StyleSheet.create({
   container: {
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     
   },
   AuthModalView: {
-    backgroundColor:'#fff',
+    backgroundColor:'transparent',
     paddingVertical: 100,
     paddingHorizontal: 50,
   },

@@ -42,12 +42,6 @@ class PinCode extends Component {
   };
 
   onAuthSuccess = () => {
-    // if(this.props.currentRoute === 'AddToken') {
-    //   this.props.navigation.navigate('AddToken');
-    // } else {
-    //   this.props.navigation.navigate('Wallet');
-    // }
-    console.log('onauthsuccess', this.props.currentRoute)
     if(this.props.currentRoute === 'home') {
       this.props.navigation.navigate('Wallet');
     } else {
@@ -112,7 +106,7 @@ class PinCode extends Component {
   }
 }
 
-const mapStateToProps = state => (console.log('pincode state:', state), {
+const mapStateToProps = state => ({
   pinCode: state.pinCode,
   currentRoute: state.currentRoute,
 });

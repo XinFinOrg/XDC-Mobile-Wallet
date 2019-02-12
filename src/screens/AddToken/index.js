@@ -100,7 +100,6 @@ class AddToken extends Component {
   }
   
   componentDidMount() {
-    console.log('add token screen',this.props.navigation.state.routeName)
     this.setRoute(this.props.navigation.state.routeName);
   }
 
