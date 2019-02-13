@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, Picker, TouchableHighlight } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, Text, Picker, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text } from '../index';
+// import { Text } from '../index';
 import Modal from 'react-native-modal'
 import TokenPicker from '../../screens/TokenPicker';
 
@@ -46,11 +46,20 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 5,
   },
+  balanceRow: {
+    padding: 5,
+  },
   tokenTitle: {
     padding: 5,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tokenBalance: {
+    padding: 5,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   tokenText: {
     color: '#fff',
@@ -91,17 +100,25 @@ class BalanceRow extends Component {
       currentBalance,
       selectedToken,
     } = this.props;
-
+    console.log('balancerow', currentBalance)
     return (
       <View style={styles.container}>
 
       <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
-        <View style={styles.tokenTitle}>
-          <Text style={styles.tokenText} letterSpacing={1}>
-            {selectedToken.name}
-          </Text>
-          <View>
-            <Image source={switchIcon} style={styles.switchIcon} />
+        <View style={styles.balanceRow}>
+          <View style={styles.tokenBalance}>
+            <Text style={styles.tokenText}>
+              {currentBalance.balance} {selectedToken.name}
+            </Text>
+          </View>
+
+          <View style={styles.tokenTitle}>
+            <Text style={styles.tokenText}>
+              {selectedToken.name}
+            </Text>
+            <View>
+              <Image source={switchIcon} style={styles.switchIcon} />
+            </View>
           </View> 
         </View>
       </TouchableHighlight>
@@ -119,8 +136,8 @@ class BalanceRow extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  selectedToken: state.selectedToken,
-});
+// const mapStateToProps = state => ({
+//   selectedToken: state.selectedToken,
+// });
 
-export default connect(mapStateToProps)(BalanceRow);
+export default BalanceRow;
