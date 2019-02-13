@@ -100,6 +100,7 @@ class WalletReceive extends Component {
           
             <BalanceRow
               currentBalance={this.state.currentBalance}
+              selectedToken={this.props.selectedToken}
             />
 
           </LinearGradient>
@@ -135,7 +136,7 @@ class WalletReceive extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
@@ -145,6 +146,7 @@ class WalletReceive extends Component {
 
 const mapStateToProps = state => ({
   walletAddress: state.walletAddress,
+  selectedToken: state.selectedToken,
 });
 
 const mapDispatchToProps = dispatch => ({

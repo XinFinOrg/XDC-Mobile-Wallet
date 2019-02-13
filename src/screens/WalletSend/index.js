@@ -34,6 +34,7 @@ class WalletSend extends Component {
     }).isRequired,
     onTokenChange: PropTypes.func.isRequired,
     selectedToken: PropTypes.shape({
+      name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
   };
@@ -87,6 +88,13 @@ class WalletSend extends Component {
   addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
+
+  RefreshBalance = async () => {
+    const currentBalance = await WalletUtils.getBalance(this.props.selectedToken);
+    this.setState({
+      currentBalance,
+    })
+  }
 
   sendTransaction = async () => {
     try {
@@ -154,6 +162,7 @@ class WalletSend extends Component {
 
             <BalanceRow
               currentBalance={this.state.currentBalance}
+              selectedToken={this.props.selectedToken}
             />
           </LinearGradient>
 
@@ -188,7 +197,7 @@ class WalletSend extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
