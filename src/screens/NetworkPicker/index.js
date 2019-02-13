@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { StackActions, NavigationActions, DrawerActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
-import { RESET_TOKENS, SET_NETWORK } from '../../config/actionTypes';
+import { RESET_TOKENS, SET_NETWORK, SET_CURRENT_ROUTE, } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
@@ -59,6 +59,7 @@ class NetworkPicker extends Component {
               ],
             });
 
+            this.props.setRoute('WalletHome');
             this.props.navigation.dispatch(resetAction);
           },
         },
@@ -80,7 +81,7 @@ class NetworkPicker extends Component {
           <Menu options={this.menuOptions} />
 
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -88,7 +89,7 @@ class NetworkPicker extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
@@ -99,6 +100,7 @@ class NetworkPicker extends Component {
 const mapDispatchToProps = dispatch => ({
   onNetworkChange: network => dispatch({ type: SET_NETWORK, network }),
   resetTokens: () => dispatch({ type: RESET_TOKENS }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 export default connect(

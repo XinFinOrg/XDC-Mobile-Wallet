@@ -111,7 +111,7 @@ class Settings extends Component {
             </Text>
           </View>
           <Footer
-            activeTab="transactions"
+            activeTab="WalletTransactions"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -119,7 +119,7 @@ class Settings extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>

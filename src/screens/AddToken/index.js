@@ -91,17 +91,9 @@ class AddToken extends Component {
 
     this.props.addToken(token);
     this.props.setDefaultToken(token);
+    this.props.setRoute('WalletHome');
     this.props.navigation.navigate('WalletHome');
   };
-
-  setRoute = (route) => {
-
-    this.props.setRoute(route);
-  }
-  
-  componentDidMount() {
-    this.setRoute(this.props.navigation.state.routeName);
-  }
 
   render() {
     
@@ -143,7 +135,7 @@ class AddToken extends Component {
           </View>
           
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -151,7 +143,7 @@ class AddToken extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>

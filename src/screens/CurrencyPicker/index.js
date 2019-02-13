@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { StackActions, NavigationActions, DrawerActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
-import { RESET_TOKENS, SET_NETWORK, SET_CURRENCY } from '../../config/actionTypes';
+import { RESET_TOKENS, SET_NETWORK, SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
@@ -64,6 +64,7 @@ class CurrencyPicker extends Component {
               ],
             });
 
+            this.props.setRoute('WalletHome');
             this.props.navigation.dispatch(resetAction);
           },
         },
@@ -85,7 +86,7 @@ class CurrencyPicker extends Component {
           <Menu options={this.state.menuOptions} />
 
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -93,7 +94,7 @@ class CurrencyPicker extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
@@ -103,6 +104,7 @@ class CurrencyPicker extends Component {
 
 const mapDispatchToProps = dispatch => ({
   onCurrencyChange: currency => dispatch({ type: SET_CURRENCY, currency }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 const mapStateToProps = state => ({

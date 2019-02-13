@@ -76,7 +76,7 @@ class PrivateKey extends Component {
           </View>
 
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -84,7 +84,7 @@ class PrivateKey extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>

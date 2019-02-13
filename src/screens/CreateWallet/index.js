@@ -168,7 +168,7 @@ class CreateWallet extends Component {
 
     const IsFooter = this.props.navigation.getParam('editMode', false) ?
           <Footer
-            activeTab="home"
+            activeTab="WalletHome"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -176,7 +176,7 @@ class CreateWallet extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
     : null;
 
