@@ -42,6 +42,7 @@
     "react-native-os": "^1.0.1",
     "react-native-qrcode-svg": "^5.1.0",
     "react-native-randombytes": "^3.5.1",
+    "react-native-responsive-fontsize": "^0.1.8",
     "react-native-router-flux": "^3.45.0",
     "react-native-sensitive-info": "^5.2.4",
     "react-native-splash-screen": "^3.1.1",

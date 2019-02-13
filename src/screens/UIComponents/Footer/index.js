@@ -8,6 +8,7 @@ import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
 import transfer from './images/transfer.png';
 import LinearGradient from 'react-native-linear-gradient';
+import RF from 'react-native-responsive-fontsize';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#9D9D9D',
     paddingTop: 5,
+    fontSize: RF(2.5),
   },
   button: {
     alignItems: 'center',

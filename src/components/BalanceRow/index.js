@@ -100,37 +100,37 @@ class BalanceRow extends Component {
       currentBalance,
       selectedToken,
     } = this.props;
-    console.log('balancerow', currentBalance)
     return (
       <View style={styles.container}>
 
-      <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
-        <View style={styles.balanceRow}>
-          <View style={styles.tokenBalance}>
-            <Text style={styles.tokenText}>
-              {currentBalance.balance} {selectedToken.name}
-            </Text>
-          </View>
-
-          <View style={styles.tokenTitle}>
-            <Text style={styles.tokenText}>
-              {selectedToken.name}
-            </Text>
-            <View>
-              <Image source={switchIcon} style={styles.switchIcon} />
+        <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
+          <View style={styles.balanceRow}>
+            <View style={styles.tokenBalance}>
+              <Text style={styles.tokenText}>
+                {currentBalance.balance} {selectedToken.name}
+              </Text>
             </View>
-          </View> 
-        </View>
-      </TouchableHighlight>
 
-      <Modal 
-        onBackdropPress={() => this.toggleModal(null)}
-        isVisible={this.state.isModalVisible} 
-        style={styles.ModalContainer}>
-        {/* <View style={styles.ModalView}> */}
-          <TokenPicker toggleModal={this.toggleModal} />
-        {/* </View> */}
-      </Modal>
+            <View style={styles.tokenTitle}>
+              <Text style={styles.tokenText}>
+                {selectedToken.name}
+              </Text>
+              <View>
+                <Image source={switchIcon} style={styles.switchIcon} />
+              </View>
+            </View> 
+          </View>
+        </TouchableHighlight>
+
+        <Modal 
+          onBackdropPress={() => this.toggleModal(null)}
+          isVisible={this.state.isModalVisible} 
+          style={styles.ModalContainer}>
+          {/* <View style={styles.ModalView}> */}
+            <TokenPicker toggleModal={this.toggleModal} />
+          {/* </View> */}
+        </Modal>
+
       </View>
     );
   }
