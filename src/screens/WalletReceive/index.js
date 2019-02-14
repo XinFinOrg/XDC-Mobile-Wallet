@@ -82,6 +82,28 @@ class WalletReceive extends Component {
     this.props.setDefaultToken(token);
   }
 
+  componentDidMount() {
+    this.onRefresh();
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log('new peops walletsend', newProps)
+    if(this.props.selectedToken != newProps.selectedToken) {
+      this.setState(
+        {
+          currentBalance: {
+            'balance': 0,
+            'usdBalance': 0,
+          },
+          transactions: [],
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
+    }
+  }
+
   render() {
     return (
       <GradientBackground>

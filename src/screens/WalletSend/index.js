@@ -78,23 +78,16 @@ class WalletSend extends Component {
   };
 
   goBack = () => {
-    const backAction = NavigationActions.back({
-      key: null,
-    });
+    // const backAction = NavigationActions.back({
+    //   key: null,
+    // });
 
-    this.props.navigation.dispatch(backAction);
+    // this.props.navigation.dispatch(backAction);
   };
 
   addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
-
-  RefreshBalance = async () => {
-    const currentBalance = await WalletUtils.getBalance(this.props.selectedToken);
-    this.setState({
-      currentBalance,
-    })
-  }
 
   sendTransaction = async () => {
     try {
@@ -141,6 +134,28 @@ class WalletSend extends Component {
 
   tokenChange = (val) => {
     this.props.setDefaultToken(token);
+  }
+
+  componentDidMount() {
+    this.onRefresh();
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log('new peops walletsend', newProps)
+    if(this.props.selectedToken != newProps.selectedToken) {
+      this.setState(
+        {
+          currentBalance: {
+            'balance': 0,
+            'usdBalance': 0,
+          },
+          transactions: [],
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
+    }
   }
 
   render() {
