@@ -77,7 +77,12 @@ class CustomDrawer extends Component {
             },
         });
         this.props.setRoute(route);
-        this.props.navigation.dispatch(navigateAction);
+
+        if(route === "PrivateKey") {
+            this.props.navigation.navigate('PinCode');
+        } else {
+            this.props.navigation.dispatch(navigateAction);
+        }
     }
     
     render () {
