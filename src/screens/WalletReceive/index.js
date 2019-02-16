@@ -13,6 +13,7 @@ import {
 } from '../../components';
 import WalletUtils from '../../utils/wallet';
 import Footer from '../UIComponents/Footer/index';
+import { SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
@@ -104,6 +105,13 @@ class WalletReceive extends Component {
     }
   }
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     return (
       <GradientBackground>
@@ -117,7 +125,7 @@ class WalletReceive extends Component {
           >
             <Header 
               hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-              onBackPress={() => this.props.navigation.goBack()} 
+              onBackPress={() => this.goBack()} 
               title="Receive" />
           
             <BalanceRow
@@ -173,6 +181,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletReceive);

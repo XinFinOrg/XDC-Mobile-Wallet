@@ -95,6 +95,13 @@ class AddToken extends Component {
     this.props.navigation.navigate('WalletHome');
   };
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     
     return (
@@ -102,7 +109,7 @@ class AddToken extends Component {
         <SafeAreaView style={styles.container}>
           <Header
             hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.goBack()}
             title='Add token'
           />
           <Form

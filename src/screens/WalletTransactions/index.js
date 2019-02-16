@@ -9,7 +9,7 @@ import {
   TransactionsList,
 } from './components';
 import Footer from '../UIComponents/Footer/index';
-import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
+import { SET_CALL_TO_ACTION_DISMISSED, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import { relative } from 'path';
 import { DrawerActions } from 'react-navigation';
@@ -179,6 +179,13 @@ class WalletTransactions extends Component {
     this.props.setDefaultToken(token);
   }
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     return (
       <GradientBackground>
@@ -187,7 +194,7 @@ class WalletTransactions extends Component {
             hamBurgerPress={() => {
               this.props.navigation.dispatch(DrawerActions.openDrawer())
             }}
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.goBack()}
             title="Transactions"
           />
           <View style={styles.topContainer}>
@@ -250,6 +257,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dismissCallToAction: () => dispatch({ type: SET_CALL_TO_ACTION_DISMISSED }),
   onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 export default connect(

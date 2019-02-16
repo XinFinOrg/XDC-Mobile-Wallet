@@ -107,13 +107,19 @@ class WalletHome extends Component {
     transactions: [],
   };
 
+  componentWillMount() {
+    console.log('wallet testing dashboard screen will mount', this.props.navigation);
+  }
+
   componentDidMount() {
+    console.log('wallet testing dashboard screen did mount', this.props.navigation);
     this.addEventListeners();
     this.onRefresh();
     this.loadTokensList();
   }
 
   componentWillReceiveProps(newProps) {
+    console.log('wallet testing dashboard screen will receive props', this.props.navigation);
     if (
       newProps.walletAddress &&
       this.props.selectedToken !== newProps.selectedToken
@@ -216,6 +222,7 @@ class WalletHome extends Component {
   };
   
   render() {
+    console.log('wallet testing dashboard screen', this.props.navigation);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

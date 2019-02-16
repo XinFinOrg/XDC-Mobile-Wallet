@@ -7,6 +7,7 @@ import { GradientBackground, Header, SecondaryButton, BalanceRow } from '../../c
 import LinearGradient from 'react-native-linear-gradient';
 import Form from './components/Form';
 import AnalyticsUtils from '../../utils/analytics';
+import { SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import Footer from '../UIComponents/Footer/index';
 import { DrawerActions } from 'react-navigation';
@@ -78,11 +79,10 @@ class WalletSend extends Component {
   };
 
   goBack = () => {
-    // const backAction = NavigationActions.back({
-    //   key: null,
-    // });
-
-    // this.props.navigation.dispatch(backAction);
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
   };
 
   addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
@@ -226,6 +226,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletSend);

@@ -227,7 +227,7 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
 
     return fetch(
-      `http://api.etherscan.io/api?module=account&action=tokentx&address=0x93cb04e08e24cc50731f4c1d52c04e220eab105b&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
+      `http://api.etherscan.io/api?module=account&action=tokentx&address=${walletAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
     )
       .then(response => response.json())
       .then(data => {

@@ -68,13 +68,20 @@ class NetworkPicker extends Component {
     );
   };
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
             hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.goBack()}
             title="Change network"
           />
 
