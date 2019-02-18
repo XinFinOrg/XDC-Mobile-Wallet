@@ -79,10 +79,14 @@ class WalletSend extends Component {
   };
 
   goBack = () => {
+    this.setState({
+      amount: '',
+      address: '',
+    });
     const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
     const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
-    this.props.setRoute(stackRoute)
-    this.props.navigation.navigate(stackRoute)
+    this.props.setRoute(stackRoute);
+    this.props.navigation.navigate(stackRoute);
   };
 
   addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
@@ -94,13 +98,13 @@ class WalletSend extends Component {
       this.setState({
         isLoading: true,
       });
-
+      console.log('send transactions method', this.state)
       await WalletUtils.sendTransaction(
         this.props.selectedToken,
         this.state.address,
         this.state.amount,
       );
-
+      
       this.setState(
         {
           isLoading: false,
@@ -111,7 +115,12 @@ class WalletSend extends Component {
             `You've successfully sent ${this.state.amount} ${
               this.props.selectedToken.symbol
             } to ${this.state.address}`,
-            [{ text: 'OK', onPress: () => this.goBack() }],
+            [
+              { 
+                text: 'OK', 
+                onPress: () => {this.goBack()},
+              },
+            ],
             { cancelable: false },
           );
         },
@@ -132,6 +141,13 @@ class WalletSend extends Component {
           Alert.alert(
             `Sending ${this.props.selectedToken.symbol}`,
             `${errMsg} for ${this.props.selectedToken.symbol}`,
+            [
+              { 
+                text: 'OK', 
+                onPress: () => {this.goBack()},
+              },
+            ],
+            { cancelable: false },
           );
         },
       );

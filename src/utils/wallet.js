@@ -401,7 +401,6 @@ export default class WalletUtils {
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance(network);
 
-
     AnalyticsUtils.trackEvent('Send ERC20 transaction', {
       value: amount,
     });
