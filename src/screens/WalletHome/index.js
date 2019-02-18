@@ -232,7 +232,7 @@ class WalletHome extends Component {
             }}
             title="Dashboard"
           />
-          {this.props.currentRoute === 'WalletHome' || this.props.currentRoute === 'Wallet' ?
+          {this.props.currentRoute === 'WalletHome' || this.props.currentRoute === 'Wallet' || this.props.currentRoute === 'Home' ?
             
             <ScrollView 
               style={styles.topContainer}>

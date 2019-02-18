@@ -12,7 +12,7 @@ import {
   Text,
 } from '../../components';
 
-import { SET_PIN_CODE } from '../../config/actionTypes';
+import { SET_PIN_CODE, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   },
   explanatoryTextContainer: {
     height: 80,
@@ -157,6 +159,13 @@ class CreateWallet extends Component {
     );
   };
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     const pinCode = this.state.isConfirmation
       ? this.state.confirmationPinCode
@@ -188,7 +197,7 @@ class CreateWallet extends Component {
             onBackPress={
               this.props.navigation.getParam('migrationMode', false)
                 ? null
-                : () => this.props.navigation.goBack()
+                : () => this.goBack()
             }
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
@@ -220,6 +229,7 @@ class CreateWallet extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setPinCode: pinCode => dispatch({ type: SET_PIN_CODE, pinCode }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(
