@@ -122,10 +122,16 @@ class WalletSend extends Component {
           isLoading: false,
         },
         () => {
-          console.log(error)
+          console.log(error.message)
+          let errMsg = null;
+          if(error.message.includes('insufficient funds')) {
+            errMsg = 'Insufficient funds';
+          } else {
+            errMsg = 'An error happened during the transaction, please try again later';
+          }
           Alert.alert(
             `Sending ${this.props.selectedToken.symbol}`,
-            `An error happened during the transaction, please try again later`,
+            `${errMsg} for ${this.props.selectedToken.symbol}`,
           );
         },
       );
