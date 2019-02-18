@@ -22,8 +22,13 @@ const styles = StyleSheet.create({
     },
     navItemStyle: {
         padding: 15,
-        fontSize:20,
-        color:"#000",
+        fontSize: 18,
+        color:  "#000",
+        width: '100%',
+    },
+    linkText: {
+        fontSize: 18,
+        color: '#000',
         width: '100%',
     },
     navSectionStyle: {
@@ -167,11 +172,13 @@ class CustomDrawer extends Component {
                     <View style={styles.navSectionStyle}>
                         <Image source={webwallet} style={styles.Icon}/>
                         <TouchableOpacity
+                            style = {normalTabStyle}
                             onPress = { () => 
                             {
                                 Linking.openURL('https://xdcwallet.com/')
                             }} >
-                            <Text style={normalTabStyle}>Login to Web Wallet</Text>
+
+                            <Text style={styles.linkText}>Login to Web Wallet</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
