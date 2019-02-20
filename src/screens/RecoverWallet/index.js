@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
   },
   warning:{
     padding:10,
-    color:"#000"
+    color:"#000",
+    zIndex: 1,
   },
 });
 
@@ -119,7 +120,7 @@ export default class CreateWallet extends Component {
             title="Recover wallet"
           />
           <View style={styles.warningContainer}>
-          <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
+            <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
             <View style={styles.formElement}>
               <Text style={styles.formLabel}>Private key</Text>
               <View style={styles.formInputRow}>

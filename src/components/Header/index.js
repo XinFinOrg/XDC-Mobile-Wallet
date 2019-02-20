@@ -13,12 +13,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     backgroundColor: '#254a81',
+    zIndex: 100,
   },
   centeredContainer: {
     paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
     backgroundColor: '#254a81',
+    zIndex: 100,
   },
   headerExtremity: {
 
