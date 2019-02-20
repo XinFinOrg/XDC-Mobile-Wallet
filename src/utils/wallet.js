@@ -290,7 +290,7 @@ export default class WalletUtils {
 
     // const web3 = new Web3.providers.HttpProvider('http:rpc.testnet.xinfin.network:8545');
     const web3 = new Web3(new Web3.providers.HttpProvider(
-      'http:rpc.testnet.xinfin.network:8545',
+      'http://rpc.testnet.xinfin.network:8545',
     ));
     return new Promise((resolve, reject) => {
       // get ether balance
@@ -426,7 +426,6 @@ export default class WalletUtils {
                 at(contractAddress)
                 .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
             }
-
             const tx = new EthereumTx(txParams)
             tx.sign(Buffer.from(privateKey, 'hex'));
             const serializedTx = tx.serialize();
