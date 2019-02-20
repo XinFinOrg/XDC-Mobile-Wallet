@@ -131,7 +131,7 @@ class WalletSend extends Component {
           isLoading: false,
         },
         () => {
-          console.log(error.message)
+          console.log(error, error.message)
           let errMsg = null;
           if(error.message.includes('insufficient funds')) {
             errMsg = 'Insufficient funds';

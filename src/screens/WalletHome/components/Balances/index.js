@@ -269,9 +269,9 @@ class Balances extends Component {
 
         { balanceInfo != null ?
           <View style={styles.usdBalance}>
-            <Text style={{color: '#333', textAlign: 'center'}} letterSpacing={2}>
-              {balanceInfo.toFixed(2)}
-            </Text>
+            <RNText style={{color: '#333', textAlign: 'center'}}>
+            {this.props.defaultCurrency}: {balanceInfo.toFixed(2)}
+            </RNText>
           </View>
         : null }
           
