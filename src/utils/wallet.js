@@ -119,7 +119,7 @@ export default class WalletUtils {
 
     if(network === 'private') {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
-        'http:rpc.testnet.xinfin.network:8545',
+        'http//:rpc.testnet.xinfin.network:8545',
       )));
     } else {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(

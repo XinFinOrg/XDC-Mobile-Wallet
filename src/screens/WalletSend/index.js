@@ -94,50 +94,71 @@ class WalletSend extends Component {
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
   sendTransaction = async () => {
-    try {
-      this.setState({
-        isLoading: true,
-      });
-      console.log('send transactions method', this.state)
-      await WalletUtils.sendTransaction(
-        this.props.selectedToken,
-        this.state.address,
-        this.state.amount,
-      );
-      
+    if(this.state.currentBalance.balance > 0) {
+      try {
+        this.setState({
+          isLoading: true,
+        });
+        await WalletUtils.sendTransaction(
+          this.props.selectedToken,
+          this.state.address,
+          this.state.amount,
+        );
+        
+        this.setState(
+          {
+            isLoading: false,
+          },
+          () => {
+            Alert.alert(
+              `Sending ${this.props.selectedToken.symbol}`,
+              `You've successfully sent ${this.state.amount} ${
+                this.props.selectedToken.symbol
+              } to ${this.state.address}`,
+              [
+                { 
+                  text: 'OK', 
+                  onPress: () => {this.goBack()},
+                },
+              ],
+              { cancelable: false },
+            );
+          },
+        );
+      } catch (error) {
+        this.setState(
+          {
+            isLoading: false,
+          },
+          () => {
+            console.log(error, error.message)
+            let errMsg = null;
+            if(error.message.includes('insufficient funds')) {
+              errMsg = 'Insufficient funds';
+            } else {
+              errMsg = 'An error happened during the transaction, please try again later';
+            }
+            Alert.alert(
+              `Sending ${this.props.selectedToken.symbol}`,
+              `${errMsg} for ${this.props.selectedToken.symbol}`,
+              [
+                { 
+                  text: 'OK', 
+                  onPress: () => {this.goBack()},
+                },
+              ],
+              { cancelable: false },
+            );
+          },
+        );
+      }
+    } else {
       this.setState(
         {
           isLoading: false,
         },
         () => {
-          Alert.alert(
-            `Sending ${this.props.selectedToken.symbol}`,
-            `You've successfully sent ${this.state.amount} ${
-              this.props.selectedToken.symbol
-            } to ${this.state.address}`,
-            [
-              { 
-                text: 'OK', 
-                onPress: () => {this.goBack()},
-              },
-            ],
-            { cancelable: false },
-          );
-        },
-      );
-    } catch (error) {
-      this.setState(
-        {
-          isLoading: false,
-        },
-        () => {
-          console.log(error, error.message)
-          let errMsg = null;
-          if(error.message.includes('insufficient funds')) {
-            errMsg = 'Insufficient funds';
-          } else {
-            errMsg = 'An error happened during the transaction, please try again later';
-          }
+          const errMsg = 'Insufficient funds';
           Alert.alert(
             `Sending ${this.props.selectedToken.symbol}`,
             `${errMsg} for ${this.props.selectedToken.symbol}`,
@@ -163,7 +184,6 @@ class WalletSend extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('new peops walletsend', newProps)
     if(this.props.selectedToken != newProps.selectedToken) {
       this.setState(
         {
