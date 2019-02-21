@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   },
   formLabel: {
     color: '#9d9d9d',
+    fontFamily: 'Roboto',
     paddingLeft: Platform.OS === 'ios' ? 0 : 4,
     paddingBottom: Platform.OS === 'ios' ? 10 : 0,
   },
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     color: '#000',
     flex: 1,
     flexGrow: 1,
-    fontFamily: 'Varela Round',
+    fontFamily: 'Roboto',
     fontSize: 25,
   },
   cameraIcon: {
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
     padding:10,
     color:"#000",
     zIndex: 1,
+    fontFamily: 'Roboto',
   },
 });
 

@@ -37,11 +37,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingBottom: 20,
     fontSize: 18,
+    fontFamily: 'Roboto',
   },
   walletAddress: {
     paddingHorizontal: 15,
     color: '#9d9d9d',
     textAlign: 'center',
+    fontFamily: 'Roboto',
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -88,7 +90,6 @@ class WalletReceive extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('new peops walletsend', newProps)
     if(this.props.selectedToken != newProps.selectedToken) {
       this.setState(
         {

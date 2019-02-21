@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: '#fff',
     fontSize: 18,
+    fontFamily: 'Roboto',
   },
 });
 

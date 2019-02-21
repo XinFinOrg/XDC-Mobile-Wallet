@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     color: '#9D9D9D',
     paddingTop: 5,
     fontSize: RF(2),
+    fontFamily: 'Roboto',
   },
   button: {
     alignItems: 'center',

@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   tokenName: {
     color: '#000', 
     paddingTop: 10,
+    fontFamily: 'Roboto',
   },
   AuthModalContainer: {
     backgroundColor:"transparent",
@@ -163,10 +164,10 @@ class Balances extends Component {
               <Text style={styles.tokenName} letterSpacing={2}>
                 {token.name}
               </Text>
-              <RNText style={{color: '#333'}} letterSpacing={2}>
+              <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
                 {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
-              <RNText style={{color: '#333'}} letterSpacing={2}>
+              <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
                 {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
               </RNText>
             </View>
@@ -196,7 +197,7 @@ class Balances extends Component {
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
                 {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
-              <RNText style={{color: '#777', textAlign: 'center'}}>
+              <RNText style={{color: '#777', textAlign: 'center', fontFamily: 'Roboto',}}>
                 See charts
               </RNText>
             </TouchableOpacity>
@@ -269,7 +270,7 @@ class Balances extends Component {
 
         { balanceInfo != null ?
           <View style={styles.usdBalance}>
-            <RNText style={{color: '#333', textAlign: 'center'}}>
+            <RNText style={{color: '#333', textAlign: 'center', fontFamily: 'Roboto',}}>
             {this.props.defaultCurrency}: {balanceInfo.toFixed(2)}
             </RNText>
           </View>

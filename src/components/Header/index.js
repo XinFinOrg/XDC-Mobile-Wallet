@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#fff',
     fontSize: 27,
+    fontFamily: 'Roboto',
   },
   headerArrow: {
     height: 22,

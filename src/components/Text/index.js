@@ -16,7 +16,7 @@ function applyLetterSpacing(string, letterSpacing) {
 
 const styles = StyleSheet.create({
   defaultStyle: {
-    fontFamily: 'Varela Round',
+    fontFamily: 'Roboto',
   },
 });
 

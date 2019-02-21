@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color:  "#000",
         width: '100%',
+        fontFamily: 'Roboto',
     },
     linkText: {
         fontSize: 18,
         color: '#000',
         width: '100%',
+        fontFamily: 'Roboto',
     },
     navSectionStyle: {
         flexDirection:"row",

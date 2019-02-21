@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   networkName: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'Roboto',
   },
 });
 

@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
   itemTitle: {
     color: '#fff',
     fontSize: 20,
+    fontFamily: 'Roboto',
   },
   itemStatus: {
     color: '#aaa',
     fontSize: 15,
     paddingTop: 5,
+    fontFamily: 'Roboto',
   },
   itemAmountContainer: {
     flexDirection: 'row',
@@ -31,23 +33,27 @@ const styles = StyleSheet.create({
     color: '#4D00FF',
     fontSize: 20,
     paddingRight: 5,
+    fontFamily: 'Roboto',
   },
   itemAmount: {
     color: '#fff',
     fontSize: 20,
     textAlign: 'right',
+    fontFamily: 'Roboto',
   },
   itemTimestamp: {
     color: '#aaa',
     fontSize: 15,
     paddingTop: 5,
     textAlign: 'right',
+    fontFamily: 'Roboto',
   },
   emptyListText: {
     color: '#aaa',
     textAlign: 'center',
     fontSize: 20,
     paddingTop: 20,
+    fontFamily: 'Roboto',
   },
   ModalView: {
     backgroundColor: '#fff',
@@ -58,10 +64,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#555',
+    fontFamily: 'Roboto',
   },
   ModalItemTitle: {
     color: '#000',
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: 'Roboto',
   },
   ModalClose: {
     width: '90%',
@@ -77,6 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     color: '#fff',
     fontSize: 20,
+    fontFamily: 'Roboto',
   }
 });
 

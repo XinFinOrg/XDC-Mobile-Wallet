@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     color: '#254a81',
     fontSize: 30,
     textAlign: 'center',
+    fontFamily: 'Roboto',
   },
   buttonsContainer: {
     paddingHorizontal: 15,

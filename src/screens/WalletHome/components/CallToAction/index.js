@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#fff',
+    fontFamily: 'Roboto',
   },
   subtitle: {
     color: '#9D9D9D',
     fontSize: 12,
     marginTop: 5,
+    fontFamily: 'Roboto',
   },
 });
 

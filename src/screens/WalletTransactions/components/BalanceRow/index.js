@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   },
   tokenText: {
     color: '#fff',
+    fontFamily: 'Roboto',
   },
   ModalView: {
     backgroundColor: '#fff',

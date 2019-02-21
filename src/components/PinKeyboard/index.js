@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
   textPlaceholder: {
     color: 'transparent',
     fontSize: 40,
+    fontFamily: 'Roboto',
   },
   keyboardText: {
     color: '#254a81',
     fontSize: 40,
     textAlign: 'center',
+    fontFamily: 'Roboto',
   },
 });
 

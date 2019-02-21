@@ -24,11 +24,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingBottom: 20,
     fontSize: 18,
+    fontFamily: 'Roboto',
   },
   privateKey: {
     paddingHorizontal: 15,
     color: '#9d9d9d',
     textAlign: 'center',
+    fontFamily: 'Roboto',
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -38,7 +40,8 @@ const styles = StyleSheet.create({
     paddingHorizontal:20,
     paddingBottom: 20,
     color: "#000",
-    textAlign:"center"
+    textAlign:"center",
+    fontFamily: 'Roboto',
   },
 });
 

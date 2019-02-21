@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     color: '#254a81',
     fontSize: 30,
     textAlign: 'center',
+    fontFamily: 'Roboto',
   },
   buttonsContainer: {
     paddingHorizontal: 15,
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: '#333',
     fontSize: 18,
+    fontFamily: 'Roboto',
   },
 });
 

@@ -43,6 +43,7 @@ const defaultTokens = [
 
 
 const currencyList = [
+    'USD',
     'AUD',
     'BGN',
     'CAD',
@@ -64,7 +65,6 @@ const currencyList = [
     'SEK',
     'SGD',
     'THB',
-    'USD',
     'ZAR',
 ];
 

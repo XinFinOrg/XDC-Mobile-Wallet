@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
   rowText: {
     color: '#000',
     fontSize: 18,
-    height: '100%'
+    height: '100%',
+    fontFamily: 'Roboto',
   },
   rowIcon: {
     height: 25,

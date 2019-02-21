@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 1,
     paddingRight: 5,
+    fontFamily: 'Roboto',
   },
   coinSymbol: {
     alignSelf: 'flex-end',
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingBottom: 2,
     paddingLeft: 10,
+    fontFamily: 'Roboto',
   },
   iconsContainer: {
     flexDirection: 'row',

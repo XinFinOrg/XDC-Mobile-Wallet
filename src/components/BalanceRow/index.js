@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   tokenText: {
     color: '#fff',
+    fontFamily: 'Roboto',
   },
   ModalContainer: {
     backgroundColor: 'transparent',

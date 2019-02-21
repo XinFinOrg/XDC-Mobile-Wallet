@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   formLabel: {
     color: '#000',
+    fontFamily: 'Roboto',
     paddingLeft: Platform.OS === 'ios' ? 0 : 4,
     paddingBottom: Platform.OS === 'ios' ? 10 : 0,
   },
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
     color: '#000',
     flex: 1,
     flexGrow: 1,
+    fontFamily: 'Roboto',
   },
   cameraIcon: {
     height: 23,
