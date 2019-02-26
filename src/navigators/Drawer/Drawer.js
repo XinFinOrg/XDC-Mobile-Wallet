@@ -177,7 +177,7 @@ class CustomDrawer extends Component {
                             style = {normalTabStyle}
                             onPress = { () => 
                             {
-                                Linking.openURL('https://xdcwallet.com/')
+                                Linking.openURL('https://xinfin.network/#webWallet')
                             }} >
 
                             <Text style={styles.linkText}>Login to Web Wallet</Text>
