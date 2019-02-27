@@ -14,6 +14,7 @@ import {
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
 import { erc20Abi } from './constants';
+const privateNetwork = 'http://rpc.testnet.xinfin.network:8545';
 
 export default class WalletUtils {
   /**
@@ -79,7 +80,7 @@ export default class WalletUtils {
     switch (store.getState().network) {
       case 'private':
         return new Web3.providers.HttpProvider(
-          'http://rpc.testnet.xinfin.network:8545',
+          privateNetwork,
         );
       case 'public':
         return new Web3.providers.HttpProvider(
@@ -119,7 +120,7 @@ export default class WalletUtils {
 
     if(network === 'private') {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
-        'http//:rpc.testnet.xinfin.network:8545',
+        privateNetwork,
       )));
     } else {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
@@ -287,10 +288,8 @@ export default class WalletUtils {
 
   static getEthBalance(currentCurrency) {
     const { walletAddress } = store.getState();
-
-    // const web3 = new Web3.providers.HttpProvider('http:rpc.testnet.xinfin.network:8545');
     const web3 = new Web3(new Web3.providers.HttpProvider(
-      'http://rpc.testnet.xinfin.network:8545',
+      privateNetwork,
     ));
     return new Promise((resolve, reject) => {
       // get ether balance
@@ -385,7 +384,7 @@ export default class WalletUtils {
     amount,
   ) {
     if (symbol === 'MXDC') {
-      return this.sendETHTransaction(toAddress, amount, network);
+      return this.sendMXDCTransaction(toAddress, amount, network);
     }
     return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network);
   }
@@ -446,7 +445,7 @@ export default class WalletUtils {
 
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
-  static sendETHTransaction(toAddress, amount, network) {
+  static sendMXDCTransaction(toAddress, amount, network) {
     const { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance(network);
 

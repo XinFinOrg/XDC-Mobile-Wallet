@@ -71,7 +71,7 @@ class WalletTransactions extends Component {
   };
 
   componentDidMount() {
-    this.addEventListeners();
+    // this.addEventListeners();
     this.onRefresh();
     this.loadTokensList();
   }
@@ -96,9 +96,9 @@ class WalletTransactions extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.removeEventListeners();
-  }
+  // componentWillUnmount() {
+  //   this.removeEventListeners();
+  // }
 
   onCallToActionPress = () => {
     this.props.navigation.navigate('Settings');
@@ -122,7 +122,7 @@ class WalletTransactions extends Component {
   };
 
   onRefresh = () => {
-    this.fetchBalance();
+    // this.fetchBalance();
     this.fetchTransactions();
   };
 
@@ -182,8 +182,8 @@ class WalletTransactions extends Component {
   goBack = () => {
     const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
     const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
-    this.props.setRoute(stackRoute)
-    this.props.navigation.navigate(stackRoute)
+    this.props.setRoute(stackRoute);
+    this.props.navigation.navigate(stackRoute);
   };
 
   render() {
