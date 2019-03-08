@@ -188,7 +188,7 @@ class WalletHome extends Component {
     const currentBalance = await WalletUtils.getBalance(
       this.props.selectedToken,
     );
-
++
     this.setState({
       currentBalance,
     });

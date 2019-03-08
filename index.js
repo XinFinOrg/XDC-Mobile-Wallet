@@ -6,7 +6,6 @@ import './shim';
 import Navigator from './src/navigators';
 import { persistor, store } from './src/config/store';
 import AnalyticsUtils from './src/utils/analytics';
-import Drawer from './src/navigators/Drawer/Drawer';
 
 const getCurrentRouteName = navigationState => {
   if (!navigationState) {

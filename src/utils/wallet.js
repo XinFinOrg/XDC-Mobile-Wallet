@@ -13,8 +13,7 @@ import {
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
-import { erc20Abi } from './constants';
-const privateNetwork = 'http://rpc.testnet.xinfin.network:8545';
+const privateNetwork = 'https://testnet.xinfin.network';
 
 export default class WalletUtils {
   /**
@@ -407,6 +406,7 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
 
       web3.eth.getGasPrice(function (error, gasPrice) {
+        console.log('gprice', error, gasPrice)
         web3.eth.estimateGas({
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
@@ -425,10 +425,12 @@ export default class WalletUtils {
                 at(contractAddress)
                 .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
             }
+            console.log('txparam', txParams)
             const tx = new EthereumTx(txParams)
             tx.sign(Buffer.from(privateKey, 'hex'));
             const serializedTx = tx.serialize();
             web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
+              console.log('erc20',hash, err)
               if (!err) {
                 resolve(hash);
               } else {

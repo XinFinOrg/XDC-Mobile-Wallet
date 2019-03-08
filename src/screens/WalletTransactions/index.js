@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View, Picker } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header, BalanceRow } from '../../components';
