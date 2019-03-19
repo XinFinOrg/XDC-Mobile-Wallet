@@ -89,10 +89,12 @@ class PinCode extends Component {
   };
 
   render() {
+    console.log('props', this.props.currentRoute)
+    const headerTitle = this.props.currentRoute == "CreateWallet" ? "Enter Current Pin" : "Enter Pin"
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header title="Enter Pin" />
+          <Header title={headerTitle} />
           <PinIndicator length={this.state.pinCode.length} />
           <PinKeyboard
             onBackPress={this.onBackPress}

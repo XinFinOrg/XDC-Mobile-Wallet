@@ -119,7 +119,7 @@ class CreateWallet extends Component {
             isDisabled: true
           })
           this.props.setPinCode(this.state.pinCode);
-
+          
           if (this.props.navigation.getParam('recoverMode', false)) {
             this.props.navigation.navigate('RecoverWallet');
             return;
@@ -127,18 +127,22 @@ class CreateWallet extends Component {
 
           if (
             !this.props.navigation.getParam('editMode', false) &&
-            !this.props.navigation.getParam('migrationMode', false)
+            !this.props.navigation.getParam('migrationMode', false) &&
+            !this.props.pinCode != ""
           ) {
+            console.log('generate wallet')
             WalletUtils.generateWallet();
           }
 
-          if (this.props.navigation.getParam('editMode', false)) {
+          if (this.props.navigation.getParam('editMode', false) || this.props.pinCode != "") {
+            this.props.setRoute('WalletHome');
             this.props.navigation.navigate('WalletHome');
             return;
           }
 
           setTimeout(() => {
-            this.props.navigation.navigate('Wallet');
+            this.props.setRoute('WalletHome');
+            this.props.navigation.navigate('WalletHome');
           });
         } else if (this.state.confirmationPinCode.length === 4) {
           this.setState(
@@ -172,6 +176,7 @@ class CreateWallet extends Component {
       ? this.state.confirmationPinCode
       : this.state.pinCode;
 
+      
     const originalTitle = this.props.navigation.getParam('editMode', false)
       ? 'Change PIN'
       : 'Create PIN';
@@ -190,11 +195,16 @@ class CreateWallet extends Component {
           />
     : null;
 
+    // const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    // const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    // console.log(this.props.dangerouslyGetParent().state.routes)
+    console.log('createwallet screen:', pinCode, originalTitle,)
+
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
-            hamBurgerPress={this.props.navigation.getParam('editMode', false)? () => this.props.navigation.dispatch(DrawerActions.openDrawer()) : null}
+            hamBurgerPress={this.props.navigation.getParam('editMode', false) ? () => this.props.navigation.dispatch(DrawerActions.openDrawer()) : null}
             onBackPress={
               this.props.navigation.getParam('migrationMode', false)
                 ? null
@@ -228,12 +238,17 @@ class CreateWallet extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  pinCode: state.pinCode,
+  currentRoute: state.currentRoute,
+});
+
 const mapDispatchToProps = dispatch => ({
   setPinCode: pinCode => dispatch({ type: SET_PIN_CODE, pinCode }),
   setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(CreateWallet);
