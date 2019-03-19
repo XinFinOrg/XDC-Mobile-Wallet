@@ -7,6 +7,7 @@ import { Text } from '../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
 import transfer from './images/transfer.png';
+import homeIcon from './images/home.png';
 import LinearGradient from 'react-native-linear-gradient';
 import RF from 'react-native-responsive-fontsize';
 
@@ -120,7 +121,7 @@ class Footer extends Component {
             onPress={this.onHomePress}
             style={activeTab === "WalletHome" ? activeTabStyle : normalTabStyle}
           >
-            <Image style={styles.buttonIcon} source={qrcodeIcon} />
+            <Image style={styles.buttonIcon} source={homeIcon} />
             <Text style={styles.buttonText}>Home</Text>
           </TouchableOpacity>
           
