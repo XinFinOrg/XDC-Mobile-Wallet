@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
     color: '#000',
     flex: 1,
     flexGrow: 1,
+    // fontFamily: 'Roboto',
+  },
+  formInputNetwork: {
+    color: '#000',
+    flex: 1,
+    flexGrow: 1,
     fontFamily: 'Roboto',
   },
   cameraIcon: {
@@ -178,6 +184,7 @@ export default class Form extends Component {
           </View>
         </View>
         <View style={styles.formElement}>
+          <Text style={styles.formInputNetwork}>Select Network</Text>
           <Picker
             selectedValue={network}
             style={styles.formInput }
