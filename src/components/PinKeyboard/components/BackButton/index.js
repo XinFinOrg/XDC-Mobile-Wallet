@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, TouchableOpacity, Platform, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import Modal from 'react-native-modal';
 import Text from '../../../Text';
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class PinKeyboard extends Component {
+class PinKeyboard extends Component {
   static propTypes = {
     onBackPress: PropTypes.func.isRequired,
     onAuthSuccess: PropTypes.func,
@@ -106,8 +107,6 @@ export default class PinKeyboard extends Component {
         });
 
         this.props.onAuthSuccess();
-
-        
       } else {
         await FingerprintScanner.authenticate({
           description: 'Wallet access',
@@ -121,18 +120,23 @@ export default class PinKeyboard extends Component {
   };
 
   checkTouchIdSupport = async () => {
-    try {
-      const isSensorAvailable = await FingerprintScanner.isSensorAvailable();
+    console.log('check touch support');
+    if(this.props.currentRoute == "CreateWallet") {
 
-      if (isSensorAvailable) {
-        this.setState({
-          isTouchIdSupported: true,
-        });
+    } else {
+      try {
+        const isSensorAvailable = await FingerprintScanner.isSensorAvailable();
 
-        this.onTouchIdClick();
+        if (isSensorAvailable) {
+          this.setState({
+            isTouchIdSupported: true,
+          });
+
+          this.onTouchIdClick();
+        }
+      } catch (error) {
+        // An error happened during biometric detection
       }
-    } catch (error) {
-      // An error happened during biometric detection
     }
   };
 
@@ -186,3 +190,13 @@ export default class PinKeyboard extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  currentRoute: state.currentRoute,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(PinKeyboard);
