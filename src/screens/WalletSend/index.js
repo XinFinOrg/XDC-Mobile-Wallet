@@ -131,9 +131,11 @@ class WalletSend extends Component {
             isLoading: false,
           },
           () => {
-            console.log(error, error.message)
+            console.log(error, error.message);
             let errMsg = null;
-            if(error.message.includes('insufficient funds')) {
+            if(error.message.includes('insufficient funds for gas')) {
+              errMsg = 'Insufficient ether balance';
+            } else if(error.message.includes('insufficient funds')) {
               errMsg = 'Insufficient funds';
             } else {
               errMsg = 'An error happened during the transaction, please try again later';
