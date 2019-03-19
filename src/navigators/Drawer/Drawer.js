@@ -85,7 +85,7 @@ class CustomDrawer extends Component {
         });
         this.props.setRoute(route);
 
-        if(route === "PrivateKey") {
+        if(route === "PrivateKey" || route === "CreateWallet") {
             this.props.navigation.navigate('PinCode');
         } else {
             this.props.navigation.dispatch(navigateAction);
