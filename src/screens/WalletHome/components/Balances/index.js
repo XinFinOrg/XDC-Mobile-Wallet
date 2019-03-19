@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   tokenName: {
     color: '#000', 
     paddingTop: 10,
+    fontWeight: 'bold',
     fontFamily: 'Roboto',
   },
   AuthModalContainer: {
