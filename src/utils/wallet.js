@@ -14,6 +14,8 @@ import {
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
 const privateNetwork = 'https://testnet.xinfin.network';
+// const privateNetwork = 'https://rpc_alphanet.xinfin.network';
+// const privateNetwork = 'http://5.152.223.199:8547';
 
 export default class WalletUtils {
   /**
@@ -404,6 +406,7 @@ export default class WalletUtils {
     });
 
     return new Promise((resolve, reject) => {
+      console.log('xdce amount::', amount, amount*Math.pow(10, decimals), decimals)
 
       web3.eth.getGasPrice(function (error, gasPrice) {
         console.log('gprice', error, gasPrice)
@@ -411,7 +414,7 @@ export default class WalletUtils {
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
             at(contractAddress)
-            .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+            .transfer.getData(toAddress, amount, { from: walletAddress })
         }, function (err, gasLimit) {
           web3.eth.getTransactionCount(walletAddress, function (error, data) {
             const txParams = {
@@ -423,7 +426,7 @@ export default class WalletUtils {
               to: contractAddress,
               data: web3.eth.contract(contractAbi).
                 at(contractAddress)
-                .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+                .transfer.getData(toAddress, amount, { from: walletAddress })
             }
             console.log('txparam', txParams)
             const tx = new EthereumTx(txParams)
