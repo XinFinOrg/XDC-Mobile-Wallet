@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View, ScrollView } from 'react-native';
+import { AppState, BackHandler, Alert, SafeAreaView, StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header } from '../../components';
@@ -11,10 +11,10 @@ import {
   TransactionsList,
 } from './components';
 import Footer from '../UIComponents/Footer/index';
-import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
+import { SET_CALL_TO_ACTION_DISMISSED, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import { relative } from 'path';
-import { DrawerActions, withNavigationFocus } from 'react-navigation';
+import { DrawerActions, StackActions, withNavigationFocus } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -113,6 +113,22 @@ class WalletHome extends Component {
     this.loadTokensList();
   }
 
+
+  handleBackButton = () => {
+      // const pushAction = StackActions.push({
+      //     routeName: 'WalletHome',
+      // });
+
+      // this.props.navigation.dispatch(pushAction);
+      const length = this.props.navigation;
+      // const activeItemKey = this.props.navigation.state.routes["0"].routes[length - 1].routeName;
+      console.log('screen>>>>>>>>>>>>>', length)
+      this.props.setRoute('WalletHome');
+      this.props.navigation.navigate('WalletHome')
+      return true;
+      
+  }
+
   componentWillReceiveProps(newProps) {
     if (
       newProps.walletAddress &&
@@ -177,6 +193,7 @@ class WalletHome extends Component {
 
   addEventListeners = () => {
     AppState.addEventListener('change', this.handleAppStateChange);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   };
 
   removeEventListeners = () => {
@@ -269,6 +286,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dismissCallToAction: () => dispatch({ type: SET_CALL_TO_ACTION_DISMISSED }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
 });
 
 export default connect(
