@@ -122,7 +122,7 @@ class WalletTransactions extends Component {
   };
 
   onRefresh = () => {
-    // this.fetchBalance();
+    this.fetchBalance();
     this.fetchTransactions();
   };
 
@@ -149,6 +149,7 @@ class WalletTransactions extends Component {
       this.props.selectedToken,
     );
 
+    console.log('transaction>>>>', currentBalance)
     this.setState({
       currentBalance,
     });
