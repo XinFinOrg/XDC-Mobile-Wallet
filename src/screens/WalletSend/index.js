@@ -59,6 +59,7 @@ class WalletSend extends Component {
       this.props.selectedToken,
     );
 
+    console.log('send>>>>>', currentBalance)
     this.setState({
       currentBalance,
     });
@@ -104,6 +105,11 @@ class WalletSend extends Component {
           this.state.address,
           this.state.amount,
         );
+
+        let walletReceiveAddress = this.state.address;
+        if (walletReceiveAddress.substring(0,2) === '0x') {
+          walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+        }
         
         this.setState(
           {
@@ -114,7 +120,7 @@ class WalletSend extends Component {
               `Sending ${this.props.selectedToken.symbol}`,
               `You've successfully sent ${this.state.amount} ${
                 this.props.selectedToken.symbol
-              } to ${this.state.address}`,
+              } to ${walletReceiveAddress}`,
               [
                 { 
                   text: 'OK', 

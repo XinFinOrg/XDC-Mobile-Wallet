@@ -114,6 +114,11 @@ class WalletReceive extends Component {
   };
 
   render() {
+
+    let walletReceiveAddress = this.props.walletAddress;
+    if (walletReceiveAddress.substring(0,2) === '0x') {
+      walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+    }
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -145,7 +150,7 @@ class WalletReceive extends Component {
           </View>
           <View>
             <Text style={styles.addressTitle}>Address</Text>
-            <Text style={styles.walletAddress}>{this.props.walletAddress}</Text>
+            <Text style={styles.walletAddress}>{walletReceiveAddress}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <SecondaryButton

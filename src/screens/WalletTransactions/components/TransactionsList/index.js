@@ -170,7 +170,7 @@ export default class TransactionsList extends Component {
               style={styles.ModalContainer}>
               <View style={styles.ModalView}>
                 <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>To: </Text>{this.state.data ? this.state.data.to : ''}
+                  <Text style={styles.ModalItemTitle}>To: </Text>{this.state.data ? 'xdc' + this.state.data.to.substring(2) : ''}
                 </Text>
                 <Text style={styles.ModalItem}>
                   <Text style={styles.ModalItemTitle}>Time: </Text>{this.state.data ? moment(this.state.data.timestamp * 1000).fromNow() : ''}
