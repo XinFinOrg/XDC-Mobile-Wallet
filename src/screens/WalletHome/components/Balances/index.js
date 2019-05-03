@@ -95,6 +95,8 @@ class Balances extends Component {
     labelWidth: 0,
     tokenBalances: null,
     tokenBalancesLength: null,
+    activityIndicator: true,
+    testnetIsDown: 0,
   }
 
   static propTypes = {
@@ -107,6 +109,13 @@ class Balances extends Component {
 
   fetchDashboardData = async (token, index) => {
           const balanceInfo = await WalletUtils.getBalance(token);
+          console.log('fetchdash>>>>', balanceInfo)
+          if(balanceInfo.status == false) {
+            this.setState({
+              activityIndicator: false,
+              testnetIsDown: 1
+            })
+          }
           let stateBalance = [];
           let stateBalanceObj = {};
           if(this.state.tokenBalances != null) {
@@ -162,9 +171,9 @@ class Balances extends Component {
         return(
           <View style={styles.balanceDetails} key={index}>
             <View style={{width: '70%', borderTopColor: colors[index], borderTopWidth: 5}}>
-              <Text style={styles.tokenName} letterSpacing={2}>
-                {token.name}
-              </Text>
+              <RNText style={styles.tokenName} letterSpacing={2}>
+                {token.name} {token.name == "MXDC" ? "(Testnet)" : ""}
+              </RNText>
               <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
                 {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
@@ -248,6 +257,25 @@ class Balances extends Component {
                 key: `pie-${index}`,
             }))
       }
+    } else {
+      dataInfo = [
+        {status: false},
+      ]
+      data = dataInfo
+            .filter(value => value > 0)
+            .map((value, index) => ({
+                value,
+                svg: {
+                    fill: "#ddd",
+                },
+                arc: { 
+                  outerRadius: '100%',
+                  innerRadius: '75%', 
+                  padAngle: 0 
+                },
+                key: `pie-${index}`,
+            }));
+      console.log('testnet is down::', data);
     }
     
     return (
@@ -260,7 +288,7 @@ class Balances extends Component {
               data={data}
           />
         : <Modal
-            isVisible={true} 
+            isVisible={this.state.activityIndicator} 
             style={styles.AuthModalContainer}>
             <View style={styles.AuthModalView}>
               <View style={styles.fingerPrintWrap}>
@@ -269,22 +297,35 @@ class Balances extends Component {
             </View>
           </Modal> }
 
-        { balanceInfo != null ?
+          {this.state.testnetIsDown > 0 ?
+          <View style={styles.usdBalance}>
+            <RNText style={{color: '#333', textAlign: 'center', fontFamily: 'Roboto', fontWeight: 'bold'}}>
+              Testnet Server is Down
+            </RNText>
+          </View>
+        : null}
+
+        { balanceInfo != null && this.state.testnetIsDown == 0 ?
           <View style={styles.usdBalance}>
             <RNText style={{color: '#333', textAlign: 'center', fontFamily: 'Roboto',}}>
             {this.props.defaultCurrency}: {balanceInfo.toFixed(2)}
             </RNText>
           </View>
         : null }
-          
+        
+        { balanceInfo != null && this.state.testnetIsDown == 0 ?
           <View style={styles.balances}>
               {tokens}
           </View>
-        </View>
+        : null }
 
-        <View style={styles.graphListWrap}>
-          {graphList}
         </View>
+        
+        { balanceInfo != null && this.state.testnetIsDown == 0 ?
+          <View style={styles.graphListWrap}>
+            {graphList}
+          </View>
+        : null }
         
       </View>
     );
