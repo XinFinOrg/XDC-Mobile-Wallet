@@ -27,12 +27,16 @@ class NetworkPicker extends Component {
 
   menuOptions = [
     {
-      title: 'Public Network',
+      title: 'Ethereum Mainnet Network',
       onPress: () => this.setNetwork('public'),
     },
     {
-      title: 'Private Network',
+      title: 'Xinfin Testnet Network',
       onPress: () => this.setNetwork('private'),
+    },
+    {
+      title: 'Xinfin Mainnet Network',
+      onPress: () => this.setNetwork('mainnet'),
     },
    
   ];

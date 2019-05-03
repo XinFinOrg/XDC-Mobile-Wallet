@@ -13,9 +13,8 @@ import {
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
-const privateNetwork = 'https://testnet.xinfin.network';
-// const privateNetwork = 'https://rpc_alphanet.xinfin.network';
-// const privateNetwork = 'http://5.152.223.199:8547';
+const testnetNetwork = 'https://testnet.xinfin.network';
+const mainnetNetwork = 'https://rpc.xinfin.network';
 
 export default class WalletUtils {
   /**
@@ -78,10 +77,15 @@ export default class WalletUtils {
 
 
   static getWeb3HTTPProvider() {
+    console.log('store network', store.getState().network)
     switch (store.getState().network) {
       case 'private':
         return new Web3.providers.HttpProvider(
-          privateNetwork,
+          testnetNetwork,
+        );
+      case 'mainnet':
+        return new Web3.providers.HttpProvider(
+          mainnetNetwork,
         );
       case 'public':
         return new Web3.providers.HttpProvider(
@@ -121,7 +125,11 @@ export default class WalletUtils {
 
     if(network === 'private') {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
-        privateNetwork,
+        testnetNetwork,
+      )));
+    } else if(network === 'mainnet') {
+      engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
+        mainnetNetwork,
       )));
     } else {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
@@ -251,12 +259,15 @@ export default class WalletUtils {
 
   static async getPrivateTransactions(contractAddress, decimals, symbol) {
     const { walletAddress } = store.getState();
+    const url = `http://explorer_testnet.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`
 
+    console.log('urll', url)
     return fetch(
-      `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=YourApiKeyToken`,
+      url,
     )
       .then(response => response.json())
       .then(data => {
+        console.log('data', data)
         if (data.message !== 'OK') {
           return [];
         }
@@ -290,13 +301,22 @@ export default class WalletUtils {
   static getEthBalance(currentCurrency) {
     const { walletAddress } = store.getState();
     const web3 = new Web3(new Web3.providers.HttpProvider(
-      privateNetwork,
+      testnetNetwork,
     ));
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
         if (e) {
-          reject(e);
+          console.log('balance err>>>>', e);
+          let balanceData = {};
+          balanceData = {
+            'balance': 0,
+            'usdBalance': 0,
+            'marketPrice': 0,
+            "status": false
+          };
+          resolve(balanceData);
+          // reject(e);
         }
 
         let balanceData = {};
@@ -451,8 +471,12 @@ export default class WalletUtils {
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
   static sendMXDCTransaction(toAddress, amount, network) {
-    const { walletAddress } = store.getState();
+    let { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance(network);
+
+    if(walletAddress.substring(0,2) === '0x') {
+      walletAddress = 'xdc' + walletAddress.substring(2)
+    }
 
     return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
