@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { DrawerActions } from 'react-navigation';
+import { SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import {
   GradientBackground,
   Header,
@@ -88,13 +90,31 @@ class PinCode extends Component {
     );
   };
 
+  goBack = () => {
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
+    this.props.setRoute(stackRoute)
+    this.props.navigation.navigate(stackRoute)
+  };
+
   render() {
     console.log('props', this.props.currentRoute)
     const headerTitle = this.props.currentRoute == "CreateWallet" ? "Enter Current Pin" : "Enter Pin"
+
+    let header;
+
+    if(headerTitle == "Enter Current Pin") {
+      header = <Header
+        onBackPress={() => this.goBack()}
+        title={headerTitle} />
+    } else {
+      header = <Header
+        title={headerTitle} />
+    }
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header title={headerTitle} />
+          {header}
           <PinIndicator length={this.state.pinCode.length} />
           <PinKeyboard
             onBackPress={this.onBackPress}
@@ -113,4 +133,11 @@ const mapStateToProps = state => ({
   currentRoute: state.currentRoute,
 });
 
-export default connect(mapStateToProps)(PinCode);
+const mapDispatchToProps = dispatch => ({
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PinCode);
