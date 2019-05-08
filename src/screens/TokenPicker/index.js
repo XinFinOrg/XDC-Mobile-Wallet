@@ -8,7 +8,7 @@ import { DELETE_TOKEN, SET_DEFAULT_TOKEN } from '../../config/actionTypes';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
-    flex: 1,
+    flexGrow: 0,
     justifyContent: 'space-between',
   },
 });
@@ -60,7 +60,7 @@ class TokenPicker extends Component {
               // this.props.navigation.goBack();
             },
             swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
-            title: token.name,
+            title: token.type ? token.type : token.name,
           })),
           // {
           //   onPress: () => {

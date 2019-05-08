@@ -16,7 +16,8 @@ import check from './images/success.png'
 
 const styles = StyleSheet.create({
   listContainer: {
-    flex: 1,
+    flexGrow: 0,
+    backgroundColor: '#ffffff',
   },
   rowContainer: {
     borderBottomWidth: 2,
