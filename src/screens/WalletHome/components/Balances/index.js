@@ -172,7 +172,7 @@ class Balances extends Component {
           <View style={styles.balanceDetails} key={index}>
             <View style={{width: '70%', borderTopColor: colors[index], borderTopWidth: 5}}>
               <RNText style={styles.tokenName} letterSpacing={2}>
-                {token.name} {token.name == "MXDC" ? "(Testnet)" : ""}
+                {token.type ? token.type : token.name}
               </RNText>
               <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
                 {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}

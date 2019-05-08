@@ -5,6 +5,7 @@ const contractAddressXDCE = '0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2';
 const defaultTokens = [
   {
     name: 'XDC',
+    type: 'XDC (Mainnet)',
     id: uuid.v4(),
     symbol: 'XDC',
     contractAddress: contractAddressXDC,
@@ -13,9 +14,10 @@ const defaultTokens = [
     network: 'private',
   },
   {
-    name: 'MXDC',
+    name: 'XDC',
+    type: 'XDC (Testnet)',
     id: uuid.v4(),
-    symbol: 'MXDC',
+    symbol: 'XDC',
     contractAddress: null,
     decimals: 18,
     currencySymbol: 'USD',

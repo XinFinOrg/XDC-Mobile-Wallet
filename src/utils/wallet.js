@@ -191,11 +191,11 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getTransactions({ contractAddress, decimals, symbol, network }) {
+  static getTransactions({ contractAddress, decimals, symbol, network, type }) {
     if (network === 'public') {
       return this.getERC20Transactions(contractAddress, decimals, symbol);
     } else {
-      if (symbol === 'MXDC') {
+      if (type === 'XDC (Testnet)') {
         return this.getMXDCTransactions(contractAddress, decimals, symbol);
       } else {
         return this.getPrivateTransactions(contractAddress, decimals, symbol);
@@ -289,9 +289,9 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getBalance({ contractAddress, symbol, decimals }) {
+  static getBalance({ contractAddress, symbol, decimals, type }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
-    if (symbol === 'MXDC') {
+    if (type === 'XDC (Testnet)') {
       return this.getEthBalance(currentCurrency);
     } else {
       return this.getERC20Balance(contractAddress, decimals, currentCurrency);
@@ -403,8 +403,9 @@ export default class WalletUtils {
     { contractAddress, symbol, decimals, network },
     toAddress,
     amount,
+    type
   ) {
-    if (symbol === 'MXDC') {
+    if (type === 'XDC (Testnet)') {
       return this.sendMXDCTransaction(toAddress, amount, network);
     }
     return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network);
