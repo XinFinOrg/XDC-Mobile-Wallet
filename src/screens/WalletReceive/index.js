@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Share, StyleSheet, View } from 'react-native';
+import { SafeAreaView, Share, StyleSheet, View, RefreshControl, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode-svg';
@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
+    paddingBottom: 0,
+  },
+  containerScrollView: {
+    flex: 1,
+    justifyContent: 'space-around',
     paddingBottom: 0,
   },
   qrcodeContainer: {
@@ -61,6 +66,7 @@ class WalletReceive extends Component {
   };
 
   state = {
+    refreshing: false,
     currentBalance: {
       'balance': 0,
       'usdBalance': 0,
@@ -69,8 +75,13 @@ class WalletReceive extends Component {
 
   onRefresh = () => {
     this.fetchBalance();
+    this.setState({ refreshing: true });
+    // In actual case set refreshing to false when whatever is being refreshed is done!
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 2000);
   }
-
+  
   fetchBalance = async () => {
     const currentBalance = await WalletUtils.getBalance(
       this.props.selectedToken,
@@ -141,39 +152,50 @@ class WalletReceive extends Component {
 
           </LinearGradient>
 
-          <View style={styles.qrcodeContainer}>
-            <QRCode
-              color="#090909"
-              value={this.props.walletAddress}
-              size={150}
+          <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+              title="Pull to refresh"
             />
-          </View>
-          <View>
-            <Text style={styles.addressTitle}>Address</Text>
-            <Text style={styles.walletAddress}>{walletReceiveAddress}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <SecondaryButton
-              onPress={() => {
-                Share.share({
-                  message: this.props.walletAddress,
-                  title: 'My XDCwallet address',
-                });
-              }}
-              text="Share"
-            />
-          </View>
+          }
+          contentContainerStyle={styles.containerScrollView}>
+            <View style={styles.qrcodeContainer}>
+              <QRCode
+                color="#090909"
+                value={this.props.walletAddress}
+                size={150}
+              />
+            </View>
+            <View>
+              <Text style={styles.addressTitle}>Address</Text>
+              <Text style={styles.walletAddress}>{walletReceiveAddress}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <SecondaryButton
+                onPress={() => {
+                  Share.share({
+                    message: this.props.walletAddress,
+                    title: 'My XDCwallet address',
+                  });
+                }}
+                text="Share"
+              />
+            </View>
+            
+          </ScrollView>
           <Footer
-            activeTab="Receive"
-            onReceivePress={() => this.props.navigation.navigate('Receive')}
-            onHomePress={() => this.props.navigation.navigate('WalletHome')}
-            onSendPress={() =>
-              this.props.navigation.navigate('Send', {
-                onTokenChange: this.onTokenChange,
-              })
-            }
-            onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
-          />
+              activeTab="Receive"
+              onReceivePress={() => this.props.navigation.navigate('Receive')}
+              onHomePress={() => this.props.navigation.navigate('WalletHome')}
+              onSendPress={() =>
+                this.props.navigation.navigate('Send', {
+                  onTokenChange: this.onTokenChange,
+                })
+              }
+              onTransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+            />
         </SafeAreaView>
       </GradientBackground>
     );

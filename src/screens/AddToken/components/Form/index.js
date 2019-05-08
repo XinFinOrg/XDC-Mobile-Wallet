@@ -103,7 +103,7 @@ export default class Form extends Component {
               onSubmitEditing={() => {
                 this.nameInput.focus();
               }}
-              placeholder="0x..."
+              placeholder="xdc..."
               placeholderTextColor="#9d9d9d"
               ref={input => {
                 this.addressInput = input;

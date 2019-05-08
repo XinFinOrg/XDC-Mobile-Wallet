@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    paddingBottom: 0,
+  },
+  containerScrollView: {
+    flex: 1,
+    justifyContent: 'space-around',
     paddingBottom: 0,
   },
   gradientHeader: {
@@ -52,6 +57,11 @@ class WalletSend extends Component {
 
   onRefresh = () => {
     this.fetchBalance();
+    this.setState({ refreshing: true });
+    // In actual case set refreshing to false when whatever is being refreshed is done!
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 2000);
   }
 
   fetchBalance = async () => {
@@ -67,6 +77,9 @@ class WalletSend extends Component {
 
   onBarCodeRead = address => {
     AnalyticsUtils.trackEvent('Read send address QR code');
+    if(address.substring(0, 2) === '0x') {
+      address = 'xdc' + address.substring(2);
+    }
 
     this.setState({
       address,
@@ -90,7 +103,7 @@ class WalletSend extends Component {
     this.props.navigation.navigate(stackRoute);
   };
 
-  addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
+  addressIsValid = () => /^(xdc|0x)([A-Fa-f0-9]{40})$/.test(this.state.address);
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
@@ -231,21 +244,29 @@ class WalletSend extends Component {
             />
           </LinearGradient>
 
-
-          <View style={styles.sendForm}>  
-            <Form
-              address={this.state.address}
-              amount={this.state.amount}
-              onAddressChange={address => this.setState({ address })}
-              onAmountChange={amount => this.setState({ amount })}
-              onCameraPress={this.onCameraPress}
-              onTokenChangeIconPress={() =>
-                this.props.navigation.navigate('TokenPicker')
-              }
-              selectedToken={this.props.selectedToken}
+          <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+              title="Pull to refresh"
             />
-          </View>
-          <View style={styles.buttonContainer}>
+          }
+          contentContainerStyle={styles.containerScrollView}>
+            <View style={styles.sendForm}>  
+              <Form
+                address={this.state.address}
+                amount={this.state.amount}
+                onAddressChange={address => this.setState({ address })}
+                onAmountChange={amount => this.setState({ amount })}
+                onCameraPress={this.onCameraPress}
+                onTokenChangeIconPress={() =>
+                  this.props.navigation.navigate('TokenPicker')
+                }
+                selectedToken={this.props.selectedToken}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
             <SecondaryButton
               disabled={!this.addressIsValid() || !this.amountIsValid()}
               isLoading={this.state.isLoading}
@@ -253,6 +274,7 @@ class WalletSend extends Component {
               text="Send"
             />
           </View>
+          </ScrollView>
           <Footer
             activeTab="Send"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
