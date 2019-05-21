@@ -177,7 +177,7 @@ class Balances extends Component {
               <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
                 {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </RNText>
-              <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
+              <RNText style={{color: '#333', fontFamily: 'Roboto', paddingTop: 5}} letterSpacing={2}>
                 {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
               </RNText>
             </View>

@@ -23,9 +23,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingBottom: 0,
   },
-  gradientHeader: {
-    backgroundColor: 'coral'
-  },
   buttonContainer: {
     paddingHorizontal: 15,
   },

@@ -115,18 +115,16 @@ class WalletHome extends Component {
 
 
   handleBackButton = () => {
-      // const pushAction = StackActions.push({
-      //     routeName: 'WalletHome',
-      // });
-
-      // this.props.navigation.dispatch(pushAction);
-      const length = this.props.navigation;
-      // const activeItemKey = this.props.navigation.state.routes["0"].routes[length - 1].routeName;
-      console.log('screen>>>>>>>>>>>>>', length)
-      this.props.setRoute('WalletHome');
-      this.props.navigation.navigate('WalletHome')
-      return true;
-      
+    const length = this.props.navigation;  
+    if(this.props.currentRoute === 'Wallet') {
+        console.log('length1>>>>>', length)    
+        return true;
+      } else {
+        console.log('length2>>>>', length)
+        this.props.setRoute('WalletHome');
+        this.props.navigation.navigate('WalletHome')
+        return true;
+      }
   }
 
   componentWillReceiveProps(newProps) {
