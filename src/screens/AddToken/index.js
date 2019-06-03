@@ -84,6 +84,7 @@ class AddToken extends Component {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
       name: this.state.name,
+      tName: this.state.name,
       symbol: this.state.symbol,
       currencySymbol: 'USD',
       network: this.state.network
@@ -117,6 +118,7 @@ class AddToken extends Component {
             contractAddress={this.state.contractAddress}
             decimals={this.state.decimals}
             name={this.state.name}
+            tName={this.state.name}
             onContractAddressChange={contractAddress =>
               this.setState({ contractAddress })
             }

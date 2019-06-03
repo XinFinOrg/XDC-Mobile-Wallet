@@ -13,7 +13,7 @@ import {
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
-const testnetNetwork = 'https://testnet.xinfin.network';
+const testnetNetwork = 'http://rpc.apothem.network';
 const mainnetNetwork = 'https://rpc.xinfin.network';
 
 export default class WalletUtils {
@@ -28,7 +28,7 @@ export default class WalletUtils {
       type: SET_WALLET_ADDRESS,
       walletAddress: wallet.getAddressString(),
     });
-
+    
     store.dispatch({
       type: SET_PRIVATE_KEY,
       privateKey: wallet.getPrivateKey().toString('hex'),
@@ -400,11 +400,13 @@ export default class WalletUtils {
    * @param {String} amount
    */
   static sendTransaction(
-    { contractAddress, symbol, decimals, network },
+    { contractAddress, symbol, type, decimals, network },
     toAddress,
-    amount,
-    type
+    amount
   ) {
+    if(toAddress.substring(0, 3) === 'xdc') {
+      toAddress = '0x' + toAddress.substring(3)
+    }
     if (type === 'XDC (Testnet)') {
       return this.sendMXDCTransaction(toAddress, amount, network);
     }
@@ -428,7 +430,6 @@ export default class WalletUtils {
 
     return new Promise((resolve, reject) => {
       console.log('xdce amount::', amount, amount*Math.pow(10, decimals), decimals)
-
       web3.eth.getGasPrice(function (error, gasPrice) {
         console.log('gprice', error, gasPrice)
         web3.eth.estimateGas({
@@ -438,6 +439,7 @@ export default class WalletUtils {
             .transfer.getData(toAddress, amount, { from: walletAddress })
         }, function (err, gasLimit) {
           web3.eth.getTransactionCount(walletAddress, function (error, data) {
+            console.log('walletaddr>>>', walletAddress)
             const txParams = {
               nonce: data,
               chainID: 3,
@@ -475,9 +477,9 @@ export default class WalletUtils {
     let { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance(network);
 
-    if(walletAddress.substring(0,2) === '0x') {
-      walletAddress = 'xdc' + walletAddress.substring(2)
-    }
+    // if(walletAddress.substring(0,2) === '0x') {
+    //   walletAddress = 'xdc' + walletAddress.substring(2)
+    // }
 
     return new Promise((resolve, reject) => {
       web3.eth.getTransactionCount(walletAddress, function (error, data) {
