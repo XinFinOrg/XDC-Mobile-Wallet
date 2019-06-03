@@ -55,6 +55,7 @@ export default class Form extends Component {
     contractAddress: PropTypes.string.isRequired,
     decimals: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    tName: PropTypes.string.isRequired,
     onCameraPress: PropTypes.func.isRequired,
     onContractAddressChange: PropTypes.func.isRequired,
     onDecimalsChange: PropTypes.func.isRequired,
@@ -74,6 +75,7 @@ export default class Form extends Component {
       contractAddress,
       decimals,
       name,
+      tName,
       onCameraPress,
       onContractAddressChange,
       onDecimalsChange,
@@ -83,6 +85,8 @@ export default class Form extends Component {
       symbol,
       network,
     } = this.props;
+
+    console.log('network>>>', network)
 
     const ScrollContainer =
       Platform.OS === 'ios' ? KeyboardAwareScrollView : ScrollView;
@@ -103,7 +107,7 @@ export default class Form extends Component {
               onSubmitEditing={() => {
                 this.nameInput.focus();
               }}
-              placeholder="xdc..."
+              placeholder="0x..."
               placeholderTextColor="#9d9d9d"
               ref={input => {
                 this.addressInput = input;
@@ -189,9 +193,9 @@ export default class Form extends Component {
             selectedValue={network}
             style={styles.formInput }
             onValueChange={onNetworkChange}>
+            <Picker.Item label="XinFin Mainnet Network" value="mainnet" />
+            <Picker.Item label="XinFin Testnet Network" value="private" />
             <Picker.Item label="Ethereum Mainnet Network" value="public" />
-            <Picker.Item label="Xinfin Testnet Network" value="private" />
-            <Picker.Item label="Xinfin Mainnet Network" value="mainnet" />
           </Picker>
         </View>
       </ScrollContainer>

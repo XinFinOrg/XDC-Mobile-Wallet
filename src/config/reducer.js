@@ -21,7 +21,7 @@ const defaultState = {
   availableTokens: defaultTokens,
   callToActionDismissed: false,
   selectedToken: defaultTokens[0],
-  network: 'public',
+  network: 'mainnet',
   currentCurrency: 'USD',
   currencyList: currencyList,
   currentRoute: 'Wallet',
