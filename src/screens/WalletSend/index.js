@@ -69,13 +69,18 @@ class WalletSend extends Component {
     console.log('send>>>>>', currentBalance)
     this.setState({
       currentBalance,
+      address: ""
     });
   };
 
   onBarCodeRead = address => {
     AnalyticsUtils.trackEvent('Read send address QR code');
-    if(address.substring(0, 2) === '0x') {
-      address = 'xdc' + address.substring(2);
+    if(this.props.selectedToken.symbol === "XDCE") {
+      address = address
+    } else {
+      if(address.substring(0, 2) === '0x') {
+        address = 'xdc' + address.substring(2);
+      }
     }
 
     this.setState({
@@ -153,12 +158,15 @@ class WalletSend extends Component {
               errMsg = 'Insufficient ether balance';
             } else if(error.message.includes('insufficient funds')) {
               errMsg = 'Insufficient funds';
+            } else if(error.message.includes('replacement transaction underpriced')) {
+              errMsg = 'Replacement Transaction Underpriced';
+              // known transaction ::TODO
             } else {
               errMsg = 'An error happened during the transaction, please try again later';
             }
             Alert.alert(
               `Sending ${this.props.selectedToken.symbol}`,
-              `${errMsg} for ${this.props.selectedToken.symbol}`,
+              `${errMsg} for ${this.props.selectedToken.type ? this.props.selectedToken.type : this.props.selectedToken.symbol}`,
               [
                 { 
                   text: 'OK', 

@@ -125,10 +125,13 @@ class WalletReceive extends Component {
   };
 
   render() {
-
     let walletReceiveAddress = this.props.walletAddress;
-    if (walletReceiveAddress.substring(0,2) === '0x') {
-      walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+    if(this.props.selectedToken.name === 'XDCE') {
+      walletReceiveAddress = this.props.walletAddress;
+    } else {
+      if (walletReceiveAddress.substring(0,2) === '0x') {
+        walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+      }
     }
     return (
       <GradientBackground>
@@ -164,7 +167,7 @@ class WalletReceive extends Component {
             <View style={styles.qrcodeContainer}>
               <QRCode
                 color="#090909"
-                value={this.props.walletAddress}
+                value={walletReceiveAddress}
                 size={150}
               />
             </View>
@@ -176,7 +179,7 @@ class WalletReceive extends Component {
               <SecondaryButton
                 onPress={() => {
                   Share.share({
-                    message: this.props.walletAddress,
+                    message: walletReceiveAddress,
                     title: 'My XDCwallet address',
                   });
                 }}

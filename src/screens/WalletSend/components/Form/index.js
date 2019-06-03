@@ -99,7 +99,7 @@ class Form extends Component {
             <TextInput
               autoCorrect={false}
               onChangeText={onAddressChange}
-              placeholder="xdc..."
+              placeholder={selectedToken.symbol === "XDCE" ? '0x...' : 'xdc..'}
               placeholderTextColor="#9d9d9d"
               onSubmitEditing={() => {
                 this.amountInput.focus();
