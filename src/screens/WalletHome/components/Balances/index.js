@@ -121,17 +121,17 @@ class Balances extends Component {
           if(this.state.tokenBalances != null) {
             stateBalance = this.state.tokenBalancesLength;
             stateBalance.push({
-              [token.name]: balanceInfo,
+              [token.tName]: balanceInfo,
             });
 
             stateBalanceObj = this.state.tokenBalances;
-            stateBalanceObj[token.name] = balanceInfo
+            stateBalanceObj[token.tName] = balanceInfo
           } else {
             stateBalance.push({
-              [token.name]: balanceInfo,
+              [token.tName]: balanceInfo,
             });
 
-            stateBalanceObj[token.name] = balanceInfo
+            stateBalanceObj[token.tName] = balanceInfo
           }
           this.setState({
             tokenBalancesLength: stateBalance,
@@ -175,10 +175,10 @@ class Balances extends Component {
                 {token.type ? token.type : token.name}
               </RNText>
               <RNText style={{color: '#333', fontFamily: 'Roboto',}} letterSpacing={2}>
-                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.tName].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#333', fontFamily: 'Roboto', paddingTop: 5}} letterSpacing={2}>
-                {token.name}: {this.state.tokenBalances[token.name].balance.toFixed(2)}
+                {token.name}: {this.state.tokenBalances[token.tName].balance.toFixed(2)}
               </RNText>
             </View>
           </View>
@@ -202,10 +202,10 @@ class Balances extends Component {
                   )
               }>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
-                {token.name} Price
+              {token.type ? token.type : token.name} Price
               </RNText>
               <RNText style={[styles.tokenName, {textAlign: 'center'}]}>
-                {this.props.defaultCurrency}: {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
+                {this.props.defaultCurrency}: {this.state.tokenBalances[token.tName].usdBalance.toFixed(2)}
               </RNText>
               <RNText style={{color: '#777', textAlign: 'center', fontFamily: 'Roboto',}}>
                 See charts
@@ -222,7 +222,8 @@ class Balances extends Component {
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       
       data = this.state.tokenBalancesLength.map((token, index) => {
-        const keyName = this.props.tokenList[index].name;
+        console.log('>>>>>',token, this.props.tokenList, this.state.tokenBalances)
+        let keyName = this.props.tokenList[index].tName;
         const key = keyName;
         balanceInfo += this.state.tokenBalances[keyName].usdBalance;
           return {

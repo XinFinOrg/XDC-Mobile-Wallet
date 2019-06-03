@@ -5,16 +5,18 @@ const contractAddressXDCE = '0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2';
 const defaultTokens = [
   {
     name: 'XDC',
+    tName: 'XDCM',
     type: 'XDC (Mainnet)',
     id: uuid.v4(),
     symbol: 'XDC',
     contractAddress: contractAddressXDC,
     decimals: 18,
     currencySymbol: 'USD',
-    network: 'private',
+    network: 'mainnet',
   },
   {
     name: 'XDC',
+    tName: 'XDC',
     type: 'XDC (Testnet)',
     id: uuid.v4(),
     symbol: 'XDC',
@@ -25,6 +27,7 @@ const defaultTokens = [
   },
   {
     name: 'XDCE',
+    tName: 'XDCE',
     id: uuid.v4(),
     symbol: 'XDCE',
     contractAddress: contractAddressXDCE,

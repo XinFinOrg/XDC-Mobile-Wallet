@@ -114,7 +114,7 @@ class BalanceRow extends Component {
 
             <View style={styles.tokenTitle}>
               <Text style={styles.tokenText}>
-                {selectedToken.name}
+                {selectedToken.type ? selectedToken.type : selectedToken.name}
               </Text>
               <View>
                 <Image source={switchIcon} style={styles.switchIcon} />

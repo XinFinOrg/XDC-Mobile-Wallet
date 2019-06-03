@@ -107,10 +107,10 @@ class SignUp extends Component {
                 <Image source={googleIcon} style={styles.socialIcon} />
                 <Text style={styles.buttonText}>Sign Up with Google</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => this.signUp('slack')} style={styles.signUpBtn}>
+            {/* <TouchableOpacity activeOpacity={0.8} onPress={() => this.signUp('slack')} style={styles.signUpBtn}>
                 <Image source={slackIcon} style={styles.socialIcon} />
                 <Text style={styles.buttonText}>Sign Up with Slack</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </SafeAreaView>
       </GradientBackground>
