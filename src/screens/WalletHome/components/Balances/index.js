@@ -96,7 +96,7 @@ class Balances extends Component {
     tokenBalances: null,
     tokenBalancesLength: null,
     activityIndicator: true,
-    testnetIsDown: 0,
+    testnetIsDown: null,
   }
 
   static propTypes = {
@@ -109,11 +109,17 @@ class Balances extends Component {
 
   fetchDashboardData = async (token, index) => {
           const balanceInfo = await WalletUtils.getBalance(token);
-          console.log('fetchdash>>>>', balanceInfo)
           if(balanceInfo.status == false) {
+            let network;
+            const getNetwork = balanceInfo.network;
+            if(getNetwork.includes('apothem')) {
+              network = 'Testnet'
+            } else if(getNetwork.includes('xinfin')) {
+              network = 'Mainnet'
+            }
             this.setState({
               activityIndicator: false,
-              testnetIsDown: 1
+              testnetIsDown: network
             })
           }
           let stateBalance = [];
@@ -222,7 +228,6 @@ class Balances extends Component {
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       
       data = this.state.tokenBalancesLength.map((token, index) => {
-        console.log('>>>>>',token, this.props.tokenList, this.state.tokenBalances)
         let keyName = this.props.tokenList[index].tName;
         const key = keyName;
         balanceInfo += this.state.tokenBalances[keyName].usdBalance;
@@ -276,7 +281,6 @@ class Balances extends Component {
                 },
                 key: `pie-${index}`,
             }));
-      console.log('testnet is down::', data);
     }
     
     return (
@@ -298,15 +302,15 @@ class Balances extends Component {
             </View>
           </Modal> }
 
-          {this.state.testnetIsDown > 0 ?
+          {this.state.testnetIsDown ?
           <View style={styles.usdBalance}>
             <RNText style={{color: '#333', textAlign: 'center', fontFamily: 'Roboto', fontWeight: 'bold'}}>
-              Testnet Server is Down
+              {this.state.testnetIsDown} Server is Down
             </RNText>
           </View>
         : null}
 
-        { balanceInfo != null && this.state.testnetIsDown == 0 ?
+        { balanceInfo != null && this.state.testnetIsDown == null ?
           <View style={styles.usdBalance}>
             <RNText style={{color: '#333', textAlign: 'center', fontFamily: 'Roboto',}}>
             {this.props.defaultCurrency}: {balanceInfo.toFixed(2)}
@@ -314,7 +318,7 @@ class Balances extends Component {
           </View>
         : null }
         
-        { balanceInfo != null && this.state.testnetIsDown == 0 ?
+        { balanceInfo != null && this.state.testnetIsDown == null ?
           <View style={styles.balances}>
               {tokens}
           </View>
@@ -322,7 +326,7 @@ class Balances extends Component {
 
         </View>
         
-        { balanceInfo != null && this.state.testnetIsDown == 0 ?
+        { balanceInfo != null && this.state.testnetIsDown == null ?
           <View style={styles.graphListWrap}>
             {graphList}
           </View>

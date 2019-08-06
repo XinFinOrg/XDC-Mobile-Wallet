@@ -86,8 +86,6 @@ export default class Form extends Component {
       network,
     } = this.props;
 
-    console.log('network>>>', network)
-
     const ScrollContainer =
       Platform.OS === 'ios' ? KeyboardAwareScrollView : ScrollView;
 

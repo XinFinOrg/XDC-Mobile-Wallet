@@ -11,7 +11,7 @@ import {
 } from '../../components';
 import Footer from '../UIComponents/Footer/';
 import copyClip from './images/copy-content.png';
-import { SET_CURRENT_ROUTE } from '../../config/actionTypes'
+import { SET_CURRENT_ROUTE, IS_KEY_EXPORTED } from '../../config/actionTypes'
 
 const styles = StyleSheet.create({
   container: {
@@ -136,7 +136,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
+  setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrivateKey);

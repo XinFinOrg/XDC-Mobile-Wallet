@@ -13,8 +13,8 @@ import {
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
-const testnetNetwork = 'http://rpc.apothem.network';
-const mainnetNetwork = 'https://rpc.xinfin.network';
+const testnetNetwork = 'https://mappsrpc.apothem.network/';
+const mainnetNetwork = 'https://mappsrpc.xinfin.network/';
 
 export default class WalletUtils {
   /**
@@ -77,7 +77,6 @@ export default class WalletUtils {
 
 
   static getWeb3HTTPProvider() {
-    console.log('store network', store.getState().network)
     switch (store.getState().network) {
       case 'private':
         return new Web3.providers.HttpProvider(
@@ -261,13 +260,11 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
     const url = `http://explorer_testnet.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`
 
-    console.log('urll', url)
     return fetch(
       url,
     )
       .then(response => response.json())
       .then(data => {
-        console.log('data', data)
         if (data.message !== 'OK') {
           return [];
         }
@@ -291,29 +288,37 @@ export default class WalletUtils {
    */
   static getBalance({ contractAddress, symbol, decimals, type }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
-    if (type === 'XDC (Testnet)') {
-      return this.getEthBalance(currentCurrency);
+    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)' || type === '(Testnet)' || type === '(Mainnet)') {
+      return this.getEthBalance(currentCurrency, type);
     } else {
-      return this.getERC20Balance(contractAddress, decimals, currentCurrency);
+      return this.getERC20Balance(contractAddress, decimals, currentCurrency, type);
     }
   }
 
-  static getEthBalance(currentCurrency) {
+  static getEthBalance(currentCurrency, type) {
     const { walletAddress } = store.getState();
-    const web3 = new Web3(new Web3.providers.HttpProvider(
-      testnetNetwork,
-    ));
+    let web3;
+    if (type === 'XDC (Mainnet)' || type === '(Mainnet)') {
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        mainnetNetwork,
+      ));
+    } else { 
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        testnetNetwork,
+      ));
+    }
+
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
         if (e) {
-          console.log('balance err>>>>', e);
           let balanceData = {};
           balanceData = {
             'balance': 0,
             'usdBalance': 0,
             'marketPrice': 0,
-            "status": false
+            "status": false,
+            "network": web3.currentProvider.host
           };
           resolve(balanceData);
           // reject(e);
@@ -332,6 +337,7 @@ export default class WalletUtils {
               'balance': balance,
               'usdBalance': usdBalance,
               'marketPrice': marketPrice,
+              "network": web3.currentProvider.host
             };
             resolve(balanceData);
           })
@@ -348,10 +354,10 @@ export default class WalletUtils {
   /**
    * Get the user's wallet ETH balance
    */
-  static getERC20Balance(contractAddress, decimals, currentCurrency) {
+  static getERC20Balance(contractAddress, decimals, currentCurrency, type) {
 
     const { walletAddress, privateKey } = store.getState();
-    const web3 = new Web3(new Web3.providers.HttpProvider(
+    web3 = new Web3(new Web3.providers.HttpProvider(
       `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
     ));
 
@@ -376,6 +382,7 @@ export default class WalletUtils {
               'balance': balance,
               'usdBalance': usdBalance,
               'marketPrice': null,
+              "network": 'Infura'
             };
             resolve(balanceData);
 
@@ -407,7 +414,7 @@ export default class WalletUtils {
     if(toAddress.substring(0, 3) === 'xdc') {
       toAddress = '0x' + toAddress.substring(3)
     }
-    if (type === 'XDC (Testnet)') {
+    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)') {
       return this.sendMXDCTransaction(toAddress, amount, network);
     }
     return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network);
@@ -429,9 +436,7 @@ export default class WalletUtils {
     });
 
     return new Promise((resolve, reject) => {
-      console.log('xdce amount::', amount, amount*Math.pow(10, decimals), decimals)
       web3.eth.getGasPrice(function (error, gasPrice) {
-        console.log('gprice', error, gasPrice)
         web3.eth.estimateGas({
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
@@ -439,7 +444,6 @@ export default class WalletUtils {
             .transfer.getData(toAddress, amount, { from: walletAddress })
         }, function (err, gasLimit) {
           web3.eth.getTransactionCount(walletAddress, function (error, data) {
-            console.log('walletaddr>>>', walletAddress)
             const txParams = {
               nonce: data,
               chainID: 3,
@@ -451,12 +455,10 @@ export default class WalletUtils {
                 at(contractAddress)
                 .transfer.getData(toAddress, amount, { from: walletAddress })
             }
-            console.log('txparam', txParams)
             const tx = new EthereumTx(txParams)
             tx.sign(Buffer.from(privateKey, 'hex'));
             const serializedTx = tx.serialize();
             web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
-              console.log('erc20',hash, err)
               if (!err) {
                 resolve(hash);
               } else {

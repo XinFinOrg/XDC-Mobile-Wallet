@@ -149,7 +149,6 @@ class WalletTransactions extends Component {
       this.props.selectedToken,
     );
 
-    console.log('transaction>>>>', currentBalance)
     this.setState({
       currentBalance,
     });

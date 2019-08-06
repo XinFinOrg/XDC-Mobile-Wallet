@@ -120,7 +120,6 @@ class PinKeyboard extends Component {
   };
 
   checkTouchIdSupport = async () => {
-    console.log('check touch support');
     if(this.props.currentRoute == "CreateWallet") {
 
     } else {

@@ -80,6 +80,14 @@ class AddToken extends Component {
     /^0x([A-Fa-f0-9]{40})$/.test(this.state.contractAddress);
 
   addToken = () => {
+    let type;
+    if(this.state.network == 'private') {
+      type = '(Testnet)';
+    } else if(this.state.network == 'mainnet') {
+      type = '(Mainnet)';
+    } else {
+      type = this.state.symbol;
+    }
     const token = {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
@@ -87,7 +95,8 @@ class AddToken extends Component {
       tName: this.state.name,
       symbol: this.state.symbol,
       currencySymbol: 'USD',
-      network: this.state.network
+      network: this.state.network,
+      type: type,
     };
 
     this.props.addToken(token);

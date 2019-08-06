@@ -98,7 +98,6 @@ class PinCode extends Component {
   };
 
   render() {
-    console.log('props', this.props.currentRoute)
     const headerTitle = this.props.currentRoute == "CreateWallet" ? "Enter Current Pin" : "Enter Pin"
 
     let header;

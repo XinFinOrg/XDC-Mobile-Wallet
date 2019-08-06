@@ -198,8 +198,7 @@ class CreateWallet extends Component {
     // const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
     // const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
     // console.log(this.props.dangerouslyGetParent().state.routes)
-    console.log('createwallet screen:', pinCode, originalTitle,)
-
+    
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

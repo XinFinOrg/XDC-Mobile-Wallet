@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, SafeAreaView, StyleSheet, RefreshControl, ScrollView, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, RefreshControl, ScrollView, View, Text, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
@@ -66,7 +66,6 @@ class WalletSend extends Component {
       this.props.selectedToken,
     );
 
-    console.log('send>>>>>', currentBalance)
     this.setState({
       currentBalance,
       address: ""
@@ -105,6 +104,8 @@ class WalletSend extends Component {
     this.props.navigation.navigate(stackRoute);
   };
 
+  
+
   addressIsValid = () => /^(xdc|0x)([A-Fa-f0-9]{40})$/.test(this.state.address);
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
@@ -115,12 +116,11 @@ class WalletSend extends Component {
         this.setState({
           isLoading: true,
         });
-        await WalletUtils.sendTransaction(
+        let txHash = await WalletUtils.sendTransaction(
           this.props.selectedToken,
           this.state.address,
           this.state.amount,
         );
-
         let walletReceiveAddress = this.state.address;
         if (walletReceiveAddress.substring(0,2) === '0x') {
           walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
@@ -137,6 +137,12 @@ class WalletSend extends Component {
                 this.props.selectedToken.symbol
               } to ${walletReceiveAddress}`,
               [
+                {
+                  text: 'Tx Hash',
+                  onPress: () => {
+                    Linking.openURL(`https://explorer.xinfin.network/tx/${txHash}`)
+                  },
+                },
                 { 
                   text: 'OK', 
                   onPress: () => {this.goBack()},

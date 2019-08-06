@@ -13,6 +13,7 @@ import {
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
   SET_CURRENT_ROUTE,
+  IS_KEY_EXPORTED,
 } from './actionTypes';
 import { defaultTokens, currencyList } from '../utils/constants';
 import AnalyticsUtils from '../utils/analytics';
@@ -25,6 +26,7 @@ const defaultState = {
   currentCurrency: 'USD',
   currencyList: currencyList,
   currentRoute: 'Wallet',
+  isKeyExported: false,
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -73,6 +75,11 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         callToActionDismissed: true,
+      };
+    case IS_KEY_EXPORTED:
+      return {
+        ...state,
+        isKeyExported: true,
       };
     case SET_DEFAULT_TOKEN:
       return {
