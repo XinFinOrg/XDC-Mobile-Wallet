@@ -16,6 +16,9 @@ import AnalyticsUtils from './analytics';
 const testnetNetwork = 'https://mappsrpc.apothem.network/';
 const mainnetNetwork = 'https://mappsrpc.xinfin.network/';
 
+const testnetNetwork_optional = 'https://rpc.apothem.network';
+const mainnetNetwork_optional = 'https://rpc.xinfin.network';
+
 export default class WalletUtils {
   /**
    * Given an EthereumJSWallet instance, store both address and private key
@@ -86,6 +89,14 @@ export default class WalletUtils {
         return new Web3.providers.HttpProvider(
           mainnetNetwork,
         );
+      case 'private_optional':
+        return new Web3.providers.HttpProvider(
+          testnetNetwork_optional,
+        );
+      case 'mainnet_optional':
+        return new Web3.providers.HttpProvider(
+          mainnetNetwork_optional,
+        );
       case 'public':
         return new Web3.providers.HttpProvider(
           `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
@@ -129,6 +140,14 @@ export default class WalletUtils {
     } else if(network === 'mainnet') {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
         mainnetNetwork,
+      )));
+    } else if(network === 'private_optional') {
+      engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
+        testnetNetwork_optional,
+      )));
+    } else if(network === 'mainnet_optional') {
+      engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
+        mainnetNetwork_optional,
       )));
     } else {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
@@ -409,15 +428,16 @@ export default class WalletUtils {
   static sendTransaction(
     { contractAddress, symbol, type, decimals, network },
     toAddress,
-    amount
+    amount,
+    network_optional,
   ) {
     if(toAddress.substring(0, 3) === 'xdc') {
       toAddress = '0x' + toAddress.substring(3)
     }
     if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)') {
-      return this.sendMXDCTransaction(toAddress, amount, network);
+      return this.sendMXDCTransaction(toAddress, amount, network_optional || network);
     }
-    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network);
+    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network_optional || network);
   }
 
 

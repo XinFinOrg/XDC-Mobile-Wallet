@@ -110,7 +110,7 @@ class WalletSend extends Component {
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
-  sendTransaction = async () => {
+  sendTransaction = async (object, network_optional) => {
     if(this.state.currentBalance.balance > 0) {
       try {
         this.setState({
@@ -120,6 +120,7 @@ class WalletSend extends Component {
           this.props.selectedToken,
           this.state.address,
           this.state.amount,
+          network_optional,
         );
         let walletReceiveAddress = this.state.address;
         if (walletReceiveAddress.substring(0,2) === '0x') {
@@ -167,7 +168,15 @@ class WalletSend extends Component {
             } else if(error.message.includes('replacement transaction underpriced')) {
               errMsg = 'Replacement Transaction Underpriced';
               // known transaction ::TODO
-            } else {
+            } else if(error.message.includes('Invalid JSON RPC response')) {
+              if(this.props.selectedToken.network == 'mainnet') {
+                this.sendTransaction(object, 'mainnet_optional');
+              } else if(this.props.selectedToken.network == 'testnet') {
+                this.sendTransaction(object, 'testnet_optional');
+              }
+              return;
+              // errMsg = 'Invalid JSON RPC response';
+            }else {
               errMsg = 'An error happened during the transaction, please try again later';
             }
             Alert.alert(
