@@ -3,6 +3,7 @@ package com.xdcwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import im.shimo.react.cookie.CookieManagerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
 import io.fullstack.oauth.OAuthManagerPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CookieManagerPackage(),
             new SplashScreenReactPackage(),
             new ReactNativeFingerprintScannerPackage(),
             new OAuthManagerPackage(),

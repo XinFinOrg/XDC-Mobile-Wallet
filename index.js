@@ -1,3 +1,14 @@
+/**
+ * @format
+ */
+
+// import {AppRegistry} from 'react-native';
+// import App from './App';
+// import {name as appName} from './app.json';
+
+// AppRegistry.registerComponent(appName, () => App);
+
+
 import React from 'react';
 import { AppRegistry, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
@@ -36,7 +47,7 @@ const App = () => (
           }
         }}
       />
-      <StatusBar barStyle="light-content" />
+      <StatusBar backgroundColor="#000000" barStyle="light-content" />
     </PersistGate>
   </Provider>
 );
