@@ -23,8 +23,7 @@ DerivedData
 project.xcworkspace
 
 #Android
-andriod/
-gradle.properties
+
 
 # Android/IntelliJ
 #
