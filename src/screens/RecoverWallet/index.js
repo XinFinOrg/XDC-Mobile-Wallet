@@ -129,7 +129,7 @@ export default class CreateWallet extends Component {
                 <TextInput
                   autoCorrect={false}
                   onChangeText={privateKey => this.setState({ privateKey })}
-                  placeholder="0x..."
+                  placeholder="0x...(Paste or scan your private key)"
                   placeholderTextColor="#9d9d9d"
                   returnKeyType="done"
                   selectionColor="#4D00FF"

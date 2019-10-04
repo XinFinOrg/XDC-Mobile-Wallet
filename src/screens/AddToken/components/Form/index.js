@@ -193,7 +193,7 @@ export default class Form extends Component {
             onValueChange={onNetworkChange}>
             <Picker.Item label="XinFin Mainnet Network" value="mainnet" />
             <Picker.Item label="XinFin Testnet Network" value="private" />
-            <Picker.Item label="Ethereum Mainnet Network" value="public" />
+            {/* <Picker.Item label="Ethereum Mainnet Network" value="public" /> */}
           </Picker>
         </View>
       </ScrollContainer>

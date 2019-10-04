@@ -34,10 +34,10 @@ class NetworkPicker extends Component {
       title: 'XinFin Testnet Network',
       onPress: () => this.setNetwork('private'),
     },
-    {
-      title: 'Ethereum Mainnet Network',
-      onPress: () => this.setNetwork('public'),
-    }
+    // {
+    //   title: 'Ethereum Mainnet Network',
+    //   onPress: () => this.setNetwork('public'),
+    // }
    
   ];
 
