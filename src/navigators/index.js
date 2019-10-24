@@ -1,9 +1,9 @@
-import { 
-  createStackNavigator, 
+import {
+  createStackNavigator,
   createSwitchNavigator,
-  createDrawerNavigator,
-} from 'react-navigation';
-import {Easing, Animated} from 'react-native';
+  createDrawerNavigator
+} from "react-navigation";
+import { Easing, Animated } from "react-native";
 import {
   AddTokenScreen,
   AppLoadingScreen,
@@ -16,159 +16,169 @@ import {
   PinCodeScreen,
   PrivateKeyScreen,
   RecoverWalletScreen,
-  SettingsScreen,
+  Settings,
   TokenPickerScreen,
   WalletHomeScreen,
   WalletTransactionsScreen,
   WalletReceiveScreen,
   WalletSendScreen,
-} from '../screens';
+  Register,
+  Login
+} from "../screens";
 
-import CustomDrawer from './Drawer/Drawer'
+import CustomDrawer from "./Drawer/Drawer";
 
 const WelcomeNavigator = createStackNavigator(
   {
     Camera: {
-      screen: CameraScreen,
+      screen: CameraScreen
     },
     SignUp: {
-      screen: SignUpScreen,
+      screen: SignUpScreen
+    },
+    Register: {
+      screen: Register
+    },
+    Login: {
+      screen: Login
     },
     CreateWallet: {
-      screen: CreateWalletScreen,
+      screen: CreateWalletScreen
     },
     Home: {
-      screen: HomeScreen,
+      screen: HomeScreen
+    },
+    Settings: {
+      screen: Settings
     },
     RecoverWallet: {
-      screen: RecoverWalletScreen,
-    },
+      screen: RecoverWalletScreen
+    }
   },
   {
     cardStyle: {
-      backgroundColor: '#181724',
+      backgroundColor: "#181724"
     },
-    headerMode: 'none',
-    initialRouteName: 'SignUp',
-  },
+    headerMode: "none",
+    initialRouteName: "SignUp"
+  }
 );
 
 const WalletMainNavigator = createStackNavigator(
   {
     AddToken: {
-      screen: AddTokenScreen,
+      screen: AddTokenScreen
     },
     Camera: {
-      screen: CameraScreen,
+      screen: CameraScreen
     },
     CreateWallet: {
-      screen: CreateWalletScreen,
+      screen: CreateWalletScreen
     },
     WalletHome: {
-      screen: WalletHomeScreen,
+      screen: WalletHomeScreen
     },
     WalletTransactions: {
-      screen: WalletTransactionsScreen,
+      screen: WalletTransactionsScreen
     },
     NetworkPicker: {
-      screen: NetworkPickerScreen,
+      screen: NetworkPickerScreen
     },
     CurrencyPicker: {
-      screen: CurrencyPickerScreen,
+      screen: CurrencyPickerScreen
     },
     PrivateKey: {
-      screen: PrivateKeyScreen,
-    },
-    Settings: {
-      screen: SettingsScreen,
+      screen: PrivateKeyScreen
     },
     Receive: {
-      screen: WalletReceiveScreen,
+      screen: WalletReceiveScreen
     },
     Send: {
-      screen: WalletSendScreen,
+      screen: WalletSendScreen
     },
     TokenPicker: {
-      screen: TokenPickerScreen,
-    },
+      screen: TokenPickerScreen
+    }
   },
   {
     cardStyle: {
-      backgroundColor: '#181724',
+      backgroundColor: "#181724"
     },
-    headerMode: 'none',
-    initialRouteName: 'WalletHome',
+    headerMode: "none",
+    initialRouteName: "WalletHome",
     navigationOptions: {
-      gesturesEnabled: false,
+      gesturesEnabled: false
     },
-    transitionConfig : () => ({
+    transitionConfig: () => ({
       transitionSpec: {
         duration: 0,
         timing: Animated.timing,
-        easing: Easing.step0,
-      },
-    }),
-  },
+        easing: Easing.step0
+      }
+    })
+  }
 );
 
 const SendNavigator = createStackNavigator(
   {
     Camera: {
-      screen: CameraScreen,
+      screen: CameraScreen
     },
     SendMain: {
-      screen: WalletSendScreen,
+      screen: WalletSendScreen
     },
     TokenPicker: {
-      screen: TokenPickerScreen,
-    },
+      screen: TokenPickerScreen
+    }
   },
   {
     cardStyle: {
-      backgroundColor: '#181724',
+      backgroundColor: "#181724"
     },
-    headerMode: 'none',
-    initialRouteName: 'SendMain',
-  },
+    headerMode: "none",
+    initialRouteName: "SendMain"
+  }
 );
 
 const WalletNavigator = createStackNavigator(
   {
     Camera: {
-      screen: CameraScreen,
+      screen: CameraScreen
     },
     WalletMain: {
-      screen: WalletMainNavigator,
+      screen: WalletMainNavigator
     },
     Receive: {
-      screen: WalletReceiveScreen,
+      screen: WalletReceiveScreen
     },
     Send: {
-      screen: SendNavigator,
-    },
+      screen: SendNavigator
+    }
   },
   {
     cardStyle: {
-      backgroundColor: '#181724',
+      backgroundColor: "#181724"
     },
-    headerMode: 'none',
-    initialRouteName: 'WalletMain',
-    mode: 'modal',
-  },
+    headerMode: "none",
+    initialRouteName: "WalletMain",
+    mode: "modal"
+  }
 );
 
-const DrawerNavigation = createDrawerNavigator({
-  Welcome: WalletMainNavigator,
-},
-{
-  contentComponent: CustomDrawer,
-  contentOptions: {
-    activeTintColor: '#254a81',
+const DrawerNavigation = createDrawerNavigator(
+  {
+    Welcome: WalletMainNavigator
   },
-  drawerPosition: 'left',
-  drawerBackgroundColor: 'white',
-  drawerWidth: 270,
-});
+  {
+    contentComponent: CustomDrawer,
+    contentOptions: {
+      activeTintColor: "#254a81"
+    },
+    drawerPosition: "left",
+    drawerBackgroundColor: "white",
+    drawerWidth: 270
+  }
+);
 
 export default createSwitchNavigator(
   {
@@ -176,9 +186,9 @@ export default createSwitchNavigator(
     PinCode: PinCodeScreen,
     // Wallet: WalletNavigator,
     Wallet: DrawerNavigation,
-    Welcome: WelcomeNavigator,
+    Welcome: WelcomeNavigator
   },
   {
-    initialRouteName: 'AppLoading',
-  },
+    initialRouteName: "AppLoading"
+  }
 );

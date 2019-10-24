@@ -1,120 +1,161 @@
-import React, { Component } from 'react';
-import { FlatList, StyleSheet, View, TouchableHighlight } from 'react-native';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { Text } from '../../../../components';
-import Modal from 'react-native-modal';
-import LinearGradient from 'react-native-linear-gradient';
+import React, { Component } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+  Image
+} from "react-native";
+import PropTypes from "prop-types";
+import moment from "moment";
+import { Text } from "../../../../components";
+import Modal from "react-native-modal";
+import LinearGradient from "react-native-linear-gradient";
+import { stat } from "fs";
+import customData from "../TransactionsList/data.json";
+import send from "../TransactionsList/Send.png";
+import receive from "../TransactionsList/Receive.png";
 
 const styles = StyleSheet.create({
+  // itemContainer: {
+  //   borderBottomWidth: 1,
+  //   borderColor: "#372F49",
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   paddingHorizontal: 15,
+  //   paddingVertical: 10
+  // },
+
   itemContainer: {
-    borderBottomWidth: 1,
-    borderColor: '#372F49',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    flex: 1,
+    borderRadius: 3,
+    paddingLeft: 17,
+    paddingRight: 17,
+    alignItems: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginBottom: 20,
+    backgroundColor: "#ffffff"
   },
+
   itemTitle: {
-    color: '#000',
+    color: "#000",
     fontSize: 20,
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto"
   },
   itemStatus: {
-    color: '#000',
+    color: "#000",
     fontSize: 15,
     paddingTop: 5,
-    fontFamily: 'Roboto',
-  },  
+    fontFamily: "Roboto"
+  },
   itemAmountContainer: {
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   itemAmountSymbol: {
-    color: '#000',
+    color: "#000",
     fontSize: 20,
     paddingRight: 5,
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto"
   },
   itemAmount: {
-    color: '#000',
+    color: "#000",
     fontSize: 20,
-    textAlign: 'right',
-    fontFamily: 'Roboto',
+    textAlign: "right",
+    fontFamily: "Roboto"
   },
   itemTimestamp: {
-    color: '#000',
+    color: "#000",
     fontSize: 15,
     paddingTop: 5,
-    textAlign: 'right',
-    fontFamily: 'Roboto',
+    textAlign: "right",
+    fontFamily: "Roboto"
   },
   emptyListText: {
-    color: '#000',
-    textAlign: 'center',
+    color: "#000",
+    textAlign: "center",
     fontSize: 20,
     paddingTop: 20,
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto"
   },
   ModalView: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: "#fff",
+    padding: 20
   },
   ModalItem: {
     padding: 5,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#555',
-    fontFamily: 'Roboto',
+    fontWeight: "bold",
+    color: "#555",
+    fontFamily: "Roboto"
   },
   ModalItemTitle: {
-    color: '#000',
+    color: "#000",
     fontSize: 18,
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto"
   },
   ModalClose: {
-    width: '90%',
-    marginLeft: '5%',
+    width: "90%",
+    marginLeft: "5%",
     marginTop: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    borderBottomRightRadius: 15
   },
   ModalCloseButton: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingVertical: 15,
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto"
+  },
+
+  fontSend: {
+    fontSize: 20,
+    fontFamily: "bold",
+    color: "#ff9b22"
+  },
+  fontReceive: {
+    fontSize: 20,
+    fontFamily: "bold",
+    color: "#15d291"
   }
 });
 
 export default class TransactionsList extends Component {
   state = {
     isModalVisible: false,
-    data: null
+    data: null,
+    walletAddress: "",
+    value: "",
+    price: "",
+    Time: ""
   };
 
   static propTypes = {
     onRefresh: PropTypes.func.isRequired,
     refreshing: PropTypes.bool.isRequired,
     selectedToken: PropTypes.shape({
-      symbol: PropTypes.string.isRequired,
+      symbol: PropTypes.string.isRequired
     }).isRequired,
     transactions: PropTypes.arrayOf(
       PropTypes.shape({
         transactionHash: PropTypes.string.isRequired,
         from: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-        timestamp: PropTypes.string.isRequired,
-      }),
+        timestamp: PropTypes.string.isRequired
+      })
     ).isRequired,
-    walletAddress: PropTypes.string.isRequired,
+    walletAddress: PropTypes.string.isRequired
   };
 
-  toggleModal = (transactionDetails) => {
-    this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
-  }
+  toggleModal = transactionDetails => {
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+      data: transactionDetails
+    });
+  };
 
   render() {
     const {
@@ -122,87 +163,86 @@ export default class TransactionsList extends Component {
       refreshing,
       selectedToken,
       transactions,
-      walletAddress,
+      walletAddress
     } = this.props;
 
     return (
       <FlatList
-        data={transactions}
-        keyExtractor={item => item.transactionHash}
+        data={customData}
         ListEmptyComponent={
           <View>
             <Text style={styles.emptyListText}>No transactions to show</Text>
           </View>
         }
+        keyExtractor={(item, index) => index.toString()}
         onRefresh={onRefresh}
         refreshing={refreshing}
         renderItem={({ item }) => (
           <View>
-            <TouchableHighlight onPress={() => this.toggleModal(item)}>
+            <TouchableHighlight>
               <View style={styles.itemContainer}>
-                <View>
-                  <Text style={styles.itemTitle}>
-                    {item.from === walletAddress
-                      ? `Send ${selectedToken.symbol}`
-                      : `Received ${selectedToken.symbol}`}
-                  </Text>
-                  <Text style={styles.itemStatus}>Completed</Text>
-                </View>
-                <View>
-                  <View style={styles.itemAmountContainer}>
-                    <Text style={styles.itemAmountSymbol}>
-                      {item.from === walletAddress ? '-' : '+'}
-                    </Text>
-                    <Text style={styles.itemAmount}>
-                      {`${item.value} ${selectedToken.symbol}`}
-                    </Text>
+                <View
+                  style={{
+                    height: 70,
+                    flex: 1,
+                    flexDirection: "row",
+                    alignContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <View
+                    style={{
+                      flex: 0.1,
+                      width: "100%",
+                      alignContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: 30,
+                        height: 30
+                      }}
+                      source={
+                        item.wallet_Address === "Receive" ? receive : send
+                      }
+                    />
                   </View>
-                  <Text style={styles.itemTimestamp}>
-                    {moment(item.timestamp * 1000).fromNow()}
-                  </Text>
+                  <View
+                    style={{
+                      flex: 0.6,
+                      paddingLeft: 20,
+                      flexDirection: "column"
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontFamily: "bold",
+                        color: "#000000"
+                      }}
+                    >
+                      {item.wallet_Address}
+                    </Text>
+                    <Text style={{ fontSize: 16 }}>From : {item.value}</Text>
+                  </View>
+                  <View style={{ flex: 0.3, flexDirection: "column" }}>
+                    <Text
+                      style={
+                        item.wallet_Address === "Receive"
+                          ? styles.fontReceive
+                          : styles.fontSend
+                      }
+                    >
+                      {item.wallet_Address === "Receive"
+                        ? "+ " + item.price + " XDC"
+                        : "- " + item.price + " XDC"}
+                    </Text>
+                    <Text>{item.Time} </Text>
+                  </View>
                 </View>
               </View>
             </TouchableHighlight>
-            
-            <Modal 
-              onBackdropPress={() => this.toggleModal(null)}
-              isVisible={this.state.isModalVisible} 
-              style={styles.ModalContainer}>
-              <View style={styles.ModalView}>
-                <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>To: </Text>{this.state.data ? 'xdc' + this.state.data.to.substring(2) : ''}
-                </Text>
-                <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Time: </Text>{this.state.data ? moment(this.state.data.timestamp * 1000).fromNow() : ''}
-                </Text>
-                <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Hash: </Text>{this.state.data ? this.state.data.transactionHash : ''}
-                </Text>
-                <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Amount: </Text>{this.state.data ? this.state.data.value : ''}
-                </Text>
-                <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Status: </Text>Completed
-                </Text>
-                <LinearGradient
-                  colors={['#254a81', '#254a81']}
-                  locations={[0, 1]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.ModalClose}
-                >
-                  <TouchableHighlight
-                    activeOpacity={0.8}
-                    onPress={() => this.toggleModal(null)}
-                  >
-                    <View>
-                      <Text style={styles.ModalCloseButton}>Close</Text>
-                    </View>
-                  </TouchableHighlight>
-                </LinearGradient>
-              </View>
-            </Modal>
-
           </View>
         )}
       />
