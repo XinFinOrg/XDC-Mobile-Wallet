@@ -126,7 +126,16 @@ class WalletSend extends Component {
         if (walletReceiveAddress.substring(0,2) === '0x') {
           walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
         }
-        
+
+        let API_URL;
+        if(this.props.selectedToken.network == 'mainnet') {
+          API_URL = `https://explorer.xinfin.network/tx/${txHash}`;
+        } else if(this.props.selectedToken.network == 'private') {
+          API_URL = `https://explorer.apothem.network/tx/${txHash}`;
+        } else if(this.props.selectedToken.network == 'public') {
+          API_URL = `https://etherscan.io/tx/${txHash}`;
+        }
+
         this.setState(
           {
             isLoading: false,
@@ -141,7 +150,7 @@ class WalletSend extends Component {
                 {
                   text: 'Tx Hash',
                   onPress: () => {
-                    Linking.openURL(`https://explorer.xinfin.network/tx/${txHash}`)
+                    Linking.openURL(API_URL)
                   },
                 },
                 { 
