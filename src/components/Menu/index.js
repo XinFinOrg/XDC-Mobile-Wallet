@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     borderBottomWidth: 2,
-    borderColor: '#254a81',
+    borderColor: '#359ff8',
     paddingVertical: 25,
     paddingHorizontal: 15,
     flexDirection: 'row',

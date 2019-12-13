@@ -168,7 +168,7 @@ class Balances extends Component {
     const { labelWidth, selectedSlice } = this.state;
     const { label, value } = selectedSlice;
     const values = [45, 25, 110];
-    const colors = ['#254a81', '#8e44ad', '#f39c12', '#16a085', '#2c3e50']
+    const colors = ['#359ff8', '#8e44ad', '#f39c12', '#16a085', '#2c3e50']
 
     let tokens = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {

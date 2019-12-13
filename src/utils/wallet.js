@@ -232,10 +232,11 @@ export default class WalletUtils {
     // const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
 
     return fetch(
-      `http://walletapi.testnet.xinfin.network:4001/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`,
+      `https://explorer.apothem.network/publicAPI?module=account&action=txlist&address=${walletAddress}`,
     )
       .then(response => response.json())
       .then(data => {
+        console.log('apothem transactions', data)
         if (data.message !== 'OK') {
           return [];
         }
@@ -277,13 +278,14 @@ export default class WalletUtils {
 
   static async getPrivateTransactions(contractAddress, decimals, symbol) {
     const { walletAddress } = store.getState();
-    const url = `http://explorer_testnet.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}&page=1&pageSize=10&apikey=YourApiKeyToken`
+    const url = `https://explorer.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}`;
 
     return fetch(
       url,
     )
       .then(response => response.json())
       .then(data => {
+        console.log('xinfin transactions', data)
         if (data.message !== 'OK') {
           return [];
         }

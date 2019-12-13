@@ -17,16 +17,15 @@ import dashaboardMark from "./images/ic_dashboard_mark.png";
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15
   },
 
   gradientHeader: {
     width: "100%",
-    position: "relative"
+    position: "relative",
   },
 
   gradientHeaderShadow: {
@@ -132,13 +131,7 @@ class Footer extends Component {
     let normalTabStyle = [styles.button];
 
     return (
-      <LinearGradient
-        colors={["#ffffff", "#ffffff"]}
-        locations={[0, 1]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.gradientHeader}
-      >
+      
         <View style={styles.container}>
           <TouchableOpacity onPress={this.onHomePress} style={normalTabStyle}>
             <Image
@@ -216,22 +209,6 @@ class Footer extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* <LinearGradient
-            colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.gradientHeaderShadow}
-          ></LinearGradient>
-          <LinearGradient
-            colors={['rgba(127,15,201,0.5)', 'rgba(77,0,255,0.5)']}
-            locations={[0, 1]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.gradientHeaderShadowTwo}
-          ></LinearGradient> */}
-      </LinearGradient>
     );
   }
 }

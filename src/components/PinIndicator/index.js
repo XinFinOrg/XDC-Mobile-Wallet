@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   dot: {
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
     marginHorizontal: 10,
   },
 });

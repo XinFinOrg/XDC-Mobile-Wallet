@@ -8,7 +8,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Linking
+  Linking,
+  Share,
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import copy from "./Images/ic_copy.png";
@@ -18,8 +19,14 @@ export default class ReceiveForm extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.containerInside}>
           <ScrollView keyboardShouldPersistTaps="always">
-            <View style={{ alignContent: "center", alignItems: "center" }}>
-              <QRCode color="#565e66" size={150} />
+            <View style={styles.stackedContainer}>
+              <View style={styles.qrcodeContainer}>
+                <QRCode
+                  color="#090909"
+                  value={this.props.walletReceiveAddress}
+                  size={150}
+                />
+              </View>
             </View>
             <View
               style={{
@@ -47,8 +54,8 @@ export default class ReceiveForm extends Component {
                     alignItems: "center"
                   }}
                 >
-                  <Text style={{ textAlign: "center", fontSize: 20 }}>
-                    0x1310a891f603d431 ... 457f7
+                  <Text style={{ textAlign: "center", fontSize: 14, paddingVertical: 5, paddingHorizontal: 10 }}>
+                    {this.props.walletReceiveAddress}
                   </Text>
                 </View>
                 <TouchableOpacity style={{ flex: 0.1 }}>
@@ -78,9 +85,20 @@ export default class ReceiveForm extends Component {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.continueButton}>
-              <Text style={styles.continuebuttonText}>RECEIVE</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  Share.share({
+                    message: this.props.walletReceiveAddress,
+                    title: 'My XDCwallet address',
+                  });
+                }}
+                style={styles.createWalletBtn}
+              >
+                <Text style={styles.createButtonText}>Share</Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -91,7 +109,7 @@ export default class ReceiveForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 3,
+    borderRadius: 10,
     paddingLeft: 17,
     paddingRight: 17,
     paddingTop: 10,
@@ -143,5 +161,51 @@ const styles = StyleSheet.create({
     fontFamily: "montserratregular",
     fontSize: 30,
     color: "#ffffff"
-  }
+  },
+  stackedContainer: {
+    backgroundColor: '#fff',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: 10,
+    padding: 10
+  },
+  qrcodeContainer: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    paddingVertical: 5,
+    width: 160,
+  },
+  walletAddress: {
+    // paddingHorizontal: 15,
+    color: '#9d9d9d',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+  },
+  createWalletBtn: {
+    height: 40,
+    width: '50%',
+    alignItems: "center",
+    borderRadius: 30,
+    fontFamily: "montserratregular",
+    backgroundColor: "#359cf8",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  createButtonText: {
+    backgroundColor: 'transparent',
+    color: '#ffffff',
+    fontSize: 18,
+    fontFamily: 'Roboto',
+  },
 });

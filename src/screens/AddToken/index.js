@@ -8,6 +8,7 @@ import { ADD_TOKEN, SET_DEFAULT_TOKEN, SET_CURRENT_ROUTE } from '../../config/ac
 import AnalyticsUtils from '../../utils/analytics';
 import { DrawerActions } from 'react-navigation';
 import Footer from '../UIComponents/Footer/index';
+import LinearGradient from "react-native-linear-gradient";
 
 const styles = StyleSheet.create({
   container: {
@@ -112,16 +113,34 @@ class AddToken extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+  };
+
+  onHamBurgerPress = () => {
+      this.props.setRoute("Settings");
+      this.props.navigation.navigate("Settings")
+  };
+
   render() {
     
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
-            title='Add token'
-          />
+          <LinearGradient
+              colors={['#359ff8', '#325efd']}
+              locations={[0, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientHeader}
+            >
+            <Header
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.onReceivePress()}
+              title="Add New Token"
+            />
+          </LinearGradient>
           <Form
             amount={this.state.amount}
             contractAddress={this.state.contractAddress}

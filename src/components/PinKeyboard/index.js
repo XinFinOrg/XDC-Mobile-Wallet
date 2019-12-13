@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
   },
   textPlaceholder: {
     color: 'transparent',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'Roboto',
   },
   keyboardText: {
-    color: '#254a81',
-    fontSize: 40,
+    color: '#ffffff',
+    fontSize: 30,
     textAlign: 'center',
     fontFamily: 'Roboto',
   },

@@ -25,9 +25,9 @@ import WalletUtils from "../../utils/wallet";
 import Footer from "../UIComponents/Footer/index";
 import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import { DrawerActions } from "react-navigation";
-import Form from "../WalletSend/components_new/Form";
+// import Form from "../WalletSend/components_new/Form";
 import ReceiveForm from "../WalletReceive/Form";
-import TransactionList from "../WalletTransactions/components/TransactionsList";
+// import TransactionList from "../WalletTransactions/components/TransactionsList";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
@@ -35,11 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 0
   },
-  containerScrollView: {
-    flex: 1,
-    justifyContent: "space-around",
-    paddingBottom: 0
-  },
+  
   qrcodeContainer: {
     alignItems: "center",
     alignSelf: "center",
@@ -70,7 +66,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    paddingBottom: 0
+    paddingBottom: 0,
+    backgroundColor: '#ccc'
+  },
+
+  containerScrollView: {
+    flex: 1,
   },
 
   topContainer: {
@@ -118,12 +119,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#ffffff",
     fontSize: 20
-  },
-
-  containerScrollView: {
-    flex: 1,
-    justifyContent: "space-around",
-    paddingBottom: 0
   },
 
   priceText: {
@@ -225,6 +220,16 @@ class WalletReceive extends Component {
     this.setState({ activeOption: "Receive" });
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+  
   renderIf = (condition, content) => {
     if (condition) {
       return content;
@@ -234,81 +239,44 @@ class WalletReceive extends Component {
   };
 
   render() {
+    let walletReceiveAddress = this.props.walletAddress;
+    if(this.props.selectedToken.name === 'XDCE') {
+      walletReceiveAddress = this.props.walletAddress;
+    } else {
+      if (walletReceiveAddress.substring(0,2) === '0x') {
+        walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+      }
+    }
+
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-            colors={["#254a81", "#254a81"]}
+            colors={['#359ff8', '#325efd']}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.gradientHeader}
           >
-            <Header
-              hamBurgerPress={() =>
-                this.props.navigation.dispatch(DrawerActions.openDrawer())
-              }
-              onBackPress={() => this.goBack()}
-              title={this.state.activeOption}
+          
+            <Header 
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.onReceivePress()} 
+              title="Receive" />
+          
+            <BalanceRow
+              currentBalance={this.state.currentBalance}
+              selectedToken={this.props.selectedToken}
             />
           </LinearGradient>
 
-          <View style={{ flex: 1 }}>
-            <LinearGradient
-              colors={["#359ff8", "#325efd"]}
-              style={{
-                flex: 0.3
-              }}
-            >
-              <View style={styles.topContainer}>
-                <Text style={styles.priceText}> 1025 XDC </Text>
-                <Text style={styles.totalBalance}>Total Balance</Text>
-                <View style={styles.buttonsContainer}>
-                  <View style={{}}>
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      onPress={this.sendPress}
-                      style={
-                        this.state.activeOption === "Send"
-                          ? styles.xdcButtonMark
-                          : styles.xdcButtonUnMark
-                      }
-                    >
-                      <Text style={styles.xdcButtonText}>XDC</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={this.transactionPress}
-                    style={
-                      this.state.activeOption === "Transactions"
-                        ? styles.xdcButtonMark
-                        : styles.xdcButtonUnMark
-                    }
-                  >
-                    <Text style={styles.xdcButtonText}>XDC</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={this.receivePress}
-                    style={
-                      this.state.activeOption === "Receive"
-                        ? styles.xdcButtonMark
-                        : styles.xdcButtonUnMark
-                    }
-                  >
-                    <Text style={styles.xdcButtonText}>XDCe</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </LinearGradient>
-
+          <View style={styles.containerScrollView}>
             <View
               style={{
                 position: "relative",
-                flex: 0.7,
-                top: -10,
-                backgroundColor: "#f3f3f5",
+                flex: 1,
+                top: -20,
+                backgroundColor: "#ccc",
                 alignContent: "center",
                 alignItems: "center"
               }}
@@ -318,21 +286,13 @@ class WalletReceive extends Component {
                   flex: 1,
                   height: "100%",
                   width: "100%",
-                  paddingLeft: 10,
-                  paddingRight: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
                   position: "absolute",
-                  top: -20
+                  top: -25
                 }}
               >
-                {this.renderIf(this.state.activeOption === "Send", <Form />)}
-                {this.renderIf(
-                  this.state.activeOption === "Transactions",
-                  <TransactionList />
-                )}
-                {this.renderIf(
-                  this.state.activeOption === "Receive",
-                  <ReceiveForm />
-                )}
+                <ReceiveForm walletReceiveAddress={walletReceiveAddress} />
               </View>
             </View>
           </View>

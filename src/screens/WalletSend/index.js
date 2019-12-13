@@ -1,39 +1,77 @@
 import React, { Component } from "react";
 import {
-  Alert,
   SafeAreaView,
+  Share,
   StyleSheet,
+  View,
   RefreshControl,
   ScrollView,
-  View,
-  Text,
+  Alert,
   TouchableOpacity,
   Linking
 } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { NavigationActions } from "react-navigation";
+import QRCode from "react-native-qrcode-svg";
+import LinearGradient from "react-native-linear-gradient";
 import {
   GradientBackground,
   Header,
   SecondaryButton,
+  Text,
   BalanceRow
 } from "../../components";
-import LinearGradient from "react-native-linear-gradient";
-import Form from "./components_new/Form";
-import ReceiveForm from "../WalletReceive/Form";
-import TransactionList from "../WalletTransactions/components/TransactionsList";
-import AnalyticsUtils from "../../utils/analytics";
-import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import WalletUtils from "../../utils/wallet";
 import Footer from "../UIComponents/Footer/index";
+import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import { DrawerActions } from "react-navigation";
-
+// import Form from "../WalletSend/components_new/Form";
+import Form from "./components/Form";
+// import TransactionList from "../WalletTransactions/components/TransactionsList";
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "transparent",
     flex: 1,
     justifyContent: "space-between",
     paddingBottom: 0
+  },
+  
+  qrcodeContainer: {
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    paddingVertical: 5,
+    width: 160
+  },
+  addressTitle: {
+    paddingHorizontal: 15,
+    color: "#fff",
+    textAlign: "center",
+    paddingBottom: 20,
+    fontSize: 18,
+    fontFamily: "Roboto"
+  },
+  walletAddress: {
+    paddingHorizontal: 15,
+    color: "#9d9d9d",
+    textAlign: "center",
+    fontFamily: "Roboto"
+  },
+  buttonContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 40
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingBottom: 0,
+    backgroundColor: '#ccc'
+  },
+
+  containerScrollView: {
+    flex: 1,
   },
 
   topContainer: {
@@ -83,12 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
 
-  containerScrollView: {
-    flex: 1,
-    justifyContent: "space-around",
-    paddingBottom: 0
-  },
-
   priceText: {
     color: "#ffffff",
     fontSize: 28,
@@ -102,7 +134,24 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 15
-  }
+  },
+
+  // new styles
+  formContainer: {
+    flex: 1,
+    borderRadius: 3,
+    height: "100%",
+    width: "100%",
+    paddingLeft: 17,
+    paddingRight: 17,
+    paddingTop: 10,
+    paddingVertical: 15,
+    backgroundColor: "#fff"
+  },
+  formContainerInside: {
+    flex: 1,
+    flexDirection: "row"
+  },
 });
 
 class WalletSend extends Component {
@@ -110,38 +159,39 @@ class WalletSend extends Component {
     navigation: PropTypes.shape({
       dispatch: PropTypes.func.isRequired,
       goBack: PropTypes.func.isRequired,
-      navigate: PropTypes.func.isRequired
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     onTokenChange: PropTypes.func.isRequired,
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired
-    }).isRequired
+      symbol: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   state = {
-    address: "",
-    amount: "",
+    refreshing: false,
+    address: '',
+    amount: '',
     isLoading: false,
     currentBalance: {
-      balance: 0,
-      usdBalance: 0
+      'balance': 0,
+      'usdBalance': 0,
     },
     activeOption: "Send"
   };
 
   onRefresh = () => {
-    // this.fetchBalance();
+    this.fetchBalance();
     this.setState({ refreshing: true });
     // In actual case set refreshing to false when whatever is being refreshed is done!
     setTimeout(() => {
       this.setState({ refreshing: false });
     }, 2000);
-  };
+  }
 
   fetchBalance = async () => {
     const currentBalance = await WalletUtils.getBalance(
-      this.props.selectedToken
+      this.props.selectedToken,
     );
 
     this.setState({
@@ -151,284 +201,232 @@ class WalletSend extends Component {
   };
 
   onBarCodeRead = address => {
-    AnalyticsUtils.trackEvent("Read send address QR code");
-    if (this.props.selectedToken.symbol === "XDCE") {
-      address = address;
+    AnalyticsUtils.trackEvent('Read send address QR code');
+    if(this.props.selectedToken.symbol === "XDCE") {
+      address = address
     } else {
-      if (address.substring(0, 2) === "0x") {
-        address = "xdc" + address.substring(2);
+      if(address.substring(0, 2) === '0x') {
+        address = 'xdc' + address.substring(2);
       }
     }
 
     this.setState({
-      address
+      address,
     });
   };
 
   onCameraPress = () => {
-    this.props.navigation.navigate("Camera", {
-      onBarCodeRead: this.onBarCodeRead
+    this.props.navigation.navigate('Camera', {
+      onBarCodeRead: this.onBarCodeRead,
     });
   };
 
   goBack = () => {
     this.setState({
-      amount: "",
-      address: ""
+      amount: '',
+      address: '',
     });
-    const stackLength =
-      this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
-    const stackRoute = this.props.navigation.dangerouslyGetParent().state
-      .routes[stackLength].routeName;
+    const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
+    const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
     this.props.setRoute(stackRoute);
     this.props.navigation.navigate(stackRoute);
   };
+
+  
 
   addressIsValid = () => /^(xdc|0x)([A-Fa-f0-9]{40})$/.test(this.state.address);
 
   amountIsValid = () => parseFloat(this.state.amount, 10) > 0;
 
   sendTransaction = async (object, network_optional) => {
-    if (this.state.currentBalance.balance > 0) {
+    if(this.state.currentBalance.balance > 0) {
       try {
         this.setState({
-          isLoading: true
+          isLoading: true,
         });
         let txHash = await WalletUtils.sendTransaction(
           this.props.selectedToken,
           this.state.address,
           this.state.amount,
-          network_optional
+          network_optional,
         );
         let walletReceiveAddress = this.state.address;
-        if (walletReceiveAddress.substring(0, 2) === "0x") {
+        if (walletReceiveAddress.substring(0,2) === '0x') {
           walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+        }
+
+        let API_URL;
+        if(this.props.selectedToken.network == 'mainnet') {
+          API_URL = `https://explorer.xinfin.network/tx/${txHash}`;
+        } else if(this.props.selectedToken.network == 'private') {
+          API_URL = `https://explorer.apothem.network/tx/${txHash}`;
+        } else if(this.props.selectedToken.network == 'public') {
+          API_URL = `https://etherscan.io/tx/${txHash}`;
         }
 
         this.setState(
           {
-            isLoading: false
+            isLoading: false,
           },
           () => {
             Alert.alert(
               `Sending ${this.props.selectedToken.symbol}`,
-              `You've successfully sent ${this.state.amount} ${this.props.selectedToken.symbol} to ${walletReceiveAddress}`,
+              `You've successfully sent ${this.state.amount} ${
+                this.props.selectedToken.symbol
+              } to ${walletReceiveAddress}`,
               [
                 {
-                  text: "Tx Hash",
+                  text: 'Tx Hash',
                   onPress: () => {
-                    Linking.openURL(
-                      `https://explorer.xinfin.network/tx/${txHash}`
-                    );
-                  }
+                    Linking.openURL(API_URL)
+                  },
                 },
-                {
-                  text: "OK",
-                  onPress: () => {
-                    this.goBack();
-                  }
-                }
+                { 
+                  text: 'OK', 
+                  onPress: () => {this.goBack()},
+                },
               ],
-              { cancelable: false }
+              { cancelable: false },
             );
-          }
+          },
         );
       } catch (error) {
         this.setState(
           {
-            isLoading: false
+            isLoading: false,
           },
           () => {
             console.log(error, error.message);
             let errMsg = null;
-            if (error.message.includes("insufficient funds for gas")) {
-              errMsg = "Insufficient ether balance";
-            } else if (error.message.includes("insufficient funds")) {
-              errMsg = "Insufficient funds";
-            } else if (
-              error.message.includes("replacement transaction underpriced")
-            ) {
-              errMsg = "Replacement Transaction Underpriced";
+            if(error.message.includes('insufficient funds for gas')) {
+              errMsg = 'Insufficient ether balance';
+            } else if(error.message.includes('insufficient funds')) {
+              errMsg = 'Insufficient funds';
+            } else if(error.message.includes('replacement transaction underpriced')) {
+              errMsg = 'Replacement Transaction Underpriced';
               // known transaction ::TODO
-            } else if (error.message.includes("Invalid JSON RPC response")) {
-              if (this.props.selectedToken.network == "mainnet") {
-                this.sendTransaction(object, "mainnet_optional");
-              } else if (this.props.selectedToken.network == "testnet") {
-                this.sendTransaction(object, "testnet_optional");
+            } else if(error.message.includes('Invalid JSON RPC response')) {
+              if(this.props.selectedToken.network == 'mainnet') {
+                this.sendTransaction(object, 'mainnet_optional');
+              } else if(this.props.selectedToken.network == 'testnet') {
+                this.sendTransaction(object, 'testnet_optional');
               }
               return;
               // errMsg = 'Invalid JSON RPC response';
-            } else {
-              errMsg =
-                "An error happened during the transaction, please try again later";
+            }else {
+              errMsg = 'An error happened during the transaction, please try again later';
             }
             Alert.alert(
               `Sending ${this.props.selectedToken.symbol}`,
-              `${errMsg} for ${
-                this.props.selectedToken.type
-                  ? this.props.selectedToken.type
-                  : this.props.selectedToken.symbol
-              }`,
+              `${errMsg} for ${this.props.selectedToken.type ? this.props.selectedToken.type : this.props.selectedToken.symbol}`,
               [
-                {
-                  text: "OK",
-                  onPress: () => {
-                    this.goBack();
-                  }
-                }
+                { 
+                  text: 'OK', 
+                  onPress: () => {this.goBack()},
+                },
               ],
-              { cancelable: false }
+              { cancelable: false },
             );
-          }
+          },
         );
       }
     } else {
       this.setState(
         {
-          isLoading: false
+          isLoading: false,
         },
         () => {
-          const errMsg = "Insufficient funds";
+          const errMsg = 'Insufficient funds';
           Alert.alert(
             `Sending ${this.props.selectedToken.symbol}`,
             `${errMsg} for ${this.props.selectedToken.symbol}`,
             [
-              {
-                text: "OK",
-                onPress: () => {
-                  this.goBack();
-                }
-              }
+              { 
+                text: 'OK', 
+                onPress: () => {this.goBack()},
+              },
             ],
-            { cancelable: false }
+            { cancelable: false },
           );
-        }
+        },
       );
     }
   };
 
-  tokenChange = val => {
+  tokenChange = (val) => {
     this.props.setDefaultToken(token);
-  };
+  }
 
   componentDidMount() {
     this.onRefresh();
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.selectedToken != newProps.selectedToken) {
+    if(this.props.selectedToken != newProps.selectedToken) {
       this.setState(
         {
           currentBalance: {
-            balance: 0,
-            usdBalance: 0
+            'balance': 0,
+            'usdBalance': 0,
           },
-          transactions: []
+          transactions: [],
         },
         () => {
           this.onRefresh();
-        }
+        },
       );
     }
   }
 
-  sendPress = () => {
-    this.setState({ activeOption: "Send" });
-  };
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
 
-  transactionPress = () => {
-    this.setState({ activeOption: "Transactions" });
-  };
-
-  receivePress = () => {
-    this.setState({ activeOption: "Receive" });
-  };
-
-  renderIf = (condition, content) => {
-    if (condition) {
-      return content;
-    } else {
-      return null;
-    }
-  };
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
 
   render() {
-    const activeOption = "SEND";
+    let walletReceiveAddress = this.props.walletAddress;
+    if(this.props.selectedToken.name === 'XDCE') {
+      walletReceiveAddress = this.props.walletAddress;
+    } else {
+      if (walletReceiveAddress.substring(0,2) === '0x') {
+        walletReceiveAddress = "xdc" + walletReceiveAddress.substring(2);
+      }
+    }
+
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-            colors={["#254a81", "#254a81"]}
+            colors={['#359ff8', '#325efd']}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.gradientHeader}
           >
-            <Header
-              hamBurgerPress={() =>
-                this.props.navigation.dispatch(DrawerActions.openDrawer())
-              }
-              onBackPress={() => this.goBack()}
-              title={this.state.activeOption}
+          
+            <Header 
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.onReceivePress()} 
+              title="Send" />
+          
+            <BalanceRow
+              currentBalance={this.state.currentBalance}
+              selectedToken={this.props.selectedToken}
             />
           </LinearGradient>
 
-          <View style={{ flex: 1 }}>
-            <LinearGradient
-              colors={["#359ff8", "#325efd"]}
-              style={{
-                flex: 0.3
-              }}
-            >
-              <View style={styles.topContainer}>
-                <Text style={styles.priceText}> 1025 XDC </Text>
-                <Text style={styles.totalBalance}>Total Balance</Text>
-                <View style={styles.buttonsContainer}>
-                  <View style={{}}>
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      onPress={this.sendPress}
-                      style={
-                        this.state.activeOption === "Send"
-                          ? styles.xdcButtonMark
-                          : styles.xdcButtonUnMark
-                      }
-                    >
-                      <Text style={styles.xdcButtonText}>XDC</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={this.transactionPress}
-                    style={
-                      this.state.activeOption === "Transactions"
-                        ? styles.xdcButtonMark
-                        : styles.xdcButtonUnMark
-                    }
-                  >
-                    <Text style={styles.xdcButtonText}>XDC</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={this.receivePress}
-                    style={
-                      this.state.activeOption === "Receive"
-                        ? styles.xdcButtonMark
-                        : styles.xdcButtonUnMark
-                    }
-                  >
-                    <Text style={styles.xdcButtonText}>XDCe</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </LinearGradient>
-
+          <View style={styles.containerScrollView}>
             <View
               style={{
                 position: "relative",
-                flex: 0.7,
-                top: -10,
-                backgroundColor: "#f3f3f5",
+                flex: 1,
+                top: -20,
+                backgroundColor: "#ccc",
                 alignContent: "center",
                 alignItems: "center"
               }}
@@ -438,21 +436,40 @@ class WalletSend extends Component {
                   flex: 1,
                   height: "100%",
                   width: "100%",
-                  paddingLeft: 10,
-                  paddingRight: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
                   position: "absolute",
-                  top: -20
+                  top: -25
                 }}
               >
-                {this.renderIf(this.state.activeOption === "Send", <Form />)}
-                {this.renderIf(
-                  this.state.activeOption === "Transactions",
-                  <TransactionList />
-                )}
-                {this.renderIf(
-                  this.state.activeOption === "Receive",
-                  <ReceiveForm />
-                )}
+                {/* <ReceiveForm walletReceiveAddress={walletReceiveAddress} /> */}
+                <SafeAreaView style={styles.formContainer}>
+                  <View style={styles.formContainerInside}>
+                    <ScrollView>
+                      <Form
+                        address={this.state.address}
+                        amount={this.state.amount}
+                        onAddressChange={address => this.setState({ address })}
+                        onAmountChange={amount => this.setState({ amount })}
+                        onCameraPress={this.onCameraPress}
+                        onTokenChangeIconPress={() =>
+                          this.props.navigation.navigate('TokenPicker')
+                        }
+                        selectedToken={this.props.selectedToken}
+
+                      />
+
+                      <View style={styles.buttonContainer}>
+                        <SecondaryButton
+                          disabled={!this.addressIsValid() || !this.amountIsValid()}
+                          isLoading={this.state.isLoading}
+                          onPress={this.sendTransaction}
+                          text="Continue"
+                        />
+                      </View>
+                      </ScrollView>
+                    </View>
+                  </SafeAreaView>
               </View>
             </View>
           </View>
@@ -477,6 +494,7 @@ class WalletSend extends Component {
 }
 
 const mapStateToProps = state => ({
+  walletAddress: state.walletAddress,
   selectedToken: state.selectedToken
 });
 

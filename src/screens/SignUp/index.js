@@ -12,9 +12,7 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import googleIcon from "./images/google.png";
-import slackIcon from "./images/slack.png";
 import logo from "./images/Logo111.png";
-import { w, h, totalSize } from "../dimension";
 
 import {
   GradientBackground,
@@ -23,7 +21,6 @@ import {
 } from "../../components";
 import OAuthManager from "react-native-oauth";
 import LinearGradient from "react-native-linear-gradient";
-import Register from "../Register";
 
 const manager = new OAuthManager("XDCWallet");
 
@@ -123,7 +120,7 @@ class SignUp extends Component {
           <Image source={logo} style={styles.logoIcon} />
         </View>
 
-        <View style={styles.loginButtonsContainer}>
+        {/* <View style={styles.loginButtonsContainer}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.loginButton}
@@ -131,9 +128,9 @@ class SignUp extends Component {
           >
             <Text style={styles.loginbuttonText}>Login</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <Text style={styles.continueText}>OR Continue with</Text>
+        {/* <Text style={styles.continueText}>OR Continue with</Text> */}
 
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
@@ -213,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   signUpBtn: {
-    height: 60,
+    height: 50,
     alignItems: "center",
     borderRadius: 30,
     fontFamily: "montserratregular",
@@ -229,14 +226,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 15
   },
   logoIcon: {
-    paddingTop: 200,
-    width: 200,
-    height: 200
+    // paddingTop: 200,
+    width: 160,
+    height: 160
   },
   buttonText: {
-    color: "#333",
-    fontSize: 30,
-    fontFamily: "Roboto"
+    backgroundColor: 'transparent',
+    color: '#333',
+    fontSize: 18,
+    fontFamily: 'Roboto',
   },
   loginbuttonText: {
     fontFamily: "montserratregular",

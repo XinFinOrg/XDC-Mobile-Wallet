@@ -38,7 +38,7 @@ const SECTIONS = [
     icon: xdce,
     arrow: up,
     title: "XDCe",
-    bottomTitle: "",
+    bottomTitle: null,
     price: "0.000486",
     profitincrease: "3.24"
   }
@@ -89,17 +89,24 @@ export default class ExpandableView extends Component {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <View>
-              <Image source={sections.icon} style={{ height: 50, width: 50 }} />
+            <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={sections.icon} style={{ height: 25, width: 25 }} />
             </View>
-            <View style={{ flexDirection: "column", marginLeft: 10 }}>
-              <Text style={{ color: "#565e66", fontSize: 20 }}>
-                {sections.title}
-              </Text>
-              <Text style={{ color: "#71869a", fontSize: 16 }}>
-                {sections.bottomTitle}
-              </Text>
-            </View>
+            
+              {sections.bottomTitle ?
+                <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                  <Text style={{ color: "#565e66", fontSize: 18 }}>
+                    {sections.title}
+                  </Text>
+                  <Text style={{ color: "#71869a", fontSize: 12 }}>
+                    {sections.bottomTitle}
+                  </Text>
+                </View>
+              : <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                  <Text style={{ color: "#565e66", fontSize: 18 }}>
+                    {sections.title}
+                  </Text>
+                </View>}
           </View>
 
           <View
@@ -110,19 +117,19 @@ export default class ExpandableView extends Component {
             }}
           >
             <View style={{ flexDirection: "column", marginRight: 10 }}>
-              <Text style={{ color: "#565e66", fontSize: 20 }}>
+              <Text style={{ color: "#565e66", fontSize: 18  }}>
                 {"$ " + sections.price}
               </Text>
-              <Text style={{ color: "#15d291", fontSize: 16 }}>
+              <Text style={{ color: "#15d291", fontSize: 12 }}>
                 {"(+ " + sections.profitincrease + "%)"}
               </Text>
             </View>
 
             <View>
-              <TouchableOpacity onPress={this.onPress}>
+              <TouchableOpacity onPress={this.onPress} style={{paddingRight: 10}}>
                 <Image
                   source={sections.arrow}
-                  style={{ height: 20, width: 20 }}
+                  style={{ height: 10, width: 10 }}
                 />
               </TouchableOpacity>
             </View>
@@ -297,7 +304,10 @@ var styles = StyleSheet.create({
     flexDirection: "column",
     borderRadius: 5,
     marginBottom: 5,
-    marginTop: 5
+    marginTop: 5,
+    width: '90%',
+    marginLeft: '5%',
+    elevation: 2,
   },
 
   unSelectedText: {

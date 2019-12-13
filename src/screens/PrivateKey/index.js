@@ -3,6 +3,7 @@ import { SafeAreaView, Share, StyleSheet, View, Clipboard, Image, TouchableHighl
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import LinearGradient from "react-native-linear-gradient";
 import {
   GradientBackground,
   Header,
@@ -79,15 +80,33 @@ class PrivateKey extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
-            title="Private key"
-          />
+          <LinearGradient
+              colors={['#359ff8', '#325efd']}
+              locations={[0, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientHeader}
+            >
+            <Header
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.onReceivePress()}
+              title="Private Key"
+            />
+          </LinearGradient>
           <View style={styles.privateKeyWrapper}>
             <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
             <Text style={styles.privateKeyTitle}>Private key</Text>

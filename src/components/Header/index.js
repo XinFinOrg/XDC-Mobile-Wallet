@@ -1,54 +1,51 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import Text from "../Text";
-import qrarrow from "./images//ic_qr.png";
-import menu from "./images/menu.png";
-import Settings from "../../screens/Settings";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Text from '../Text';
+import arrow from './images/arrow.png';
+import qr from './images/ic_qr.png';
+import menu from './images/menu.png';
 
 const styles = StyleSheet.create({
   headerContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
     paddingHorizontal: 15,
-    paddingVertical: 5,
-    backgroundColor: "#359ff8",
-    zIndex: 100
+    backgroundColor: 'transparent',
+    zIndex: 100,
   },
   centeredContainer: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    alignItems: "center",
-    backgroundColor: "#254a81",
-    zIndex: 100
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 100,
   },
-
-  headerExtremity: {},
-
+  headerStart: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  headerExtremity: {
+    paddingRight: 20
+  },
   headerText: {
-    color: "#fff",
-    fontSize: 27,
-    fontFamily: "montserratregular",
-    textAlign: "left",
-    left: 5,
-    marginBottom: 10
-  },
-
-  firstView: {
-    flexDirection: "row"
+    color: '#fff',
+    fontSize: 22,
+    fontFamily: 'Roboto',
   },
   headerArrow: {
     height: 22,
     marginVertical: 4,
-    width: 22
+    width: 22,
   },
-
-  headerQrArrow: {
-    height: 40,
+  headerQr: {
+    height: 35,
     marginVertical: 4,
-    width: 40
-  }
+    width: 22,
+  },
 });
 
 export default class Header extends Component {
@@ -56,75 +53,47 @@ export default class Header extends Component {
     onBackPress: PropTypes.func,
     hamBurgerPress: PropTypes.func,
     title: PropTypes.string.isRequired,
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired
-    }).isRequired
   };
 
   static defaultProps = {
     onBackPress: null,
-    hamBurgerPress: null
+    hamBurgerPress: null,
   };
 
-  renderMainView() {
-    return (
-      <View style={styles.headerContainer}>
-        <View style={styles.firstView}>
-          <TouchableOpacity
-            style={styles.headerExtremity}
-            onPress={this.props.hamBurgerPress}
-          >
-            <Image source={menu} style={styles.headerArrow} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{this.props.title}</Text>
-        </View>
-        <TouchableOpacity style={styles.headerExtremity} activeOpacity={0.8}>
-          <Image source={qrarrow} style={styles.headerQrArrow} />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  renderTitleView() {
+  render() {
     return (
       <View
-        style={{
-          alignItems: "center",
-          alignContent: "center",
-          backgroundColor: "#359ff8",
-        }}
+        style={
+          this.props.hamBurgerPress || this.props.onBackPress
+            ? styles.headerContainer
+            // : styles.centeredContainer
+            : styles.headerContainer
+        }
       >
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 27,
-            fontFamily: "montserratregular",
-            textAlign: "center"
-          }}
-        >
-          {this.props.title}
-        </Text>
+        
+        <View style={styles.headerStart}>
+          {this.props.hamBurgerPress ? (
+            <TouchableOpacity
+              style={styles.headerExtremity}
+              onPress={this.props.hamBurgerPress}
+            >
+              <Image source={menu} style={styles.headerArrow} />
+            </TouchableOpacity>
+          ) : null}
+        
+          <Text style={styles.headerText}>{this.props.title}</Text>
+        </View>
+
+        {this.props.onBackPress ? (
+          <TouchableOpacity
+            style={styles.headerExtremity}
+            onPress={this.props.onBackPress}
+          >
+            <Image source={qr} style={styles.headerQr} />
+          </TouchableOpacity>
+        ) : <View style={styles.headerExtremity} />}
+
       </View>
     );
-  }
-  renderView = condition => {
-    if (condition === "Dashboard") {
-      return this.renderMainView();
-    } else if (condition === "Send") {
-      return this.renderMainView();
-    } else if (condition === "Transactions") {
-      return this.renderMainView();
-    } else if (condition === "Receive") {
-      return this.renderMainView();
-    } else if (condition === "Create PIN") {
-      return this.renderTitleView();
-    } else if (condition === "Repeat PIN") {
-      return this.renderTitleView();
-    } else if (condition === "Enter Pin") {
-      return this.renderTitleView();
-    }
-  };
-  render() {
-    return <View>{this.renderView(this.props.title)}</View>;
   }
 }

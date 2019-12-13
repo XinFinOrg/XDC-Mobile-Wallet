@@ -6,12 +6,15 @@ import {
   Image,
   View,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
+import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
+import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { GradientBackground, Header, Menu, Text } from "../../components";
-import { LOGOUT } from "../../config/actionTypes";
+import { LOGOUT, SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import { persistor } from "../../config/store";
 import Footer from "../UIComponents/Footer/index";
 import { DrawerActions } from "react-navigation";
@@ -26,6 +29,9 @@ import Terms from "./Images/ic_terms.png";
 import Support from "./Images/ic_support.png";
 import Setting from "./Images/ic_setting.png";
 import Logout from "./Images/ic_logout.png";
+import _addToken from "./Images/addtoken.png";
+import _privateKey from "./Images/private.png";
+import _currency from "./Images/webwallet.png";
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -55,7 +61,49 @@ const styles = StyleSheet.create({
     height: 22,
     marginVertical: 4,
     width: 22
-  }
+  },
+  settingsContainer: {
+    flex: 1,
+    height: 50,
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    alignContent: "center",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  settingsPadding: {
+    padding: 10,
+    paddingLeft: 10,
+  },
+  bellImage: {
+    width: 20,
+    height: 20
+  },
+  ImageWidth: {
+    width: 20,
+    height: 20
+  },
+  ImageWidthEnd: {
+    width: 20,
+    height: 20,
+    alignSelf: "flex-end"
+  },
+  buttonCont: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
+    alignItems: "center"
+  },
+  iconCont: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
+  },
+  xdcText: { fontSize: 18, textAlign: "center", paddingVertical: 20 },
+  menuTitleWrap: { paddingTop: 15, marginLeft: 10, paddingBottom: 15 },
+  menuTitleText: { color: "#000000", fontSize: 18, fontFamily: "bold" },
+
 });
 
 class Settings extends Component {
@@ -67,6 +115,22 @@ class Settings extends Component {
     }).isRequired,
     network: PropTypes.string.isRequired
   };
+
+  navigateToScreen = (route, editMode) => () => {
+    const navigateAction = NavigationActions.navigate({
+        routeName: route,
+        params: {
+            editMode: editMode
+        },
+    });
+    this.props.setRoute(route);
+
+    if(route === "PrivateKey" || route === "CreateWallet") {
+        this.props.navigation.navigate('PinCode');
+    } else {
+        this.props.navigation.dispatch(navigateAction);
+    }
+}
 
   menuOptions = [
     {
@@ -138,170 +202,93 @@ class Settings extends Component {
     this.props.navigation.navigate(stackRoute);
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity>
-              <Image source={back} style={styles.headerArrow} />
-            </TouchableOpacity>
-
-            <Text style={styles.headerText}>Setting</Text>
-          </View>
-          <ScrollView style={{ backgroundColor: "#f3f3f5" }}>
-            {this.renderHeading("SECURITY")}
-            <View
-              style={{
-                flex: 1,
-                height: 50,
-                flexDirection: "row",
-                backgroundColor: "#ffffff",
-                alignContent: "center",
-                alignItems: "center",
-                marginBottom: 4
-              }}
-            >
-              <View
-                style={{
-                  padding: 10,
-                  paddingLeft: 10
-                }}
-              >
-                <Image
-                  source={bell}
-                  style={{
-                    width: 30,
-                    height: 30
-                  }}
-                />
+          <LinearGradient
+            colors={['#359ff8', '#325efd']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{flex: 1}}
+          >
+            <Header
+              hamBurgerPress={() => this.goBack()}
+              onBackPress={() => this.onReceivePress()}
+              title="Settings"
+            />
+            <ScrollView style={{ backgroundColor: "#f3f3f5" }}>
+            {this.menuTitle("SECURITY")}
+            <View style={styles.settingsContainer} >
+              <View style={styles.settingsPadding} >
+                <Image source={Passcode} style={styles.ImageWidth} />
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Text style={{ fontSize: 22 }}>Enable Notification</Text>
+              <View style={styles.buttonCont} >
+                <TouchableOpacity
+                    style = {{}}
+                    onPress = {this.navigateToScreen('CreateWallet', false)} >
 
-                <View
-                  style={{
-                    alignContent: "center",
-                    alignItems: "center"
-                  }}
-                >
-                  <Image
-                    source={next}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      alignSelf: "flex-end"
-                    }}
-                  ></Image>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                height: 50,
-                flexDirection: "row",
-                backgroundColor: "#ffffff",
-                alignContent: "center",
-                alignItems: "center",
-                marginBottom: 4
-              }}
-            >
-              <View
-                style={{
-                  padding: 10,
-                  paddingLeft: 10
-                }}
-              >
-                <Image
-                  source={Passcode}
-                  style={{
-                    width: 30,
-                    height: 30
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Text style={{ fontSize: 22 }}>Create Passcode</Text>
+                    <Text style={styles.linkText}>Change Pin</Text>
+                </TouchableOpacity>
 
-                <View
-                  style={{
-                    alignContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row"
-                  }}
-                >
-                  <Image
-                    source={circle}
-                    style={{
-                      width: 10,
-                      height: 10
-                    }}
-                  />
-                  <Image
-                    source={next}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      alignSelf: "flex-end"
-                    }}
-                  />
+                <View style={styles.iconCont} >
+                  <Image source={next} style={styles.ImageWidthEnd} />
                 </View>
               </View>
             </View>
 
-            {this.renderHeading("ABOUT")}
+            {this.menuTitle("APP")}
 
-            {this.renderView("Community", "Community")}
+            {this.subMenu("AddNewToken", "Add New Token", 'AddToken', false, null)}
 
-            {this.renderView("LoginWebWallet", "Login To Web Wallet")}
+            {this.subMenu("SetDefaultCurrency", "Set Default Currency", 'CurrencyPicker', false, null)}
 
-            {this.renderView("Terms", "Terms & Privacy")}
+            {this.subMenu("ExportPrivateKey", "Export Private Key", 'PrivateKey', false, null)}
 
-            {this.renderHeading("APP")}
+            {this.menuTitle("ABOUT")}
 
-            {this.renderView("Support", "Support")}
+            {this.subMenu("Support", "Support", 'https://xinfin.network/#webWallet', true, null)}
 
-            {this.renderView("Setting", "Advanced Setting")}
+            {this.subMenu("Community", "Community", 'https://xinfin.network/#webWallet', true, null)}
 
-            {this.renderView("Logout", "Log Out")}
+            {this.subMenu("LoginWebWallet", "Login To Web Wallet", 'https://xinfin.network/#webWallet', true, null)}
 
-            <Text style={{ fontSize: 18, textAlign: "center", paddingTop: 10 }}>
-              XDC Wallet - V0.1.2
+            {this.subMenu("Terms", "Terms & Privacy", 'https://xinfin.network/#webWallet', true, null)}
+
+            {this.subMenu("Logout", "Log Out", '', false, 'logout')}
+
+            <Text style={styles.xdcText}>
+              XDC Wallet
             </Text>
           </ScrollView>
+          </LinearGradient>
         </SafeAreaView>
       </GradientBackground>
     );
   }
 
-  renderHeading(heading) {
+  menuTitle(heading) {
     return (
-      <View style={{ paddingTop: 15, marginLeft: 10, paddingBottom: 15 }}>
-        <Text style={{ color: "#000000", fontSize: 18, fontFamily: "bold" }}>
+      <View style={styles.menuTitleWrap}>
+        <Text style={styles.menuTitleText}>
           {heading}
         </Text>
       </View>
     );
   }
 
-  renderView(image, headingTitle) {
+  subMenu(image, headingTitle, headingScreen, isExternal, isLogout) {
     if (image === "Community") {
       image = Community;
     } else if (image === "LoginWebWallet") {
@@ -310,62 +297,72 @@ class Settings extends Component {
       image = Terms;
     } else if (image === "Support") {
       image = Support;
-    } else if (image === "Setting") {
-      image = Setting;
+    } else if (image === "AddNewToken") {
+      image = _addToken;
+    } else if (image === "SetDefaultCurrency") {
+      image = _currency;
+    } else if (image === "ExportPrivateKey") {
+      image = _privateKey;
     } else if (image === "Logout") {
       image = Logout;
     }
-    return (
-      <View
-        style={{
-          flex: 1,
-          height: 50,
-          flexDirection: "row",
-          backgroundColor: "#ffffff",
-          alignContent: "center",
-          alignItems: "center",
-          marginBottom: 4
-        }}
-      >
-        <View
-          style={{
-            padding: 10,
-            paddingLeft: 10
-          }}
-        >
-          <Image
-            source={image}
-            style={{
-              width: 30,
-              height: 30
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Text style={{ fontSize: 22 }}>{headingTitle}</Text>
 
-          <View
-            style={{
-              alignContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Image
-              source={next}
-              style={{
-                width: 30,
-                height: 30,
-                alignSelf: "flex-end"
-              }}
-            ></Image>
+    let settingText;
+    if(isLogout == "logout") {
+      settingText = <TouchableOpacity
+                      style={styles.footerContainer}
+                      onPress = { () => 
+                          Alert.alert(
+                            'Logout',
+                            'Your wallet will be erased from your device. Make sure to backup your private key before going further.',
+                            [
+                              {
+                                text: 'Cancel',
+                                onPress: () => {},
+                                style: 'cancel',
+                              },
+                              {
+                                text: 'OK',
+                                onPress: async () => {
+                                  await this.props.logout();
+                                  this.props.navigation.navigate('SignUp');
+                                },
+                              },
+                            ],
+                            { cancelable: false },
+                          )
+                      }
+                  >
+                      <Text style={styles.linkText}>Logout</Text>
+                  </TouchableOpacity>
+    } else {
+      if(isExternal) {
+        settingText = <TouchableOpacity
+                          style = {{}}
+                          onPress = {() => {Linking.openURL(headingScreen)}} >
+
+                          <Text style={styles.linkText}>{headingTitle}</Text>
+                      </TouchableOpacity>
+      } else {
+        settingText = <TouchableOpacity
+                          style = {{}}
+                          onPress = {this.navigateToScreen(headingScreen, false)} >
+
+                          <Text style={styles.linkText}>{headingTitle}</Text>
+                      </TouchableOpacity>
+      }
+    }
+
+    return (
+      <View style={styles.settingsContainer} >
+        <View style={styles.settingsPadding} >
+          <Image source={image} style={styles.ImageWidth} />
+        </View>
+        <View style={styles.buttonCont} >
+          {/* <Text style={{ fontSize: 16 }}>{headingTitle}</Text> */}
+          {settingText}
+          <View style={{ alignContent: "center", alignItems: "center" }} >
+            <Image source={next} style={styles.ImageWidthEnd} ></Image>
           </View>
         </View>
       </View>

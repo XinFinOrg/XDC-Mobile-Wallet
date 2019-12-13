@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   textPlaceholder: {
     color: 'transparent',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'Roboto',
   },
   arrowKey: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   AuthModalClose: {
-    color: '#4d00ff',
+    color: '#359ff8',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
