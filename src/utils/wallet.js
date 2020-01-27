@@ -310,13 +310,13 @@ export default class WalletUtils {
   static getBalance({ contractAddress, symbol, decimals, type }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
     if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)' || type === '(Testnet)' || type === '(Mainnet)') {
-      return this.getEthBalance(currentCurrency, type);
+      return this.getEthBalance(currentCurrency, type, symbol);
     } else {
-      return this.getERC20Balance(contractAddress, decimals, currentCurrency, type);
+      return this.getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol);
     }
   }
 
-  static getEthBalance(currentCurrency, type) {
+  static getEthBalance(currentCurrency, type, symbol) {
     const { walletAddress } = store.getState();
     let web3;
     if (type === 'XDC (Mainnet)' || type === '(Mainnet)') {
@@ -344,25 +344,46 @@ export default class WalletUtils {
           resolve(balanceData);
           // reject(e);
         }
-
+        
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
         let marketPrice = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=` + currentCurrency)
+        fetch(`http://intradeapi.alphaex.net/common/xdc_wallet_live_price?currency=${symbol}&&nativeCurr=` + currentCurrency)
           .then(res => res.json())
           .then(function (response) {
-            marketPrice = response.data.quotes[currentCurrency];
-            usdBalance = response.data.quotes[currentCurrency].price * balance;
+            if(response.statusCode == 200) {
+              marketPrice = 0;
+              usdBalance = response.message * balance;
+              balanceData = {
+                'balance': balance,
+                'usdBalance': usdBalance,
+                'marketPrice': marketPrice,
+                "network": web3.currentProvider.host
+              };
+            } else {
+              balanceData = {
+                'balance': 0,
+                'usdBalance': 0,
+                'marketPrice': null,
+                "network": web3.currentProvider.host
+              };
+            }
+            
+            resolve(balanceData);
+          })
+          .catch(error => {
+            console.log('Error ETH:', error);
+            let balanceData = {};
             balanceData = {
-              'balance': balance,
-              'usdBalance': usdBalance,
-              'marketPrice': marketPrice,
+              'balance': 0,
+              'usdBalance': 0,
+              'marketPrice': 0,
+              "status": false,
               "network": web3.currentProvider.host
             };
             resolve(balanceData);
-          })
-          .catch(error => console.error('Error:', error));
+          });
 
 
         AnalyticsUtils.trackEvent('Get ETH balance', {
@@ -372,10 +393,11 @@ export default class WalletUtils {
     });
   }
 
+
   /**
    * Get the user's wallet ETH balance
    */
-  static getERC20Balance(contractAddress, decimals, currentCurrency, type) {
+  static getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol) {
 
     const { walletAddress, privateKey } = store.getState();
     web3 = new Web3(new Web3.providers.HttpProvider(
@@ -395,20 +417,38 @@ export default class WalletUtils {
         let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
         let usdBalance = null;
-        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=` + currentCurrency)
+        fetch(`http://intradeapi.alphaex.net/common/xdc_wallet_live_price?currency=${symbol}&&nativeCurr=` + currentCurrency)
           .then(res => res.json())
           .then(function (response) {
-            usdBalance = response.data.quotes[currentCurrency].price * balance;
+            if(response.statusCode == 200) {
+              usdBalance = response.message * balance;
+              balanceData = {
+                'balance': balance,
+                'usdBalance': usdBalance,
+                'marketPrice': null,
+                "network": 'Infura'
+              };
+            } else {
+              balanceData = {
+                'balance': 0,
+                'usdBalance': 0,
+                'marketPrice': null,
+                "network": web3.currentProvider.host
+              };
+            }
+            resolve(balanceData);
+
+          })
+          .catch(error => {
+            console.log('Error Mainnet:', error)
             balanceData = {
-              'balance': balance,
-              'usdBalance': usdBalance,
+              'balance': 0,
+              'usdBalance': 0,
               'marketPrice': null,
               "network": 'Infura'
             };
             resolve(balanceData);
-
-          })
-          .catch(error => console.error('Error:', error));
+          });
 
 
         AnalyticsUtils.trackEvent('Get ETH balance', {
@@ -417,6 +457,21 @@ export default class WalletUtils {
       });
 
 
+    });
+  }
+
+
+  /**
+   * Get USD price
+   */
+
+  static getUSDPrice(currency) {
+    return new Promise((resolve, reject) => {
+      fetch(`https://api2.alphaex.net/common/get_estimatme_usdbalance?pair=XDC-${currency}&price=1`)
+      .then(res => res.json())
+      .then(function (response) {
+        resolve(response.data)
+      });
     });
   }
 
