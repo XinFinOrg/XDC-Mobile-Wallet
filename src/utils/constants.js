@@ -6,7 +6,7 @@ const defaultTokens = [
   {
     name: 'XDC',
     tName: 'XDCM',
-    type: 'XDC (Mainnet)',
+    type: 'XDC',
     id: uuid.v4(),
     symbol: 'XDC',
     contractAddress: contractAddressXDC,

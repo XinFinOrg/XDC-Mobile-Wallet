@@ -309,7 +309,7 @@ export default class WalletUtils {
    */
   static getBalance({ contractAddress, symbol, decimals, type }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
-    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)' || type === '(Testnet)' || type === '(Mainnet)') {
+    if (type === 'XDC (Testnet)' || type === 'XDC' || type === '(Testnet)' || type === '(Mainnet)') {
       return this.getEthBalance(currentCurrency, type, symbol);
     } else {
       return this.getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol);
@@ -319,7 +319,7 @@ export default class WalletUtils {
   static getEthBalance(currentCurrency, type, symbol) {
     const { walletAddress } = store.getState();
     let web3;
-    if (type === 'XDC (Mainnet)' || type === '(Mainnet)') {
+    if (type === 'XDC' || type === '(Mainnet)') {
       web3 = new Web3(new Web3.providers.HttpProvider(
         mainnetNetwork,
       ));
@@ -491,7 +491,7 @@ export default class WalletUtils {
     if(toAddress.substring(0, 3) === 'xdc') {
       toAddress = '0x' + toAddress.substring(3)
     }
-    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)') {
+    if (type === 'XDC (Testnet)' || type === 'XDC') {
       return this.sendMXDCTransaction(toAddress, amount, network_optional || network);
     }
     return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network_optional || network);
