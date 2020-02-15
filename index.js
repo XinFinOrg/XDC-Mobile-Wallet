@@ -32,7 +32,6 @@ const getCurrentRouteName = navigationState => {
   return route.routeName;
 };
 
-console.log('store', store);
 
 const App = () => (
   <Provider store={store}>

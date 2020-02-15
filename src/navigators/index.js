@@ -49,7 +49,7 @@ const WelcomeNavigator = createStackNavigator(
       backgroundColor: '#181724',
     },
     headerMode: 'none',
-    initialRouteName: 'SignUp',
+    initialRouteName: 'Home',
   },
 );
 
@@ -163,19 +163,19 @@ const DrawerNavigation = createDrawerNavigator({
 {
   contentComponent: CustomDrawer,
   contentOptions: {
-    activeTintColor: '#254a81',
+    activeTintColor: '#359ff8',
   },
   drawerPosition: 'left',
   drawerBackgroundColor: 'white',
-  drawerWidth: 270,
+  drawerWidth: '100%',
 });
 
 export default createSwitchNavigator(
   {
     AppLoading: AppLoadingScreen,
     PinCode: PinCodeScreen,
-    // Wallet: WalletNavigator,
-    Wallet: DrawerNavigation,
+    Wallet: WalletNavigator,
+    // Wallet: DrawerNavigation,
     Welcome: WelcomeNavigator,
   },
   {

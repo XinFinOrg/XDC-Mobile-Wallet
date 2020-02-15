@@ -1,8 +1,11 @@
 package com.xdcwallet;
 
 import android.os.Bundle;
+import android.content.Intent;
+import android.widget.Toast;
 import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
+import android.util.Log;
 
 public class MainActivity extends ReactActivity {
 

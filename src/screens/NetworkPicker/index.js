@@ -79,13 +79,23 @@ class NetworkPicker extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
+            hamBurgerPress={() => this.onHamBurgerPress()}
+            onBackPress={() => this.onReceivePress()}
             title="Change network"
           />
 

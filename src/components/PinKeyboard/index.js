@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
   },
   textPlaceholder: {
     color: 'transparent',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'Roboto',
   },
   keyboardText: {
-    color: '#254a81',
-    fontSize: 40,
+    color: '#ffffff',
+    fontSize: 30,
     textAlign: 'center',
     fontFamily: 'Roboto',
   },
@@ -48,6 +48,7 @@ export default class PinKeyboard extends Component {
           <View style={styles.keyboardRow} key={index}>
             {numbersGroup.map((number, index2) => (
               <TouchableOpacity
+                underlayColor="transparent"
                 disabled={this.props.isDisabled}
                 style={styles.keyboardKey}
                 key={index2}
@@ -62,11 +63,13 @@ export default class PinKeyboard extends Component {
         ))}
         <View style={styles.keyboardRow}>
           <TouchableOpacity 
+            underlayColor="transparent"
             disabled={this.props.isDisabled} 
             style={styles.keyboardKey}>
             <Text style={styles.textPlaceholder}>0</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            underlayColor="transparent"
             disabled={this.props.isDisabled}
             style={styles.keyboardKey}
             onPress={() => {

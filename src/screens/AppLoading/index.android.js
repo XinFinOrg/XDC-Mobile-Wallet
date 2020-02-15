@@ -3,6 +3,7 @@ import { AsyncStorage, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import {reduxPersistKey_old} from '../../utils/constants';
 import {
   ADD_TOKEN,
   SET_DEFAULT_TOKEN,
@@ -28,15 +29,56 @@ class AppLoading extends Component {
   async componentDidMount() {
     SplashScreen.hide();
     if (!this.props.walletAddress) {
+      await this.migrateWallet();
       await this.migrateFromAsyncStorage();
     }
 
     if (this.props.walletAddress) {
-      
+      // await AsyncStorage.removeItem('persist:xdcwallet')
+      console.log('@###@@#@#@', await AsyncStorage.getAllKeys());
+      // await this.migrateWallet();
       return this.props.navigation.navigate('PinCode');
     }
 
     return this.props.navigation.navigate('Welcome');
+  }
+
+  migrateWallet = async () => {
+    const xyz = await AsyncStorage.getAllKeys();
+    const pW = await AsyncStorage.getItem(`persist:${reduxPersistKey_old}`);
+    const _pW = JSON.parse(pW);
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', _pW);
+    if(_pW && _pW !== 'null') {
+      let pWWA = _pW.walletAddress;
+      let pWPK = _pW.privateKey;
+      let pWPass = _pW.pinCode;
+      if(pWWA) {
+        pWWA = pWWA.split(`"`);
+        pWPK = pWPK.split(`"`);
+        pWPass = pWPass.split(`"`);
+      }
+      if (pWWA[1]) {
+        this.props.dispatch({
+          type: SET_WALLET_ADDRESS,
+          walletAddress: pWWA[1],
+        });
+      }
+
+      if (pWPK[1]) {
+        this.props.dispatch({
+          type: SET_PRIVATE_KEY,
+          privateKey: pWPK[1],
+        });
+      }
+
+      if (pWPass[1]) {
+        this.props.dispatch({
+          type: SET_PIN_CODE,
+          pinCode: pWPass[1],
+        });
+      }
+
+    }
   }
 
   migrateFromAsyncStorage = async () => {
@@ -56,44 +98,45 @@ class AppLoading extends Component {
       privateKey,
     ] = await AsyncStorage.multiGet(keys);
 
-    if (walletAddress[1]) {
-      this.props.dispatch({
-        type: SET_WALLET_ADDRESS,
-        walletAddress: walletAddress[1],
-      });
-    }
+    const xyz = await AsyncStorage.getAllKeys();
+    // if (walletAddress[1]) {
+    //   this.props.dispatch({
+    //     type: SET_WALLET_ADDRESS,
+    //     walletAddress: walletAddress[1],
+    //   });
+    // }
 
-    if (availableTokens[1]) {
-      JSON.parse(availableTokens[1])
-        .slice(2)
-        .forEach(token => {
-          this.props.dispatch({
-            type: ADD_TOKEN,
-            token,
-          });
-        });
-    }
+    // if (availableTokens[1]) {
+    //   JSON.parse(availableTokens[1])
+    //     .slice(2)
+    //     .forEach(token => {
+    //       this.props.dispatch({
+    //         type: ADD_TOKEN,
+    //         token,
+    //       });
+    //     });
+    // }
 
-    if (selectedToken[1]) {
-      this.props.dispatch({
-        type: SET_DEFAULT_TOKEN,
-        token: JSON.parse(selectedToken[1]),
-      });
-    }
+    // if (selectedToken[1]) {
+    //   this.props.dispatch({
+    //     type: SET_DEFAULT_TOKEN,
+    //     token: JSON.parse(selectedToken[1]),
+    //   });
+    // }
 
-    if (pinCode[1]) {
-      this.props.dispatch({
-        type: SET_PIN_CODE,
-        pinCode: pinCode[1],
-      });
-    }
+    // if (pinCode[1]) {
+    //   this.props.dispatch({
+    //     type: SET_PIN_CODE,
+    //     pinCode: pinCode[1],
+    //   });
+    // }
 
-    if (privateKey[1]) {
-      this.props.dispatch({
-        type: SET_PRIVATE_KEY,
-        privateKey: privateKey[1],
-      });
-    }
+    // if (privateKey[1]) {
+    //   this.props.dispatch({
+    //     type: SET_PRIVATE_KEY,
+    //     privateKey: privateKey[1],
+    //   });
+    // }
 
     return AsyncStorage.multiRemove(keys);
   };

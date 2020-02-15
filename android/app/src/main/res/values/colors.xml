@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue">#ffffff</color>
+    <color name="background">#359ff8</color>
+    <color name="splash_statusbar">#359ff8</color>
+    <color name="app_name">#ffffff</color>
 </resources>

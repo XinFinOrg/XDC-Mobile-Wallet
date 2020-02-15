@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 import Modal from 'react-native-modal'
 import TokenList from '../../../TokenPicker/'
-
+import {dimHeight} from '../../../../utils/constants';
 import switchIcon from './images/switch.png';
 
 const styles = StyleSheet.create({
@@ -104,7 +104,7 @@ class BalanceRow extends Component {
         <Picker.Item label="ETH" value="eth" />
       </Picker> */}
 
-      <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
+      <TouchableOpacity underlayColor="transparent" onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
         <View style={styles.tokenTitle}>
           <Text style={styles.tokenText} letterSpacing={1}>
             {selectedToken.name}
@@ -113,10 +113,11 @@ class BalanceRow extends Component {
             <Image source={switchIcon} style={styles.switchIcon} />
           </View> 
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
       <Modal 
         onBackdropPress={() => this.toggleModal(null)}
+        deviceHeight={dimHeight}
         isVisible={this.state.isModalVisible} 
         style={styles.ModalContainer}>
         <View style={styles.ModalView}>

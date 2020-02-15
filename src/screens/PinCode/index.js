@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, SafeAreaView, StyleSheet } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DrawerActions } from 'react-navigation';
@@ -11,12 +11,22 @@ import {
   PinKeyboard,
 } from '../../components';
 
+
+import LinearGradient from "react-native-linear-gradient";
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
     paddingBottom: 15,
+  },
+  createPINText: {
+    color: '#ffffff',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'Roboto',
   },
   dotsContainer: {
     alignItems: 'center',
@@ -45,6 +55,8 @@ class PinCode extends Component {
 
   onAuthSuccess = () => {
     if(this.props.currentRoute === 'home') {
+      this.props.navigation.navigate('Wallet');
+    } else if(this.props.currentRoute === '') {
       this.props.navigation.navigate('Wallet');
     } else {
       this.props.navigation.navigate(this.props.currentRoute);
@@ -105,16 +117,21 @@ class PinCode extends Component {
     if(headerTitle == "Enter Current Pin") {
       header = <Header
         onBackPress={() => this.goBack()}
-        title={headerTitle} />
+        title="" />
     } else {
       header = <Header
-        title={headerTitle} />
+        title="" />
     }
     return (
-      <GradientBackground>
+      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
         <SafeAreaView style={styles.container}>
-          {header}
-          <PinIndicator length={this.state.pinCode.length} />
+          <View style={{}}>
+            {header}
+          </View>
+          <View>
+            <Text style={styles.createPINText}>{headerTitle}</Text>
+            <PinIndicator length={this.state.pinCode.length} />
+          </View>
           <PinKeyboard
             onBackPress={this.onBackPress}
             onKeyPress={this.onKeyPress}
@@ -122,7 +139,7 @@ class PinCode extends Component {
             showBackButton={this.state.pinCode.length > 0}
           />
         </SafeAreaView>
-      </GradientBackground>
+      </LinearGradient>
     );
   }
 }

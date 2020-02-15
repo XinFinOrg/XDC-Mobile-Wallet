@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header, BalanceRow } from '../../components';
@@ -16,29 +16,111 @@ import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: 0,
+    justifyContent: "space-between",
+    paddingBottom: 0
   },
-  topContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  gradientHeaderWrapper: {
-    position: 'relative',
-  },
-  gradientHeader: {
-    width: '100%',
-  },
-  coinName: {
-    color: '#fff',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  
+  qrcodeContainer: {
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 8,
+    backgroundColor: "#fff",
     paddingVertical: 5,
+    width: 160
   },
-  listContainer: {
+  addressTitle: {
+    paddingHorizontal: 15,
+    color: "#fff",
+    textAlign: "center",
+    paddingBottom: 20,
+    fontSize: 18,
+    fontFamily: "Roboto"
+  },
+  walletAddress: {
+    paddingHorizontal: 15,
+    color: "#9d9d9d",
+    textAlign: "center",
+    fontFamily: "Roboto"
+  },
+  buttonContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 40
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingBottom: 0,
+    backgroundColor: '#ccc'
+  },
+
+  containerScrollView: {
     flex: 1,
   },
+
+  topContainer: {
+    alignContent: "center",
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "column"
+  },
+
+  buttonsContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center"
+  },
+
+  xdcButtonMark: {
+    height: 40,
+    width: 100,
+    borderRadius: 30,
+    marginRight: 5,
+    marginLeft: 5,
+    padding: 15,
+    backgroundColor: "#ff9b22",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  xdcButtonUnMark: {
+    height: 40,
+    width: 100,
+    borderRadius: 30,
+    borderWidth: 1,
+    marginRight: 5,
+    marginLeft: 5,
+    padding: 15,
+    borderColor: "#ffffff",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent"
+  },
+
+  xdcButtonText: {
+    textAlign: "center",
+    color: "#ffffff",
+    fontSize: 20
+  },
+
+  priceText: {
+    color: "#ffffff",
+    fontSize: 28,
+    textAlign: "center"
+  },
+
+  totalBalance: {
+    color: "#ffffff",
+    fontSize: 16,
+    textAlign: "center"
+  },
+  buttonContainer: {
+    paddingHorizontal: 15
+  }
 });
 
 class WalletTransactions extends Component {
@@ -60,6 +142,7 @@ class WalletTransactions extends Component {
   };
 
   state = {
+    refreshing: false,
     currentBalance: {
       'balance': 0,
       'usdBalance': 0,
@@ -67,6 +150,7 @@ class WalletTransactions extends Component {
     appState: AppState.currentState,
     refreshingTransactions: false,
     transactions: [],
+    transactionsToken: null,
     tokens: '',
   };
 
@@ -124,6 +208,11 @@ class WalletTransactions extends Component {
   onRefresh = () => {
     this.fetchBalance();
     this.fetchTransactions();
+    this.setState({ refreshing: true });
+    // In actual case set refreshing to false when whatever is being refreshed is done!
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 2000);
   };
 
   handleAppStateChange = nextAppState => {
@@ -165,10 +254,13 @@ class WalletTransactions extends Component {
       this.props.selectedToken,
     );
 
-    this.setState({
-      refreshingTransactions: false,
-      transactions,
-    });
+    if(transactions[0].symbol == this.props.selectedToken.symbol) {
+      this.setState({
+        refreshingTransactions: false,
+        transactions,
+        transactionsToken: transactions[0].symbol,
+      });
+    }
   };
 
   loadTokensList = () => {
@@ -186,51 +278,76 @@ class WalletTransactions extends Component {
     this.props.navigation.navigate(stackRoute);
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => {
-              this.props.navigation.dispatch(DrawerActions.openDrawer())
-            }}
-            onBackPress={() => this.goBack()}
-            title="Transactions"
-          />
-          <View style={styles.topContainer}>
-            <View style={styles.gradientHeaderWrapper}>
-              <LinearGradient
-                colors={['#254a81', '#254a81']}
-                locations={[0, 1]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientHeader}
-              >
-                <BalanceRow
-                  currentBalance={this.state.currentBalance}
-                  selectedToken={this.props.selectedToken}
-                />
+          <LinearGradient
+            colors={['#359ff8', '#325efd']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientHeader}
+          >
+          
+            <Header 
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.goBack()} 
+              title="Transactions" />
+          
+            <BalanceRow
+              currentBalance={this.state.currentBalance}
+              selectedToken={this.props.selectedToken}
+            />
+          </LinearGradient>
 
-              </LinearGradient>
-            </View>
-            {/* {!this.props.callToActionDismissed && (
-              <CallToAction
-                onDismiss={this.onCallToActionDismiss}
-                onPress={this.onCallToActionPress}
-              />
-            )} */}
-            <View style={styles.listContainer}>
-              {!!this.props.walletAddress && (
-                <TransactionsList
-                  selectedToken={this.props.selectedToken}
-                  transactions={this.state.transactions}
-                  walletAddress={this.props.walletAddress}
-                  onRefresh={this.onRefresh}
-                  refreshing={this.state.refreshingTransactions}
-                />
-              )}
+          <View style={styles.containerScrollView}>
+            <View
+              style={{
+                position: "relative",
+                flex: 1,
+                top: -20,
+                backgroundColor: "#ccc",
+                alignContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  height: "100%",
+                  width: "100%",
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  position: "absolute",
+                  top: -25
+                }}
+              >
+                {!!this.props.walletAddress && (
+                  <TransactionsList
+                    selectedToken={this.props.selectedToken}
+                    transactions={this.state.transactions}
+                    transactionsToken={this.state.transactionsToken}
+                    walletAddress={this.props.walletAddress}
+                    onRefresh={this.onRefresh}
+                    refreshing={this.state.refreshingTransactions}
+                  />
+                )}
+
+              </View>
             </View>
           </View>
+
           <Footer
             activeTab="WalletTransactions"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
@@ -244,6 +361,7 @@ class WalletTransactions extends Component {
           />
         </SafeAreaView>
       </GradientBackground>
+      
     );
   }
 }

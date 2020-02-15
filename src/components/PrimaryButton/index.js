@@ -27,7 +27,7 @@ export default class PrimaryButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={this.props.onPress}>
+      <TouchableOpacity underlayColor="transparent" activeOpacity={0.8} onPress={this.props.onPress}>
         <LinearGradient
           colors={['#254a81', '#254a81']}
           locations={[0, 1]}

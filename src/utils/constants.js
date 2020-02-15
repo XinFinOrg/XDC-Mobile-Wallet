@@ -1,39 +1,86 @@
 import uuid from 'react-native-uuid';
 const contractAddressXDC = '0xc573c48ad1037dd92cb39281e5f55dcb5e033a70';
 const contractAddressXDCE = '0x41ab1b6fcbb2fa9dced81acbdec13ea6315f2bf2';
+const contractAddressUSDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
+const contractAddressUSDT = '0xdac17f958d2ee523a2206206994597c13d831ec7';
+
+const reduxPersistKey_old = `xdcwallet`;
+const reduxPersistKey = `xdcWalletVersion195a9838`;
+
+const dimHeight = 10000;
 
 const defaultTokens = [
   {
     name: 'XDC',
-    tName: 'XDCM',
-    type: 'XDC',
-    id: uuid.v4(),
-    symbol: 'XDC',
-    contractAddress: contractAddressXDC,
-    decimals: 18,
-    currencySymbol: 'USD',
-    network: 'mainnet',
-  },
-  {
-    name: 'XDC',
     tName: 'XDC',
-    type: 'XDC (Testnet)',
+    type: 'XDC (Mainnet)',
     id: uuid.v4(),
     symbol: 'XDC',
     contractAddress: null,
     decimals: 18,
     currencySymbol: 'USD',
+    network: 'mainnet',
+    ticker: 2634,
+  },
+  {
+    name: 'XDC',
+    tName: 'XDC (Testnet)',
+    type: 'XDC (Testnet)',
+    id: uuid.v4(),
+    symbol: 'XDCT',
+    contractAddress: null,
+    decimals: 18,
+    currencySymbol: 'USD',
     network: 'private',
+    ticker: 2634,
   },
   {
     name: 'XDCE',
     tName: 'XDCE',
+    type: 'ERC20',
     id: uuid.v4(),
     symbol: 'XDCE',
     contractAddress: contractAddressXDCE,
     decimals: 18,
     currencySymbol: 'USD',
     network: 'public',
+    ticker: 2634,
+  },
+  {
+    name: 'Ethereum',
+    tName: 'ETH',
+    type: 'ETH',
+    id: uuid.v4(),
+    symbol: 'ETH',
+    contractAddress: null,
+    decimals: 18,
+    currencySymbol: 'USD',
+    network: 'public',
+    ticker: 1027,
+  },
+  {
+    name: 'USDCoin',
+    tName: 'USDC',
+    type: 'ERC20',
+    id: uuid.v4(),
+    symbol: 'USDC',
+    contractAddress: contractAddressUSDC,
+    decimals: 6,
+    currencySymbol: 'USD',
+    network: 'public',
+    ticker: 3408,
+  },
+  {
+    name: 'Tether USD',
+    tName: 'USDT',
+    type: 'ERC20',
+    id: uuid.v4(),
+    symbol: 'USDT',
+    contractAddress: contractAddressUSDT,
+    decimals: 6,
+    currencySymbol: 'USD',
+    network: 'public',
+    ticker: 825,
   },
 ];
 
@@ -107,4 +154,4 @@ const erc20Abi = [
   },
 ];
 
-export { defaultTokens, erc20Abi, currencyList };
+export { defaultTokens, erc20Abi, currencyList, reduxPersistKey, reduxPersistKey_old, dimHeight };

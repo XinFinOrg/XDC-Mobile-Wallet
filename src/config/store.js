@@ -1,10 +1,11 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import { AsyncStorage } from 'react-native';
 import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import createSensitiveStorage from 'redux-persist-sensitive-storage';
 import uuid from 'react-native-uuid';
 import { defaultState, rootReducer } from './reducer';
+import {reduxPersistKey} from '../utils/constants';
 
 const migrations = {
   0: state => ({
@@ -24,10 +25,10 @@ const storage = createSensitiveStorage({
 
 const persistConfig = {
   timeout: null,
-  key: 'xdcwallet',
-  version: 1,
+  key: reduxPersistKey,
+  version: 2,
   storage: AsyncStorage,
-  migrate: createMigrate(migrations, { debug: false }),
+  migrate: createMigrate(migrations, { debug: true }),
 };
 
 const store = createStore(
@@ -38,6 +39,6 @@ const store = createStore(
     : applyMiddleware(createLogger()),
 );
 
-const persistor = persistStore(store);
+const persistor = persistStore(store)
 
 export { persistor, store };

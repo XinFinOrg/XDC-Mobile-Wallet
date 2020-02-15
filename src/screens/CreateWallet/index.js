@@ -12,6 +12,8 @@ import {
   Text,
 } from '../../components';
 
+import LinearGradient from "react-native-linear-gradient";
+
 import { SET_PIN_CODE, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 
@@ -27,14 +29,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   explanatoryTextContainer: {
-    height: 80,
+    height: 120,
     justifyContent: 'center',
     paddingHorizontal: 50,
   },
   explanatoryText: {
-    color: '#000',
+    color: '#ffffff',
     fontSize: 13,
     textAlign: 'center',
+    fontFamily: 'Roboto',
+  },
+  createPINText: {
+    color: '#ffffff',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontFamily: 'Roboto',
   },
   dotsContainer: {
@@ -197,12 +206,11 @@ class CreateWallet extends Component {
 
     // const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
     // const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
-    // console.log(this.props.dangerouslyGetParent().state.routes)
     
     return (
-      <GradientBackground>
+      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
         <SafeAreaView style={styles.container}>
-          <Header
+          {/* <Header
             hamBurgerPress={this.props.navigation.getParam('editMode', false) ? () => this.props.navigation.dispatch(DrawerActions.openDrawer()) : null}
             onBackPress={
               this.props.navigation.getParam('migrationMode', false)
@@ -210,7 +218,7 @@ class CreateWallet extends Component {
                 : () => this.goBack()
             }
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
-          />
+          /> */}
           <View style={styles.topContainer}>
             <View style={styles.explanatoryTextContainer}>
               <Text style={styles.explanatoryText}>
@@ -219,8 +227,16 @@ class CreateWallet extends Component {
                   : "This PIN will be used to access your XDCWALLET. If you forget it, you won't be able to access your wallet."}
               </Text>
             </View>
-
-            <PinIndicator length={pinCode.length} />
+            
+            <View>
+              <Text style={styles.createPINText}>
+                {this.state.isConfirmation
+                  ? "Confirm PIN"
+                  : "Create PIN"}
+              </Text>
+              <PinIndicator length={pinCode.length} />
+            </View>
+            
             <PinKeyboard
               onBackPress={this.onBackPress}
               onKeyPress={this.onKeyPress}
@@ -232,7 +248,7 @@ class CreateWallet extends Component {
           {IsFooter}
           
         </SafeAreaView>
-      </GradientBackground>
+      </LinearGradient>
     );
   }
 }

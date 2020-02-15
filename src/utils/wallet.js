@@ -3,6 +3,7 @@ import EthereumJsWallet from 'ethereumjs-wallet';
 import Web3 from 'web3';
 import EthereumTx from 'ethereumjs-tx';
 import ProviderEngine from 'web3-provider-engine';
+import { ToastAndroid } from 'react-native';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
 import { store } from '../config/store';
@@ -13,8 +14,10 @@ import {
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
+const INFURA_API_KEY = '29f8ba04e3544a66a5271844505a5fd7';
 const testnetNetwork = 'https://mappsrpc.apothem.network/';
 const mainnetNetwork = 'https://mappsrpc.xinfin.network/';
+const infureNetwork = `https://mainnet.infura.io/v3/${INFURA_API_KEY}`
 
 const testnetNetwork_optional = 'https://rpc.apothem.network';
 const mainnetNetwork_optional = 'https://rpc.xinfin.network';
@@ -99,13 +102,11 @@ export default class WalletUtils {
         );
       case 'public':
         return new Web3.providers.HttpProvider(
-          `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
+          infureNetwork,
         );
       default:
         return new Web3.providers.HttpProvider(
-          `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
-          // "http://5.152.223.197:8545",
-          // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
+          infureNetwork,
         );
     }
   }
@@ -151,7 +152,7 @@ export default class WalletUtils {
       )));
     } else {
       engine.addProvider(new ProviderSubprovider(new Web3.providers.HttpProvider(
-        `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
+        infureNetwork,
       )));
     }
 
@@ -211,12 +212,16 @@ export default class WalletUtils {
    */
   static getTransactions({ contractAddress, decimals, symbol, network, type }) {
     if (network === 'public') {
-      return this.getERC20Transactions(contractAddress, decimals, symbol);
-    } else {
-      if (type === 'XDC (Testnet)') {
-        return this.getMXDCTransactions(contractAddress, decimals, symbol);
+      if(type == 'ETH') {
+        return this.getETHTransactions(contractAddress, decimals, symbol);
       } else {
-        return this.getPrivateTransactions(contractAddress, decimals, symbol);
+        return this.getERC20Transactions(contractAddress, decimals, symbol);
+      }
+    } else {
+      if (type === 'XDC (Testnet)' || type.includes('(Testnet)')) {
+        return this.getTestnetTransactions(contractAddress, decimals, symbol);
+      } else {
+        return this.getMainnetTransactions(contractAddress, decimals, symbol);
       }
     }
   }
@@ -226,13 +231,22 @@ export default class WalletUtils {
    *
    * @param {String} contractAddress
    */
-  static async getMXDCTransactions(contractAddress, decimals, symbol) {
-    const { walletAddress } = store.getState();
+  static async getTestnetTransactions(contractAddress, decimals, symbol) {
+    let { walletAddress } = store.getState();
 
     // const walletAddress = "0x3ea0a3555f9b1de983572bff6444aeb1899ec58c";
+    if(walletAddress.substring(0, 2) === '0x') {
+      walletAddress = 'xdc' + walletAddress.substring(2)
+    }
 
+    if(contractAddress.substring(0, 2) === '0x') {
+      contractAddress = 'xdc' + contractAddress.substring(2)
+    }
+
+    const url = `https://explorer.apothem.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
+    
     return fetch(
-      `https://explorer.apothem.network/publicAPI?module=account&action=txlist&address=${walletAddress}`,
+      url,
     )
       .then(response => response.json())
       .then(data => {
@@ -245,7 +259,8 @@ export default class WalletUtils {
           to: t.to,
           timestamp: t.timestamp.toString(),
           transactionHash: t.hash,
-          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          value: (parseInt(t.value, 10)).toFixed(2),
+          symbol: symbol
         }));
       })
       .catch(err => console.log('errrr', err));
@@ -253,13 +268,14 @@ export default class WalletUtils {
 
 
   static async getERC20Transactions(contractAddress, decimals, symbol) {
-    const { walletAddress } = store.getState();
+    let { walletAddress } = store.getState();
 
     return fetch(
-      `http://api.etherscan.io/api?module=account&action=tokentx&address=${walletAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
+      `https://api.etherscan.io/api?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
     )
       .then(response => response.json())
       .then(data => {
+        console.log('ERC20 Trans@@@@@@@@@@@', data, contractAddress, decimals, symbol)
         if (data.message !== 'OK') {
           return [];
         }
@@ -270,15 +286,50 @@ export default class WalletUtils {
           timestamp: t.timeStamp,
           transactionHash: t.hash,
           value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          symbol: symbol
         }));
 
       })
       .catch(err => console.log('errrr', err));
   }
 
-  static async getPrivateTransactions(contractAddress, decimals, symbol) {
-    const { walletAddress } = store.getState();
-    const url = `https://explorer.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}`;
+  static async getETHTransactions(contractAddress, decimals, symbol) {
+    let { walletAddress } = store.getState();
+
+    return fetch(
+      `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=asc&apikey=YourApiKeyToken`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log('@@@@@@@@@@@', data)
+        if (data.message !== 'OK') {
+          return [];
+        }
+
+        return data.result.map(t => ({
+          from: t.from,
+          to: t.to,
+          timestamp: t.timeStamp,
+          transactionHash: t.hash,
+          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          symbol: symbol
+        }));
+
+      })
+      .catch(err => console.log('errrr', err));
+  }
+
+  static async getMainnetTransactions(contractAddress, decimals, symbol) {
+    let { walletAddress } = store.getState();
+    if(walletAddress.substring(0, 2) === '0x') {
+      walletAddress = 'xdc' + walletAddress.substring(2)
+    }
+    
+    if(contractAddress.substring(0, 2) === '0x') {
+      contractAddress = 'xdc' + contractAddress.substring(2)
+    }
+
+    const url = `https://explorerapi.xinfin.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
 
     return fetch(
       url,
@@ -295,7 +346,8 @@ export default class WalletUtils {
           to: t.to,
           timestamp: t.timestamp.toString(),
           transactionHash: t.hash,
-          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
+          value: (parseInt(t.value, 10)).toFixed(2),
+          symbol: symbol
         }));
 
       })
@@ -307,21 +359,25 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getBalance({ contractAddress, symbol, decimals, type }) {
+  static getBalance({ contractAddress, symbol, decimals, type, ticker }) {
     const { walletAddress, privateKey, currentCurrency } = store.getState();
-    if (type === 'XDC (Testnet)' || type === 'XDC' || type === '(Testnet)' || type === '(Mainnet)') {
-      return this.getEthBalance(currentCurrency, type, symbol);
+    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)' || type === 'ETH') {
+      return this.getEthBalance(currentCurrency, type, symbol, ticker, decimals);
     } else {
-      return this.getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol);
+      return this.getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol, ticker);
     }
   }
 
-  static getEthBalance(currentCurrency, type, symbol) {
+  static getEthBalance(currentCurrency, type, symbol, ticker, decimals) {
     const { walletAddress } = store.getState();
     let web3;
-    if (type === 'XDC' || type === '(Mainnet)') {
+    if (type === 'XDC (Mainnet)' || type.includes('(Mainnet)')) {
       web3 = new Web3(new Web3.providers.HttpProvider(
         mainnetNetwork,
+      ));
+    } else if(type === 'ETH') { 
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        infureNetwork,
       ));
     } else { 
       web3 = new Web3(new Web3.providers.HttpProvider(
@@ -332,6 +388,7 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
       // get ether balance
       web3.eth.getBalance(walletAddress, function (e, weiBalance) {
+        
         if (e) {
           let balanceData = {};
           balanceData = {
@@ -344,47 +401,67 @@ export default class WalletUtils {
           resolve(balanceData);
           // reject(e);
         }
+
         
         let balanceData = {};
-        const balance = weiBalance / Math.pow(10, 18);
+        const balance = weiBalance / Math.pow(10, decimals);
+        // console.log('111111111', symbol, walletAddress, weiBalance, e)
+        
         let usdBalance = null;
         let marketPrice = null;
-        fetch(`http://intradeapi.alphaex.net/common/xdc_wallet_live_price?currency=${symbol}&&nativeCurr=` + currentCurrency)
-          .then(res => res.json())
-          .then(function (response) {
-            if(response.statusCode == 200) {
-              marketPrice = 0;
-              usdBalance = response.message * balance;
+        const fetchUrl = `https://api2.alphaex.net/common/xdc_wallet_live_price?ticker=${ticker}&&nativeCurr=` + currentCurrency;
+        // console.log('111111111', symbol, fetchUrl, ticker)
+        // if(ticker != '' && ticker != null && ticker > 0) {
+        if(false) {  
+          fetch(fetchUrl)
+            .then(res => res.json())
+            .then(function (response) {
+              if(response.statusCode == 200) {
+                marketPrice = 0;
+                if(response.message > 0) {
+                  usdBalance = response.message * balance;
+                } else {
+                  usdBalance = 0;
+                }
+                
+                // console.log('22222222', symbol, ticker, response.message, usdBalance, balance)
+                balanceData = {
+                  'balance': balance,
+                  'usdBalance': usdBalance,
+                  'marketPrice': marketPrice,
+                  "network": web3.currentProvider.host
+                };
+              } else {
+                balanceData = {
+                  'balance': balance,
+                  'usdBalance': 0,
+                  'marketPrice': null,
+                  "network": web3.currentProvider.host
+                };
+              }
+              resolve(balanceData);
+            })
+            .catch(error => {
+              console.log('Error testnet:', error);
+              let balanceData = {};
               balanceData = {
                 'balance': balance,
-                'usdBalance': usdBalance,
-                'marketPrice': marketPrice,
-                "network": web3.currentProvider.host
-              };
-            } else {
-              balanceData = {
-                'balance': 0,
                 'usdBalance': 0,
-                'marketPrice': null,
+                'marketPrice': 0,
+                "status": false,
                 "network": web3.currentProvider.host
               };
-            }
-            
-            resolve(balanceData);
-          })
-          .catch(error => {
-            console.log('Error ETH:', error);
-            let balanceData = {};
-            balanceData = {
-              'balance': 0,
-              'usdBalance': 0,
-              'marketPrice': 0,
-              "status": false,
-              "network": web3.currentProvider.host
-            };
-            resolve(balanceData);
-          });
-
+              resolve(balanceData);
+            });
+        } else {
+          let balanceData = {
+            'balance': balance,
+            'usdBalance': 0,
+            'marketPrice': null,
+            "network": web3.currentProvider.host
+          };
+          resolve(balanceData);
+        }
 
         AnalyticsUtils.trackEvent('Get ETH balance', {
           balance,
@@ -397,12 +474,23 @@ export default class WalletUtils {
   /**
    * Get the user's wallet ETH balance
    */
-  static getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol) {
+  static getERC20Balance(contractAddress, decimals, currentCurrency, type, symbol, ticker) {
 
     const { walletAddress, privateKey } = store.getState();
-    web3 = new Web3(new Web3.providers.HttpProvider(
-      `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
-    ));
+    let web3;
+    if (type.includes('(Mainnet)')) {
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        mainnetNetwork,
+      ));
+    } else if(type.includes('(Testnet)')) { 
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        testnetNetwork,
+      ));
+    } else { 
+      web3 = new Web3(new Web3.providers.HttpProvider(
+        infureNetwork,
+      ));
+    }
 
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
@@ -413,43 +501,59 @@ export default class WalletUtils {
         if (error) {
           reject(error);
         }
-
         let balanceData = {};
-        const balance = weiBalance / Math.pow(10, 18);
+        const balance = weiBalance / Math.pow(10, decimals);
         let usdBalance = null;
-        fetch(`http://intradeapi.alphaex.net/common/xdc_wallet_live_price?currency=${symbol}&&nativeCurr=` + currentCurrency)
-          .then(res => res.json())
-          .then(function (response) {
-            if(response.statusCode == 200) {
-              usdBalance = response.message * balance;
-              balanceData = {
-                'balance': balance,
-                'usdBalance': usdBalance,
-                'marketPrice': null,
-                "network": 'Infura'
-              };
-            } else {
+          // console.log('111111111111111111111111111111111111111111111', balance, weiBalance)
+        
+        const fetchUrl = `https://api2.alphaex.net/common/xdc_wallet_live_price?ticker=${ticker}&&nativeCurr=` + currentCurrency;
+        // if(ticker != '' && ticker != null && ticker > 0) {
+        if(false) {
+            fetch(fetchUrl)
+            .then(res => res.json())
+            .then(function (response) {
+              if(symbol == 'USDT') {
+                console.log('22222222222222222222222222222222222222222', balance, response)
+              }
+              // console.log('#######1', type, symbol, weiBalance, response)
+              if(response.statusCode == 200) {
+                usdBalance = response.message * balance;
+                balanceData = {
+                  'balance': balance,
+                  'usdBalance': usdBalance,
+                  'marketPrice': null,
+                  "network": 'Infura'
+                };
+              } else {
+                balanceData = {
+                  'balance': balance,
+                  'usdBalance': 0,
+                  'marketPrice': null,
+                  "network": web3.currentProvider.host
+                };
+              }
+              resolve(balanceData);
+
+            })
+            .catch(error => {
+              console.log('Error erv20:', error)
               balanceData = {
                 'balance': 0,
                 'usdBalance': 0,
                 'marketPrice': null,
-                "network": web3.currentProvider.host
+                "network": 'Infura'
               };
-            }
-            resolve(balanceData);
-
-          })
-          .catch(error => {
-            console.log('Error Mainnet:', error)
-            balanceData = {
-              'balance': 0,
-              'usdBalance': 0,
-              'marketPrice': null,
-              "network": 'Infura'
-            };
-            resolve(balanceData);
-          });
-
+              resolve(balanceData);
+            });
+        } else {
+          let balanceData = {
+            'balance': balance,
+            'usdBalance': 0,
+            'marketPrice': null,
+            "network": web3.currentProvider.host
+          };
+          resolve(balanceData);
+        }
 
         AnalyticsUtils.trackEvent('Get ETH balance', {
           balance,
@@ -471,9 +575,52 @@ export default class WalletUtils {
       .then(res => res.json())
       .then(function (response) {
         resolve(response.data)
+      })
+      .catch(error => {
+        console.log('Error USD Price:', error);
+        resolve(0);
       });
     });
   }
+
+
+  /**
+   * Get USD price XDCE
+   */
+
+  static getCurrentXDCEPrice(currency) {
+    return new Promise((resolve, reject) => {
+      fetch(`https://api2.alphaex.net/common/xdc_wallet_live_price?ticker=2634&&nativeCurr=` + currency)
+      .then(res => res.json())
+      .then(function (response) {
+        if(response.statusCode == 200) {
+          resolve(response.message) 
+        }
+      });
+    });
+  }
+
+    /**
+   * Get USD price
+   */
+
+  static getAllCurrencyPrice(ticker, currency) {
+    return new Promise((resolve, reject) => {
+      fetch(`https://api2.alphaex.net/common/xdc_wallet_live_price?ticker=${ticker}&&nativeCurr=` + currency)
+      .then(res => res.json())
+      .then(function (response) {
+        if(response.statusCode == 200) {
+          if(response.message) {
+            resolve(response.message)
+          } else {
+            resolve(0);
+          } 
+        }
+      });
+    });
+  }
+
+
 
   /**
    * Send a transaction from the user's wallet
@@ -488,13 +635,10 @@ export default class WalletUtils {
     amount,
     network_optional,
   ) {
-    if(toAddress.substring(0, 3) === 'xdc') {
-      toAddress = '0x' + toAddress.substring(3)
+    if (type === 'XDC (Testnet)' || type === 'XDC (Mainnet)' || type === 'ETH') {
+      return this.sendMXDCTransaction(toAddress, amount, network || network_optional, type, decimals);
     }
-    if (type === 'XDC (Testnet)' || type === 'XDC') {
-      return this.sendMXDCTransaction(toAddress, amount, network_optional || network);
-    }
-    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network_optional || network);
+    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount, network || network_optional);
   }
 
 
@@ -505,6 +649,12 @@ export default class WalletUtils {
    * @param {String} amount
    */
   static sendERC20Transaction(contractAddress, decimals, toAddress, amount, network) {
+
+    amount = amount * Math.pow(10, decimals);
+
+    if(toAddress.substring(0, 3) === 'xdc') {
+      toAddress = '0x' + toAddress.substring(3)
+    }
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance(network);
 
@@ -552,7 +702,11 @@ export default class WalletUtils {
 
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
-  static sendMXDCTransaction(toAddress, amount, network) {
+  static sendMXDCTransaction(toAddress, amount, network, type, decimals) {
+    if(toAddress.substring(0, 3) === 'xdc') {
+      toAddress = '0x' + toAddress.substring(3)
+    }
+
     let { walletAddress } = store.getState();
     const web3 = this.getWeb3Instance(network);
 
@@ -566,7 +720,7 @@ export default class WalletUtils {
           {
             nounce: data,
             to: toAddress,
-            value: amount * Math.pow(10, 18),
+            value: amount * Math.pow(10, decimals),
           },
           (error, transaction) => {
             if (error) {

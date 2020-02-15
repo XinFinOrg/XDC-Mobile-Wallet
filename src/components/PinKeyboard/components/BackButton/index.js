@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Platform, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Platform, View, Dimensions, Modal as ModalV } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
@@ -7,17 +7,19 @@ import Modal from 'react-native-modal';
 import Text from '../../../Text';
 import arrowIcon from './images/arrow.png';
 import touchIdIcon from './images/touchid.png';
-import fingerPrint from './images/fingerPrint.png'
+import fingerPrint from './images/fingerPrint.png';
+import {dimHeight} from '../../../../utils/constants';
 
 const styles = StyleSheet.create({
   keyboardKey: {
     flex: 1,
     flexGrow: 1,
     paddingVertical: 10,
+    height: null
   },
   textPlaceholder: {
     color: 'transparent',
-    fontSize: 40,
+    fontSize: 30,
     fontFamily: 'Roboto',
   },
   arrowKey: {
@@ -48,22 +50,31 @@ const styles = StyleSheet.create({
   AuthModalItemTitle: {
     color: '#000',
     fontSize: 18,
-    textAlign: 'center',
     fontFamily: 'Roboto',
   },
   AuthModalContainer: {
-    backgroundColor:"#fff",
+    backgroundColor:"transparent",
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: null
   },
   AuthModalView: {
     backgroundColor:'#fff',
-    paddingVertical: 30,
+    paddingVertical: 0,
     paddingHorizontal: 30,
+    width: 300
   },
-  AuthModalClose: {
-    color: '#4d00ff',
+  AuthModalHeaderText: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    paddingVertical: 20,
+    fontFamily: 'Roboto',
+  },
+  AuthModalClose: {
+    color: '#359ff8',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'right',
     paddingVertical: 20,
     fontFamily: 'Roboto',
   }
@@ -83,6 +94,7 @@ class PinKeyboard extends Component {
   state = {
     isTouchIdSupported: false,
     isModalVisible: false,
+    doubleModalIssue: true,
   };
 
   toggleModal = () => {
@@ -96,8 +108,6 @@ class PinKeyboard extends Component {
   }
 
   onTouchIdClick = async () => {
-    
-    
     try {
       if (Platform.OS === 'android') {
         this.toggleModal(); 
@@ -105,7 +115,7 @@ class PinKeyboard extends Component {
         await FingerprintScanner.authenticate({
           onAttempt: () => {},
         });
-
+        
         this.props.onAuthSuccess();
       } else {
         await FingerprintScanner.authenticate({
@@ -115,7 +125,8 @@ class PinKeyboard extends Component {
         this.props.onAuthSuccess();
       }
     } catch (error) {
-      console.log('error:::'. error);
+      console.log('FINGERPRINT ERROR:::::::::::::::::::::::::::::::::::::::', error)
+      this.toggleModal();
     }
   };
 
@@ -143,6 +154,7 @@ class PinKeyboard extends Component {
     if (this.props.showBackButton) {
       return (
         <TouchableOpacity
+          underlayColor="transparent"
           style={[styles.keyboardKey, styles.arrowKey]}
           onPress={this.props.onBackPress}
         >
@@ -155,6 +167,7 @@ class PinKeyboard extends Component {
       return (
         <View style={styles.keyboardKey}>
           <TouchableOpacity
+            underlayColor="transparent"
             style={[styles.keyboardKey, styles.arrowKey]}
             onPress={this.onTouchIdClick}
           >
@@ -162,28 +175,31 @@ class PinKeyboard extends Component {
           </TouchableOpacity>
 
           <Modal
-          isVisible={this.state.isModalVisible} 
+          transparent={true}
+          isVisible={this.state.isModalVisible && this.state.doubleModalIssue}
+          deviceHeight={dimHeight} 
           style={styles.AuthModalContainer}>
-          <View style={styles.AuthModalView}>
-            <View style={styles.fingerPrintWrap}>
-              <Image source={fingerPrint} style={styles.fingerPrint} />
+            <View style={styles.AuthModalView}>
+              <Text style={styles.AuthModalHeaderText}>Fingerprint Authentication</Text>
+              <Text style={styles.AuthModalItemTitle}>Touch fingerprint sensor to unlock your wallet</Text>
+              <View style={styles.fingerPrintWrap}>
+                <Image source={fingerPrint} style={styles.fingerPrint} />
+              </View>
+              <TouchableOpacity
+                underlayColor="transparent"
+                style={styles.AuthModalItemTitle}
+                onPress={() => this.toggleModal()}
+              >
+                <Text style={styles.AuthModalClose}>Use PIN</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.AuthModalClose}>Fingerprint Authentication</Text>
-            <Text style={styles.AuthModalItemTitle}>Touch fingerprint sensor to unlock your wallet</Text>
-            <TouchableOpacity
-              style={styles.AuthModalItemTitle}
-              onPress={() => this.toggleModal()}
-            >
-              <Text style={styles.AuthModalClose}>Use MPIN to Unlock</Text>
-            </TouchableOpacity>
-          </View>
           </Modal>
         </View>
       );
     }
 
     return (
-      <TouchableOpacity style={styles.keyboardKey}>
+      <TouchableOpacity underlayColor="transparent" style={styles.keyboardKey}>
         <Text style={styles.textPlaceholder}> 0 </Text>
       </TouchableOpacity>
     );

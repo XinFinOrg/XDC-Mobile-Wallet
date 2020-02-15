@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Share, StyleSheet, View, Clipboard, Image, TouchableHighlight, ToastAndroid } from 'react-native';
+import { SafeAreaView, Share, StyleSheet, View, Clipboard, Image, TouchableHighlight, TouchableOpacity, ToastAndroid } from 'react-native';
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import LinearGradient from "react-native-linear-gradient";
 import {
   GradientBackground,
   Header,
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
   },
   rowIcon: {
+    backgroundColor: 'transparent',
     paddingHorizontal: 10,
     height: 25,
     width: 25,
@@ -79,27 +81,47 @@ class PrivateKey extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+};
+
+onHamBurgerPress = () => {
+    this.props.setRoute("Settings");
+    this.props.navigation.navigate("Settings")
+};
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
-            title="Private key"
-          />
+          <LinearGradient
+              colors={['#359ff8', '#325efd']}
+              locations={[0, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientHeader}
+            >
+            <Header
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.goBack()}
+              title="Private Key"
+            />
+          </LinearGradient>
           <View style={styles.privateKeyWrapper}>
             <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place.</Text>
             <Text style={styles.privateKeyTitle}>Private key</Text>
             <View style={styles.privateKeyWrap}>
               <Text style={styles.privateKey}>{this.props.privateKey}</Text>
-              <TouchableHighlight onPress={() => {
-                Clipboard.setString(this.props.privateKey);
-                Clipboard.getString();
-                ToastAndroid.show('Private key copied to the clipboard', ToastAndroid.SHORT);
-              }}>
+              <TouchableOpacity
+                underlayColor="transparent" 
+                onPress={() => {
+                  Clipboard.setString(this.props.privateKey);
+                  Clipboard.getString();
+                  ToastAndroid.show('Private key copied to the clipboard', ToastAndroid.SHORT);
+                }}>
                 <Image source={copyClip} style={styles.rowIcon} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.buttonContainer}>

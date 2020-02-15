@@ -75,7 +75,7 @@ class BalanceRow extends Component {
         
         <View style={styles.balanceContainer}>
           <Text style={styles.balance} letterSpacing={1}>
-            {currentBalance.usdBalance.toFixed(2)}
+            {currentBalance ? currentBalance.usdBalance.toFixed(2) : '...'}
           </Text>
           <Text style={styles.coinSymbol} letterSpacing={2}>
             {selectedToken.currencySymbol}
@@ -83,7 +83,7 @@ class BalanceRow extends Component {
         </View>
         
         <View style={styles.iconsContainer}>
-          <TouchableOpacity onPress={onTokenChangeIconPress}>
+          <TouchableOpacity underlayColor="transparent" onPress={onTokenChangeIconPress}>
             <Image source={switchIcon} style={styles.switchIcon} />
           </TouchableOpacity>
         </View>

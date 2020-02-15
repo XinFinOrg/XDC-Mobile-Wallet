@@ -5,23 +5,25 @@ import {
   StyleSheet,
   View,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import Text from '../Text';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    paddingVertical: 20,
-    borderWidth: 2,
-    borderColor: '#254a81',
+    height: 45,
+    alignItems: "center",
+    borderRadius: 30,
+    backgroundColor: "#359cf8",
+    justifyContent: "center",
+    width: '50%',
+    marginLeft:  '25%'
   },
   text: {
     backgroundColor: 'transparent',
-    color: '#254a81',
-    fontSize: 18,
     fontFamily: 'Roboto',
+    fontSize: 22,
+    color: "#ffffff"
   },
 });
 
@@ -40,7 +42,8 @@ export default class SecondaryButton extends Component {
 
   render() {
     return (
-      <TouchableHighlight
+      <TouchableOpacity
+        underlayColor="transparent"
         activeOpacity={0.8}
         onPress={this.props.onPress}
         disabled={this.props.disabled}
@@ -55,7 +58,7 @@ export default class SecondaryButton extends Component {
             <Text style={styles.text}>{this.props.text}</Text>
           )}
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 }

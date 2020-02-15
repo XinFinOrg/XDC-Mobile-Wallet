@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">XDCWallet</string>
+    <string name="app_name">XDC Wallet</string>
+    <string name="xdc">XDC</string>
+    <string name="poweredby">Powered by XinFin Community</string>
 </resources>

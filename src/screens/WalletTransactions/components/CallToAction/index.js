@@ -44,11 +44,13 @@ export default class CallToAction extends Component {
   render() {
     return (
       <TouchableOpacity
+        underlayColor="transparent"
         style={styles.container}
         activeOpacity={0.8}
         onPress={this.props.onPress}
       >
         <TouchableOpacity
+          underlayColor="transparent"
           activeOpacity={0.8}
           style={styles.crossIconContainer}
           onPress={this.props.onDismiss}

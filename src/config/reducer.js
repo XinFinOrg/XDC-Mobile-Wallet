@@ -1,5 +1,6 @@
 import uuid from 'react-native-uuid';
 import {AsyncStorage} from 'react-native';
+import { REHYDRATE } from 'redux-persist';
 import {
   ADD_TOKEN,
   DELETE_TOKEN,
@@ -120,6 +121,18 @@ const appReducer = (state = defaultState, action) => {
         ...state,
         walletAddress: action.walletAddress,
       };
+    case "persist/REHYDRATE":
+      if(action.payload) {
+        if(action.payload.availableTokens) {
+          const defaultTokensLength = defaultTokens.length;
+          const payloadTokensLength = action.payload.availableTokens.length;
+          for(i = 0; i < defaultTokensLength; i++) {
+            action.payload.availableTokens[i] = defaultTokens[i];
+          }
+        }
+      }
+
+      return state;
     default:
       return state;
   }
@@ -130,7 +143,7 @@ const rootReducer = (state, action) => {
     // eslint-disable-next-line no-param-reassign
     state = undefined;
   }
-
+  
   return appReducer(state, action);
 };
 

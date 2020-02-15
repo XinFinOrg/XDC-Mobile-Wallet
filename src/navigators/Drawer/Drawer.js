@@ -18,6 +18,7 @@ import { LOGOUT, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: 'red',
         flex: 1
     },
     navItemStyle: {
@@ -59,12 +60,12 @@ const styles = StyleSheet.create({
     },
     drawerContainer: {
         height: 100,
-        backgroundColor: '#254a81',
+        backgroundColor: '#359ff8',
         justifyContent: 'center',
         alignItems: 'center',
     },
     activeLink: {
-        color: '#254a81',
+        color: '#359ff8',
         // backgroundColor: '#efefef',
     },
     Icon:{
@@ -147,14 +148,6 @@ class CustomDrawer extends Component {
                             Change Pin
                         </Text>
                     </View>
-                    {/* <View style={styles.navSectionStyle}>
-                        <Image source={network} style={styles.Icon}/>
-                        <Text 
-                            style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('NetworkPicker', false)}>
-                            Change Network
-                        </Text>
-                    </View> */}
                     <View style={styles.navSectionStyle}>
                         <Image source={network} style={styles.Icon}/>
                         <Text 
@@ -174,6 +167,7 @@ class CustomDrawer extends Component {
                     <View style={styles.navSectionStyle}>
                         <Image source={webwallet} style={styles.Icon}/>
                         <TouchableOpacity
+                            underlayColor="transparent"
                             style = {normalTabStyle}
                             onPress = { () => 
                             {
@@ -183,10 +177,19 @@ class CustomDrawer extends Component {
                             <Text style={styles.linkText}>Login to Web Wallet</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.navSectionStyle}>
+                        <Image source={network} style={styles.Icon}/>
+                        <Text 
+                            style={activeItemKey === 'Settings' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('Settings', false)}>
+                            Settings
+                        </Text>
+                    </View>
                 </View>
             </ScrollView>
             <View>
                 <TouchableOpacity
+                    underlayColor="transparent"
                     style={styles.footerContainer}
                     onPress = { () => 
                         Alert.alert(
@@ -202,7 +205,7 @@ class CustomDrawer extends Component {
                               text: 'OK',
                               onPress: async () => {
                                 await this.props.logout();
-                                this.props.navigation.navigate('SignUp');
+                                this.props.navigation.navigate('Home');
                               },
                             },
                           ],

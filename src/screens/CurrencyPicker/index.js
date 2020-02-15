@@ -6,6 +6,7 @@ import { StackActions, NavigationActions, DrawerActions } from 'react-navigation
 import { GradientBackground, Header, Menu } from '../../components';
 import { RESET_TOKENS, SET_NETWORK, SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
+import LinearGradient from "react-native-linear-gradient";
 
 const styles = StyleSheet.create({
   container: {
@@ -80,15 +81,33 @@ class CurrencyPicker extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+  };
+
+  onHamBurgerPress = () => {
+      this.props.setRoute("Settings");
+      this.props.navigation.navigate("Settings")
+  };
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
-            title="Change Currency"
-          />
+          <LinearGradient
+              colors={['#359ff8', '#325efd']}
+              locations={[0, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientHeader}
+            >
+            <Header
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.goBack()}
+              title="Change Currency"
+            />
+          </LinearGradient>
 
           <Menu options={this.state.menuOptions} />
 

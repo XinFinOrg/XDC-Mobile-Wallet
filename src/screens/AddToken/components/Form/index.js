@@ -54,11 +54,13 @@ export default class Form extends Component {
   static propTypes = {
     contractAddress: PropTypes.string.isRequired,
     decimals: PropTypes.string.isRequired,
+    ticker: PropTypes.string,
     name: PropTypes.string.isRequired,
     tName: PropTypes.string.isRequired,
     onCameraPress: PropTypes.func.isRequired,
     onContractAddressChange: PropTypes.func.isRequired,
     onDecimalsChange: PropTypes.func.isRequired,
+    onTickerChange: PropTypes.func,
     onNameChange: PropTypes.func.isRequired,
     onSymbolChange: PropTypes.func.isRequired,
     onNetworkChange: PropTypes.func.isRequired,
@@ -74,11 +76,13 @@ export default class Form extends Component {
     const {
       contractAddress,
       decimals,
+      ticker,
       name,
       tName,
       onCameraPress,
       onContractAddressChange,
       onDecimalsChange,
+      onTickerChange,
       onNameChange,
       onSymbolChange,
       onNetworkChange,
@@ -116,7 +120,7 @@ export default class Form extends Component {
               underlineColorAndroid="transparent"
               value={contractAddress}
             />
-            <TouchableOpacity onPress={onCameraPress}>
+            <TouchableOpacity underlayColor="transparent" onPress={onCameraPress}>
               <Image source={cameraIcon} style={styles.cameraIcon} />
             </TouchableOpacity>
           </View>
@@ -185,6 +189,28 @@ export default class Form extends Component {
             />
           </View>
         </View>
+
+        {/* <View style={styles.formElement}>
+          <Text style={styles.formLabel}>Ticker ID</Text>
+          <View style={styles.formInputRow}>
+            <TextInput
+              autoCorrect={false}
+              keyboardType="numeric"
+              onChangeText={onTickerChange}
+              placeholder="Enter Ticker ID"
+              placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.decimalsInput = input;
+              }}
+              returnKeyType="done"
+              selectionColor="#4D00FF"
+              style={styles.formInput}
+              underlineColorAndroid="transparent"
+              value={ticker}
+            />
+          </View>
+        </View> */}
+
         <View style={styles.formElement}>
           <Text style={styles.formInputNetwork}>Select Network</Text>
           <Picker

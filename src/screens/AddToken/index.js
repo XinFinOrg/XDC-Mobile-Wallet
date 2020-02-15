@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
@@ -8,6 +8,7 @@ import { ADD_TOKEN, SET_DEFAULT_TOKEN, SET_CURRENT_ROUTE } from '../../config/ac
 import AnalyticsUtils from '../../utils/analytics';
 import { DrawerActions } from 'react-navigation';
 import Footer from '../UIComponents/Footer/index';
+import LinearGradient from "react-native-linear-gradient";
 
 const styles = StyleSheet.create({
   container: {
@@ -37,9 +38,11 @@ class AddToken extends Component {
   state = {
     contractAddress: '',
     decimals: '',
+    ticker: '',
     name: '',
     symbol: '',
     network: this.props.network,
+    ticker: '',
   };
 
   onBarCodeRead = contractAddress => {
@@ -64,6 +67,7 @@ class AddToken extends Component {
               symbol: data.symbol || '',
               decimals: data.decimals ? data.decimals.toString() : '',
               network: data.network || '',
+              ticker: data.ticker || '',
             });
           });
       },
@@ -82,27 +86,57 @@ class AddToken extends Component {
   addToken = () => {
     let type;
     if(this.state.network == 'private') {
-      type = '(Testnet)';
+      type = `${this.state.symbol} (Testnet)`;
     } else if(this.state.network == 'mainnet') {
-      type = '(Mainnet)';
+      type = `${this.state.symbol} (Mainnet)`;
     } else {
       type = this.state.symbol;
     }
     const token = {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
+      // ticker: this.state.ticker !== '' ? parseInt(this.state.ticker, 10) : '',
       name: this.state.name,
-      tName: this.state.name,
+      tName: type,
       symbol: this.state.symbol,
       currencySymbol: 'USD',
       network: this.state.network,
       type: type,
     };
 
-    this.props.addToken(token);
-    this.props.setDefaultToken(token);
-    this.props.setRoute('WalletHome');
-    this.props.navigation.navigate('WalletHome');
+    let flag = true;
+
+    this.props.tokenList.map((t,i) => {
+      if(token.contractAddress == t.contractAddress) {
+        flag = false;
+        Alert.alert(
+          'Error Occured',
+          'Token already exist with the same contract address.',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => {},
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: async () => {
+                this.setState({
+                  contractAddress: ''
+                })
+              },
+            },
+          ],
+          { cancelable: false },
+        );
+      }
+    });
+    if(flag) {
+      this.props.addToken(token);
+      // this.props.setDefaultToken(token);
+      this.props.setRoute('WalletHome');
+      this.props.navigation.navigate('WalletHome');
+    }
   };
 
   goBack = () => {
@@ -112,26 +146,46 @@ class AddToken extends Component {
     this.props.navigation.navigate(stackRoute)
   };
 
+  onReceivePress = () => {
+    this.props.setRoute("Receive");
+    this.props.navigation.navigate("Receive")
+  };
+
+  onHamBurgerPress = () => {
+      this.props.setRoute("Settings");
+      this.props.navigation.navigate("Settings")
+  };
+
   render() {
     
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()}
-            title='Add token'
-          />
+          <LinearGradient
+              colors={['#359ff8', '#325efd']}
+              locations={[0, 1]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientHeader}
+            >
+            <Header
+              hamBurgerPress={() => this.onHamBurgerPress()}
+              onBackPress={() => this.goBack()}
+              title="Add New Token"
+            />
+          </LinearGradient>
           <Form
             amount={this.state.amount}
             contractAddress={this.state.contractAddress}
             decimals={this.state.decimals}
+            ticker={this.state.ticker}
             name={this.state.name}
             tName={this.state.name}
             onContractAddressChange={contractAddress =>
               this.setState({ contractAddress })
             }
             onDecimalsChange={decimals => this.setState({ decimals })}
+            onTickerChange={ticker => this.setState({ ticker })}
             onNameChange={name => this.setState({ name })}
             onSymbolChange={symbol => this.setState({ symbol })}
             onCameraPress={this.onCameraPress}
@@ -171,6 +225,7 @@ class AddToken extends Component {
 
 const mapStateToProps = state => ({
   network: state.network,
+  tokenList: state.availableTokens,
 });
 
 const mapDispatchToProps = dispatch => ({

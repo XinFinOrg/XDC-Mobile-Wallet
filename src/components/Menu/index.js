@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     borderBottomWidth: 2,
-    borderColor: '#254a81',
+    borderColor: '#359ff8',
     paddingVertical: 25,
     paddingHorizontal: 15,
     flexDirection: 'row',
@@ -79,7 +79,7 @@ class Menu extends Component {
     }
 
     return (
-      <TouchableOpacity onPress={option.onPress} key={index}>
+      <TouchableOpacity underlayColor="transparent" onPress={option.onPress} key={index}>
         <View style={styles.rowContainer}>
           <Text style={styles.rowText}>{option.title}</Text>
           {this.props.defaultCurrency === option.title ? <Image source={check} style={styles.rowIcon} /> : null }

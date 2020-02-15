@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Text from '../Text';
 import arrow from './images/arrow.png';
+import qr from './images/ic_qr.png';
 import menu from './images/menu.png';
+import refresh from './images/refresh.png';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -12,26 +14,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
-    backgroundColor: '#254a81',
+    backgroundColor: 'transparent',
     zIndex: 100,
   },
   centeredContainer: {
     paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
-    backgroundColor: '#254a81',
+    backgroundColor: 'transparent',
     zIndex: 100,
   },
+  headerStart: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   headerExtremity: {
-
+    paddingRight: 20
   },
   headerText: {
     color: '#fff',
-    fontSize: 27,
+    fontSize: 22,
     fontFamily: 'Roboto',
   },
   headerArrow: {
     height: 22,
+    marginVertical: 4,
+    width: 22,
+  },
+  headerQr: {
+    height: 35,
     marginVertical: 4,
     width: 22,
   },
@@ -55,27 +67,32 @@ export default class Header extends Component {
         style={
           this.props.hamBurgerPress || this.props.onBackPress
             ? styles.headerContainer
-            : styles.centeredContainer
+            // : styles.centeredContainer
+            : styles.headerContainer
         }
       >
         
-        {this.props.hamBurgerPress ? (
-          <TouchableOpacity
-            style={styles.headerExtremity}
-            onPress={this.props.hamBurgerPress}
-          >
-            <Image source={menu} style={styles.headerArrow} />
-          </TouchableOpacity>
-        ) : null}
+        <View style={styles.headerStart}>
+          {this.props.hamBurgerPress ? (
+            <TouchableOpacity
+              underlayColor="transparent"
+              style={styles.headerExtremity}
+              onPress={this.props.hamBurgerPress}
+            >
+              <Image source={menu} style={styles.headerArrow} />
+            </TouchableOpacity>
+          ) : null}
         
-        <Text style={styles.headerText}>{this.props.title}</Text>
+          <Text style={styles.headerText}>{this.props.title}</Text>
+        </View>
 
         {this.props.onBackPress ? (
           <TouchableOpacity
+            underlayColor="transparent"
             style={styles.headerExtremity}
             onPress={this.props.onBackPress}
           >
-            <Image source={arrow} style={styles.headerArrow} />
+            <Image source={this.props.title == 'Dashboard' ? refresh : arrow} style={styles.headerQr} />
           </TouchableOpacity>
         ) : <View style={styles.headerExtremity} />}
 
