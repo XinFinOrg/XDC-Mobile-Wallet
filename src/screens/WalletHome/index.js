@@ -3,30 +3,18 @@ import {
   AppState,
   BackHandler,
   Alert,
-  SafeAreaView,
   StyleSheet,
   View,
   ScrollView,
   Image,
-  Dimensions,
-  TouchableHighlight,
   TouchableOpacity,
-  ActivityIndicator,
-  Text as RNText,
-  RefreshControl,
-  AccessibilityInfo
 } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { GradientBackground, Text, Header } from "../../components";
+import { Text, Header } from "../../components";
 import LinearGradient from "react-native-linear-gradient";
 import {dimHeight} from '../../utils/constants';
 import Modal from "react-native-modal";
-import {
-  Balances,
-  BalanceRow,
-  CallToAction,
-} from "./components";
 import Footer from "../UIComponents/Footer/index";
 import PieChart from "react-native-pie-chart";
 import {MaterialIndicator as DotIndicator} from 'react-native-indicators';
@@ -38,8 +26,6 @@ import xdct from "./components/ExpandableView/Images/ic_xdct.png";
 import eth from "./components/ExpandableView/Images/ic_eth.png";
 import usdt from "./components/ExpandableView/Images/ic_usdt.png";
 import usdc from "./components/ExpandableView/Images/ic_usdc.png";
-// import { PieChart } from 'react-native-svg-charts';
-// import ExpandableView1 from "./components/ExpandableView";
 
 import {
   SET_CALL_TO_ACTION_DISMISSED,
@@ -47,12 +33,6 @@ import {
   IS_KEY_EXPORTED
 } from "../../config/actionTypes";
 import WalletUtils from "../../utils/wallet";
-import { relative } from "path";
-import {
-  DrawerActions,
-  StackActions,
-  withNavigationFocus
-} from "react-navigation";
 import ExpandableView from "./components/ExpandableView";
 
 const styles = StyleSheet.create({
@@ -70,15 +50,9 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
 
-  gradientHeaderWrapper: {
-    height: 150,
-    position: "relative"
-  },
   gradientHeader: {
     width: "100%",
     height: 250,
-    // borderBottomLeftRadius: 15,
-    // borderBottomRightRadius: 15
   },
 
   gradientHeaderShadow: {
@@ -91,34 +65,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15
   },
 
-  gradientHeaderShadowTwo: {
-    position: "absolute",
-    width: "86%",
-    marginLeft: "7%",
-    bottom: 0,
-    height: 10,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15
-  },
-
-  coinName: {
-    color: "#fff",
-    backgroundColor: "transparent",
-    fontSize: 18,
-    letterSpacing: 3,
-    paddingVertical: 15,
-    paddingTop: 20,
-    textAlign: "center"
-  },
-  bannerContainer: {
-    backgroundColor: "#ddd",
-    marginVertical: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 15
-  },
-  bannerText: {
-    color: "#359ff8"
-  },
   listContainer: {
     flex: 1
   },
@@ -151,11 +97,6 @@ const styles = StyleSheet.create({
     color: "#555",
     fontFamily: "Roboto"
   },
-  ModalItemTitle: {
-    color: "#000",
-    fontSize: 18,
-    fontFamily: "Roboto"
-  },
   ModalClose: {
     width: "90%",
     marginLeft: "5%",
@@ -177,30 +118,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  gaugeText: {
-    backgroundColor: "transparent",
-    color: "#ffffff",
-    fontSize: 24
-  },
   CircleShapeViewXDC: {
     width: 10,
     height: 10,
     borderRadius: 150 / 2,
     backgroundColor: "#1bf2ff"
   },
-  CircleShapeViewXDC1: {
-    width: 10,
-    height: 10,
-    borderRadius: 150 / 2,
-    backgroundColor: "#ff9b22"
-  },
-  CircleShapeViewXDCe: {
-    width: 10,
-    height: 10,
-    borderRadius: 150 / 2,
-    backgroundColor: "#ac0fed"
-  },
-
   dashCard: {
     position: 'absolute',
     left: 0,
@@ -626,11 +549,9 @@ class WalletHome extends Component {
       'USDT': usdt,
       'USDC': usdc,
     }
-    // console.log('@@@@@@@@@@@@@@@@@@@@1111', this.state.usdBalanceArray['USDT'], this.state.usdBalanceArray['XDC'])
     let tokens = null;
     if(this.props.tokenList != null && this.state.tokenBalances != null && this.props.tokenList.length === this.state.tokenBalancesLength.length) {
       tokens = this.props.tokenList.map((token, index) => {
-        // console.log('%%%%%%%%%%%%%%%%%%%%', this.state.usdBalanceArray[token.symbol], token.symbol, this.state.usdBalanceArray)
         return(
           <View style={{ flexDirection: "column", paddingBottom: 10 }} key={index}>
             <View style={styles.tokenDetail}>
@@ -760,19 +681,12 @@ class WalletHome extends Component {
         });
         // add this for stable pie chart
         series.push(0.00);
-        // console.log('11111111111111111111', balanceInfo, series)
         if(balanceInfo == 0) {
-          // this.props.tokenList.map((token, index) => {
-          //   series[index] = 1;
-          // });
           series = values;
           sliceColor = colors;
         }
       }
     }
-
-    // console.log('@@@@@@', balanceInfo, this.state.testnetIsDown)
-
 
     let sumUSDArray = series.reduce((a, b) => a + b, 0);
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Share, StyleSheet, View, Clipboard, Image, TouchableHighlight, TouchableOpacity, ToastAndroid } from 'react-native';
-import { DrawerActions } from 'react-navigation';
+import { SafeAreaView, Share, StyleSheet, View, Clipboard, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LinearGradient from "react-native-linear-gradient";
@@ -12,7 +11,7 @@ import {
 } from '../../components';
 import Footer from '../UIComponents/Footer/';
 import copyClip from './images/copy-content.png';
-import { SET_CURRENT_ROUTE, IS_KEY_EXPORTED } from '../../config/actionTypes'
+import { SET_CURRENT_ROUTE } from '../../config/actionTypes'
 
 const styles = StyleSheet.create({
   container: {

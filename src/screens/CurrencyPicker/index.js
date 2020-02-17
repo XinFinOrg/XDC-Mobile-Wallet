@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { StackActions, NavigationActions, DrawerActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
-import { RESET_TOKENS, SET_NETWORK, SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
+import { SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 import LinearGradient from "react-native-linear-gradient";
 

@@ -1,33 +1,22 @@
 import React, { Component } from "react";
 import {
-  SafeAreaView,
-  Share,
   StyleSheet,
   View,
   RefreshControl,
   ScrollView,
-  Alert,
-  TouchableOpacity,
-  Linking
 } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import QRCode from "react-native-qrcode-svg";
 import LinearGradient from "react-native-linear-gradient";
 import {
   GradientBackground,
   Header,
-  SecondaryButton,
-  Text,
   BalanceRow
 } from "../../components";
 import WalletUtils from "../../utils/wallet";
 import Footer from "../UIComponents/Footer/index";
 import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
-import { DrawerActions } from "react-navigation";
-// import Form from "../WalletSend/components_new/Form";
 import ReceiveForm from "../WalletReceive/Form";
-// import TransactionList from "../WalletTransactions/components/TransactionsList";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
@@ -36,22 +25,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   
-  qrcodeContainer: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    paddingVertical: 5,
-    width: 160
-  },
-  addressTitle: {
-    paddingHorizontal: 15,
-    color: "#fff",
-    textAlign: "center",
-    paddingBottom: 20,
-    fontSize: 18,
-    fontFamily: "Roboto"
-  },
   walletAddress: {
     paddingHorizontal: 15,
     color: "#9d9d9d",
@@ -74,64 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  topContainer: {
-    alignContent: "center",
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "column"
-  },
-
-  buttonsContainer: {
-    flex: 1,
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    alignContent: "center",
-    alignItems: "center"
-  },
-
-  xdcButtonMark: {
-    height: 40,
-    width: 100,
-    borderRadius: 30,
-    marginRight: 5,
-    marginLeft: 5,
-    padding: 15,
-    backgroundColor: "#ff9b22",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-
-  xdcButtonUnMark: {
-    height: 40,
-    width: 100,
-    borderRadius: 30,
-    borderWidth: 1,
-    marginRight: 5,
-    marginLeft: 5,
-    padding: 15,
-    borderColor: "#ffffff",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent"
-  },
-
-  xdcButtonText: {
-    textAlign: "center",
-    color: "#ffffff",
-    fontSize: 20
-  },
-
-  priceText: {
-    color: "#ffffff",
-    fontSize: 28,
-    textAlign: "center"
-  },
-
-  totalBalance: {
-    color: "#ffffff",
-    fontSize: 16,
-    textAlign: "center"
-  },
   buttonContainer: {
     paddingHorizontal: 15
   }

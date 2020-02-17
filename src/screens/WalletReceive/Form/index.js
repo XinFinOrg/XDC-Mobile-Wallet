@@ -8,7 +8,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Linking,
   Share,
   Clipboard,
   ToastAndroid
@@ -129,28 +128,11 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
 
-  copyContainer: {
-    borderRadius: 30,
-    flexDirection: "row",
-    borderWidth: 2,
-    height: 50,
-    elevation: 2,
-    top: 20,
-    borderColor: "rgb(243, 243, 245)",
-    backgroundColor: "rgba(53, 156, 248, 0)",
-    padding: 13
-  },
-
   fromText: {
     color: "#71869a",
     fontSize: 20,
     top: 20
   },
-  copyText: {
-    fontSize: 18,
-    textAlign: "center"
-  },
-
   image: {
     height: 20,
     width: 15
@@ -164,11 +146,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 25,
     marginRight: 25
-  },
-  continuebuttonText: {
-    fontFamily: "montserratregular",
-    fontSize: 30,
-    color: "#ffffff"
   },
   stackedContainer: {
     backgroundColor: '#fff',

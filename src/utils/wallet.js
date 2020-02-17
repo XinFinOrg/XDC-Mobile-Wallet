@@ -22,6 +22,8 @@ const infureNetwork = `https://mainnet.infura.io/v3/${INFURA_API_KEY}`
 const testnetNetwork_optional = 'https://rpc.apothem.network';
 const mainnetNetwork_optional = 'https://rpc.xinfin.network';
 
+const etherscanAPI = 'GYQY64JSGG5PZQF5KGBUMZTIXPN3MDCS4P';
+
 export default class WalletUtils {
   /**
    * Given an EthereumJSWallet instance, store both address and private key
@@ -239,12 +241,17 @@ export default class WalletUtils {
       walletAddress = 'xdc' + walletAddress.substring(2)
     }
 
-    if(contractAddress.substring(0, 2) === '0x') {
-      contractAddress = 'xdc' + contractAddress.substring(2)
+    let url;
+    if(contractAddress) {
+      if(contractAddress.substring(0, 2) === '0x') {
+        contractAddress = 'xdc' + contractAddress.substring(2)
+      }
+      url = `https://explorer.apothem.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
+    } else {
+      url = `https://explorer.apothem.network/publicAPI?module=account&action=txlist&address=${walletAddress}`;
     }
-
-    const url = `https://explorer.apothem.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
     
+    console.log('11111111111111::', url);
     return fetch(
       url,
     )
@@ -271,7 +278,7 @@ export default class WalletUtils {
     let { walletAddress } = store.getState();
 
     return fetch(
-      `https://api.etherscan.io/api?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`,
+      `https://api.etherscan.io/api?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=${etherscanAPI}`,
     )
       .then(response => response.json())
       .then(data => {
@@ -297,7 +304,7 @@ export default class WalletUtils {
     let { walletAddress } = store.getState();
 
     return fetch(
-      `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=asc&apikey=YourApiKeyToken`,
+      `https://api.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=asc&apikey=${etherscanAPI}`,
     )
       .then(response => response.json())
       .then(data => {
@@ -325,12 +332,18 @@ export default class WalletUtils {
       walletAddress = 'xdc' + walletAddress.substring(2)
     }
     
-    if(contractAddress.substring(0, 2) === '0x') {
-      contractAddress = 'xdc' + contractAddress.substring(2)
+    let url;
+    if(contractAddress) {
+      if(contractAddress.substring(0, 2) === '0x') {
+        contractAddress = 'xdc' + contractAddress.substring(2)
+      }
+
+      url = `https://explorer.xinfin.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
+    } else {
+      url = `https://explorer.xinfin.network/publicAPI?module=account&action=txlist&address=${walletAddress}`;
     }
 
-    const url = `https://explorerapi.xinfin.network/publicAPI?module=account&action=tokentx&address=${walletAddress}&contractaddress=${contractAddress}&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken`;
-
+    console.log('222222222mainnet:', url)
     return fetch(
       url,
     )

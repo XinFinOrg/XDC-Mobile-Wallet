@@ -1,34 +1,29 @@
-/**
- * @format
- */
-
-// import {AppRegistry} from 'react-native';
-// import App from './App';
-// import {name as appName} from './app.json';
-
-// AppRegistry.registerComponent(appName, () => App);
-
-
 import React from 'react';
-import { AppRegistry, StatusBar } from 'react-native';
+import { AppRegistry, StatusBar, AsyncStorage, ToastAndroid } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import './shim';
 import Navigator from './src/navigators';
 import { persistor, store } from './src/config/store';
 import AnalyticsUtils from './src/utils/analytics';
+import {reduxPersistKey_old} from './src/utils/constants';
 
-const getCurrentRouteName = navigationState => {
-  if (!navigationState) {
-    return null;
+const getCurrentRouteName = async navigationState => {
+  const pW = await AsyncStorage.getItem(`persist:${reduxPersistKey_old}`);
+  console.log('1111111111111111111111111111111111', pW)
+  const _pW = JSON.parse(pW);
+  if(_pW && _pW !== 'null') {
+    return "AppLoading";
   }
 
   const route = navigationState.routes[navigationState.index];
 
   if (route.routes) {
+    ToastAndroid.show(`DEAD SCREEN 1:::::`, ToastAndroid.LONG);
     return getCurrentRouteName(route);
   }
 
+  ToastAndroid.show(`DEAD SCREEN 2 ${route.routeName}:::::`, ToastAndroid.LONG);
   return route.routeName;
 };
 

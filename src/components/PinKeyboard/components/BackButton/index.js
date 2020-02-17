@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Platform, View, Dimensions, Modal as ModalV } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Platform, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
@@ -98,7 +98,11 @@ class PinKeyboard extends Component {
   };
 
   toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible});
+    this.setState({ isModalVisible: !this.state.isModalVisible}, function() {
+      if(!this.state.isModalVisible) {
+        FingerprintScanner.release();
+      }
+    });
   }
 
   componentDidMount() {
@@ -125,7 +129,8 @@ class PinKeyboard extends Component {
         this.props.onAuthSuccess();
       }
     } catch (error) {
-      console.log('FINGERPRINT ERROR:::::::::::::::::::::::::::::::::::::::', error)
+      console.log('FINGERPRINT ERROR:::::::::::::::::::::::::::::::::::::::', error);
+      FingerprintScanner.release();
       this.toggleModal();
     }
   };

@@ -6,7 +6,6 @@ import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
 import { ADD_TOKEN, SET_DEFAULT_TOKEN, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import AnalyticsUtils from '../../utils/analytics';
-import { DrawerActions } from 'react-navigation';
 import Footer from '../UIComponents/Footer/index';
 import LinearGradient from "react-native-linear-gradient";
 

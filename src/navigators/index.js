@@ -10,29 +10,21 @@ import {
   CameraScreen,
   CreateWalletScreen,
   HomeScreen,
-  SignUpScreen,
-  NetworkPickerScreen,
   CurrencyPickerScreen,
   PinCodeScreen,
   PrivateKeyScreen,
   RecoverWalletScreen,
   SettingsScreen,
-  TokenPickerScreen,
   WalletHomeScreen,
   WalletTransactionsScreen,
   WalletReceiveScreen,
   WalletSendScreen,
 } from '../screens';
 
-import CustomDrawer from './Drawer/Drawer'
-
 const WelcomeNavigator = createStackNavigator(
   {
     Camera: {
       screen: CameraScreen,
-    },
-    SignUp: {
-      screen: SignUpScreen,
     },
     CreateWallet: {
       screen: CreateWalletScreen,
@@ -70,9 +62,6 @@ const WalletMainNavigator = createStackNavigator(
     WalletTransactions: {
       screen: WalletTransactionsScreen,
     },
-    NetworkPicker: {
-      screen: NetworkPickerScreen,
-    },
     CurrencyPicker: {
       screen: CurrencyPickerScreen,
     },
@@ -87,9 +76,6 @@ const WalletMainNavigator = createStackNavigator(
     },
     Send: {
       screen: WalletSendScreen,
-    },
-    TokenPicker: {
-      screen: TokenPickerScreen,
     },
   },
   {
@@ -118,9 +104,6 @@ const SendNavigator = createStackNavigator(
     },
     SendMain: {
       screen: WalletSendScreen,
-    },
-    TokenPicker: {
-      screen: TokenPickerScreen,
     },
   },
   {
@@ -156,19 +139,6 @@ const WalletNavigator = createStackNavigator(
     mode: 'modal',
   },
 );
-
-const DrawerNavigation = createDrawerNavigator({
-  Welcome: WalletMainNavigator,
-},
-{
-  contentComponent: CustomDrawer,
-  contentOptions: {
-    activeTintColor: '#359ff8',
-  },
-  drawerPosition: 'left',
-  drawerBackgroundColor: 'white',
-  drawerWidth: '100%',
-});
 
 export default createSwitchNavigator(
   {

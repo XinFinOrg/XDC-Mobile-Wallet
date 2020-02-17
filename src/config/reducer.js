@@ -1,6 +1,4 @@
 import uuid from 'react-native-uuid';
-import {AsyncStorage} from 'react-native';
-import { REHYDRATE } from 'redux-persist';
 import {
   ADD_TOKEN,
   DELETE_TOKEN,

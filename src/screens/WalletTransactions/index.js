@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header, BalanceRow } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  CallToAction,
   TransactionsList,
 } from './components';
 import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
-import { relative } from 'path';
-import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,22 +19,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   
-  qrcodeContainer: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    paddingVertical: 5,
-    width: 160
-  },
-  addressTitle: {
-    paddingHorizontal: 15,
-    color: "#fff",
-    textAlign: "center",
-    paddingBottom: 20,
-    fontSize: 18,
-    fontFamily: "Roboto"
-  },
   walletAddress: {
     paddingHorizontal: 15,
     color: "#9d9d9d",
@@ -60,64 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  topContainer: {
-    alignContent: "center",
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "column"
-  },
-
-  buttonsContainer: {
-    flex: 1,
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    alignContent: "center",
-    alignItems: "center"
-  },
-
-  xdcButtonMark: {
-    height: 40,
-    width: 100,
-    borderRadius: 30,
-    marginRight: 5,
-    marginLeft: 5,
-    padding: 15,
-    backgroundColor: "#ff9b22",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-
-  xdcButtonUnMark: {
-    height: 40,
-    width: 100,
-    borderRadius: 30,
-    borderWidth: 1,
-    marginRight: 5,
-    marginLeft: 5,
-    padding: 15,
-    borderColor: "#ffffff",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent"
-  },
-
-  xdcButtonText: {
-    textAlign: "center",
-    color: "#ffffff",
-    fontSize: 20
-  },
-
-  priceText: {
-    color: "#ffffff",
-    fontSize: 28,
-    textAlign: "center"
-  },
-
-  totalBalance: {
-    color: "#ffffff",
-    fontSize: 16,
-    textAlign: "center"
-  },
   buttonContainer: {
     paddingHorizontal: 15
   }
@@ -254,12 +177,19 @@ class WalletTransactions extends Component {
       this.props.selectedToken,
     );
 
-    if(transactions[0].symbol == this.props.selectedToken.symbol) {
+    if(transactions.length > 0) {
+      if(transactions[0].symbol == this.props.selectedToken.symbol) {
+        this.setState({
+          refreshingTransactions: false,
+          transactions,
+          transactionsToken: transactions[0].symbol,
+        });
+      }
+    } else {
       this.setState({
         refreshingTransactions: false,
-        transactions,
-        transactionsToken: transactions[0].symbol,
-      });
+        transactions
+      })
     }
   };
 

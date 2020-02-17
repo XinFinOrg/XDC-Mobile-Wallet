@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Text from '../Text';
 import arrow from './images/arrow.png';
-import qr from './images/ic_qr.png';
 import menu from './images/menu.png';
 import refresh from './images/refresh.png';
 

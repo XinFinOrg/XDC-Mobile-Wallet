@@ -9,25 +9,18 @@ import {
   TouchableOpacity,
   Linking
 } from "react-native";
-import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
+import {NavigationActions} from 'react-navigation';
 import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { GradientBackground, Header, Menu, Text } from "../../components";
+import { GradientBackground, Header, Text } from "../../components";
 import { LOGOUT, SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import { persistor } from "../../config/store";
-import Footer from "../UIComponents/Footer/index";
-import { DrawerActions } from "react-navigation";
-import back from "./Images/ic_back.png";
-import bell from "./Images/ic_bell.png";
-import next from "./Images/ic_next.png";
-import circle from "./Images/ic_circle.png";
 import Passcode from "./Images/ic_passcode.png";
 import Community from "./Images/ic_community.png";
 import LoginWebWallet from "./Images/ic_loginwebwallet.png";
 import Terms from "./Images/ic_terms.png";
 import Support from "./Images/ic_support.png";
-import Setting from "./Images/ic_setting.png";
 import Logout from "./Images/ic_logout.png";
 import _addToken from "./Images/addtoken.png";
 import _privateKey from "./Images/private.png";
@@ -37,34 +30,6 @@ import _defaultCurrency from "./Images/defaultCurrency.png";
 import _masterNode from "./Images/masterNode.png";
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#359ff8",
-    zIndex: 100
-  },
-  networkNameContainer: {
-    alignItems: "center"
-  },
-  networkName: {
-    color: "#fff",
-    fontSize: 16,
-    fontFamily: "Roboto"
-  },
-  headerText: {
-    color: "#fff",
-    fontSize: 27,
-    fontFamily: "montserratregular",
-    textAlign: "left",
-    left: 20
-  },
-  headerArrow: {
-    height: 22,
-    marginVertical: 4,
-    width: 22
-  },
   settingsContainer: {
     flex: 1,
     height: 50,
@@ -78,18 +43,9 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 10,
   },
-  bellImage: {
-    width: 20,
-    height: 20
-  },
   ImageWidth: {
     width: 20,
     height: 20
-  },
-  ImageWidthEnd: {
-    width: 20,
-    height: 20,
-    alignSelf: "flex-end"
   },
   buttonCont: {
     flex: 1,
@@ -100,11 +56,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     textAlign: 'left',
-  },
-  iconCont: {
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
   },
   xdcText: { fontSize: 18, textAlign: "center", paddingVertical: 20 },
   menuTitleWrap: { paddingTop: 15, marginLeft: 10, paddingBottom: 15 },
@@ -136,69 +87,8 @@ class Settings extends Component {
     } else {
         this.props.navigation.dispatch(navigateAction);
     }
-}
-
-  menuOptions = [
-    {
-      title: "Change PIN",
-      onPress: () => {
-        this.props.navigation.navigate("CreateWallet", {
-          editMode: true
-        });
-      }
-    },
-    {
-      title: "Change network",
-      onPress: () => {
-        this.props.navigation.navigate("NetworkPicker");
-      }
-    },
-    {
-      title: "View private key",
-      onPress: () => {
-        this.props.navigation.navigate("PrivateKey");
-      }
-    },
-    {
-      title: "Logout",
-      onPress: () => {
-        Alert.alert(
-          "Logout",
-          "Your wallet will be erased from your device. Make sure to backup your private key before going further.",
-          [
-            {
-              text: "Cancel",
-              onPress: () => {},
-              style: "cancel"
-            },
-            {
-              text: "OK",
-              onPress: async () => {
-                await this.props.logout();
-
-                this.props.navigation.navigate("Welcome");
-              }
-            }
-          ],
-          { cancelable: false }
-        );
-      }
-    }
-  ];
-
-  getNetworkName = () => {
-    switch (this.props.network) {
-      // case 'ropsten':
-      //   return 'ETH Ropsten';
-      // case 'kovan':
-      //   return 'ETH Kovan';
-      // case 'rinkeby':
-      //   return 'ETH Rinkeby';
-      default:
-        return "XDC [public]";
-    }
-  };
-
+  }
+  
   goBack = () => {
     const stackLength =
       this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
@@ -211,12 +101,12 @@ class Settings extends Component {
   onReceivePress = () => {
     this.props.setRoute("Receive");
     this.props.navigation.navigate("Receive")
-};
+  };
 
-onHamBurgerPress = () => {
+  onHamBurgerPress = () => {
     this.props.setRoute("Settings");
     this.props.navigation.navigate("Settings")
-};
+  };
 
   render() {
     return (
@@ -246,10 +136,6 @@ onHamBurgerPress = () => {
                 </View>
                 <View style={styles.buttonCont} >
                   <Text style={styles.linkText}>Change Pin</Text>
-
-                  {/* <View style={styles.iconCont} >
-                    <Image source={next} style={styles.ImageWidthEnd} />
-                  </View> */}
                 </View>
               </TouchableOpacity>
             </View>
@@ -365,11 +251,7 @@ onHamBurgerPress = () => {
                           <Image source={image} style={styles.ImageWidth} />
                         </View>
                         <View style={styles.buttonCont} >
-                          {/* <Text style={{ fontSize: 16 }}>{headingTitle}</Text> */}
                           <Text style={styles.linkText}>{headingTitle}</Text>
-                          {/* <View style={{ alignContent: "center", alignItems: "center" }} >
-                            <Image source={next} style={styles.ImageWidthEnd} ></Image>
-                          </View> */}
                         </View>
                       </TouchableOpacity>
       } else {
@@ -381,11 +263,7 @@ onHamBurgerPress = () => {
                           <Image source={image} style={styles.ImageWidth} />
                         </View>
                         <View style={styles.buttonCont} >
-                          {/* <Text style={{ fontSize: 16 }}>{headingTitle}</Text> */}
                           <Text style={styles.linkText}>{headingTitle}</Text>
-                          {/* <View style={{ alignContent: "center", alignItems: "center" }} >
-                            <Image source={next} style={styles.ImageWidthEnd} ></Image>
-                          </View> */}
                         </View>
                       </TouchableOpacity>
       }

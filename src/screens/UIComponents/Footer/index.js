@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { SET_CURRENT_ROUTE } from "../../../config/actionTypes";
 import { Text } from "../../../components";
-import LinearGradient from "react-native-linear-gradient";
 import RF from "react-native-responsive-fontsize";
 import sendUnMark from "./images/ic_send_unmark.png";
 import sendMark from "./images/ic_send_mark.png";
@@ -38,15 +37,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15
   },
 
-  gradientHeaderShadowTwo: {
-    position: "absolute",
-    width: "86%",
-    marginLeft: "7%",
-    top: -20,
-    height: 10,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15
-  },
   buttonIcon: {
     height: 15,
     width: 15
@@ -71,16 +61,6 @@ const styles = StyleSheet.create({
     borderColor: "#3C3749",
     paddingVertical: 15,
     width: "25%",
-  },
-
-  sendButton: {
-    // borderRightWidth: 1,
-    borderBottomWidth: 2,
-    borderColor: "#fff"
-  },
-
-  receiveButton: {
-    // borderLeftWidth: 1,
   },
 
   activeTab: {

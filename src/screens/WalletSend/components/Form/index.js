@@ -3,7 +3,6 @@ import {
   Image,
   Platform,
   ScrollView,
-  SafeAreaView,
   StyleSheet,
   TextInput,
   View,
@@ -18,19 +17,6 @@ import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
 
 const styles = StyleSheet.create({
-  formElement: {
-    borderBottomColor: '#3a3a3a',
-    borderBottomWidth: 1,
-    paddingHorizontal: 15,
-    paddingTop: Platform.OS === 'ios' ? 20 : 30,
-    paddingBottom: 15,
-  },
-  formLabel: {
-    color: '#359ff8',
-    fontFamily: 'Roboto',
-    paddingLeft: Platform.OS === 'ios' ? 0 : 4,
-    paddingBottom: Platform.OS === 'ios' ? 10 : 0,
-  },
   formInputRow: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -46,10 +32,6 @@ const styles = StyleSheet.create({
   cameraIcon: {
     height: 23,
     width: 30,
-  },
-  tokenPicker: {
-    alignItems: 'center',
-    flexDirection: 'row',
   },
   tokenSymbol: {
     color: '#000',
@@ -72,11 +54,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: "#ffffff"
   },
-  containerInside: {
-    flex: 1,
-    flexDirection: "row"
-  },
-
   fromText: {
     color: "#71869a",
     fontSize: 18,
@@ -103,11 +80,6 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25
   },
-  continuebuttonText: {
-    fontFamily: "montserratregular",
-    fontSize: 30,
-    color: "#ffffff"
-  }
 });
 
 class Form extends Component {

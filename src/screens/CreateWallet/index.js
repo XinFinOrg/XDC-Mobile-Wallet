@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import WalletUtils from '../../utils/wallet';
 import {
-  GradientBackground,
-  Header,
   PinIndicator,
   PinKeyboard,
   Text,
@@ -204,21 +201,9 @@ class CreateWallet extends Component {
           />
     : null;
 
-    // const stackLength = this.props.navigation.dangerouslyGetParent().state.routes.length - 2;
-    // const stackRoute = this.props.navigation.dangerouslyGetParent().state.routes[stackLength].routeName;
-    
     return (
       <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
         <SafeAreaView style={styles.container}>
-          {/* <Header
-            hamBurgerPress={this.props.navigation.getParam('editMode', false) ? () => this.props.navigation.dispatch(DrawerActions.openDrawer()) : null}
-            onBackPress={
-              this.props.navigation.getParam('migrationMode', false)
-                ? null
-                : () => this.goBack()
-            }
-            title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
-          /> */}
           <View style={styles.topContainer}>
             <View style={styles.explanatoryTextContainer}>
               <Text style={styles.explanatoryText}>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
-  Image,
   Platform,
   SafeAreaView,
   StyleSheet,
@@ -11,18 +10,12 @@ import {
   View,
 } from 'react-native';
 import {
-  GradientBackground,
   Header,
-  SecondaryButton,
   Text,
 } from '../../components';
-
-
 import LinearGradient from "react-native-linear-gradient";
-
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
-import cameraIcon from './images/camera.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,12 +35,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontFamily: 'Roboto',
   },
-  formLabel: {
-    color: '#9d9d9d',
-    fontFamily: 'Roboto',
-    paddingLeft: Platform.OS === 'ios' ? 0 : 4,
-    paddingBottom: Platform.OS === 'ios' ? 10 : 0,
-  },
   formInputRow: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -58,11 +45,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     fontFamily: 'Roboto',
     fontSize: 16,
-  },
-  cameraIcon: {
-    height: 23,
-    marginRight: 5,
-    width: 30,
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -178,19 +160,9 @@ export default class CreateWallet extends Component {
                   underlineColorAndroid="transparent"
                   value={this.state.privateKey}
                 />
-                {/* <TouchableOpacity onPress={this.onCameraPress}>
-                  <Image source={cameraIcon} style={styles.cameraIcon} />
-                </TouchableOpacity> */}
               </View>
             </View>
           </View>
-          {/* <View style={styles.buttonContainer}>
-            <SecondaryButton
-              onPress={this.importWallet}
-              disabled={this.state.privateKey === ''}
-              text="Import wallet"
-            />
-          </View> */}
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity

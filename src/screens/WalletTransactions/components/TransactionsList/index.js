@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import {
   FlatList,
-  ScrollView,
-  SafeAreaView,
   StyleSheet,
   View,
-  TouchableHighlight,
   TouchableOpacity,
   Image,
   Text as RNText,
@@ -15,21 +12,11 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Text } from "../../../../components";
 import Modal from "react-native-modal";
-import LinearGradient from "react-native-linear-gradient";
-import customData from "../TransactionsList/data.json";
 import send from "../TransactionsList/Send.png";
 import receive from "../TransactionsList/Receive.png";
 import {dimHeight} from '../../../../utils/constants';
 
 const styles = StyleSheet.create({
-  // itemContainer: {
-  //   borderBottomWidth: 1,
-  //   borderColor: "#372F49",
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   paddingHorizontal: 15,
-  //   paddingVertical: 10
-  // },
   container: {
     flex: 1,
     borderRadius: 10,
@@ -39,9 +26,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
 
-  containerInside: {
-    flex: 1,
-  },
   itemContainer: {
     flex: 1,
     borderRadius: 10,
@@ -57,34 +41,6 @@ const styles = StyleSheet.create({
   itemTitle: {
     color: "#000",
     fontSize: 20,
-    fontFamily: "Roboto"
-  },
-  itemStatus: {
-    color: "#000",
-    fontSize: 15,
-    paddingTop: 5,
-    fontFamily: "Roboto"
-  },
-  itemAmountContainer: {
-    flexDirection: "row"
-  },
-  itemAmountSymbol: {
-    color: "#000",
-    fontSize: 20,
-    paddingRight: 5,
-    fontFamily: "Roboto"
-  },
-  itemAmount: {
-    color: "#000",
-    fontSize: 20,
-    textAlign: "right",
-    fontFamily: "Roboto"
-  },
-  itemTimestamp: {
-    color: "#000",
-    fontSize: 15,
-    paddingTop: 5,
-    textAlign: "right",
     fontFamily: "Roboto"
   },
   emptyListText: {
@@ -123,13 +79,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15
-  },
-  ModalCloseButton: {
-    textAlign: "center",
-    paddingVertical: 15,
-    color: "#fff",
-    fontSize: 16,
-    fontFamily: "Roboto"
   },
   buttonContainer: {
     display: 'flex',
