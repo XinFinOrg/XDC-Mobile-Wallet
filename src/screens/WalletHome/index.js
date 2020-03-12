@@ -35,180 +35,7 @@ import {
 import WalletUtils from "../../utils/wallet";
 import ExpandableView from "./components/ExpandableView";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#eee",
-    flex: 1,
-    paddingTop: 0,
-    justifyContent: 'space-between'
-  },
-
-  topContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-    marginTop: 100,
-    paddingBottom: 0
-  },
-
-  gradientHeader: {
-    width: "100%",
-    height: 250,
-  },
-
-  gradientHeaderShadow: {
-    position: "absolute",
-    width: "92%",
-    marginLeft: "4%",
-    bottom: 10,
-    height: 10,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15
-  },
-
-  listContainer: {
-    flex: 1
-  },
-  ModalContainer: {
-    backgroundColor: "transparent",
-    padding: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  ModalView: {
-    backgroundColor: "#fff",
-    padding: 20
-  },
-  LoadingModalView: {
-    backgroundColor: 'transparent',
-    padding: 20,
-  },
-  warning: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    color: "#000",
-    textAlign: "center",
-    fontFamily: "Roboto"
-  },
-  ModalItem: {
-    padding: 5,
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#555",
-    fontFamily: "Roboto"
-  },
-  ModalClose: {
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: 15,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15
-  },
-  ModalCloseButton: {
-    textAlign: "center",
-    paddingVertical: 5,
-    color: "#fff",
-    fontSize: 20,
-    fontFamily: "Roboto"
-  },
-  gauge: {
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  CircleShapeViewXDC: {
-    width: 10,
-    height: 10,
-    borderRadius: 150 / 2,
-    backgroundColor: "#1bf2ff"
-  },
-  dashCard: {
-    position: 'absolute',
-    left: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    width: '90%',
-    marginLeft: '5%',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-    borderRadius: 10,
-    elevation: 5
-  },
-  pieSection: {
-    display: 'flex',
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  usdBalText: {
-    backgroundColor: "transparent",
-    color: "#333",
-    fontSize: 18
-  },
-  tokenDetail: {
-    flexDirection: "row",
-    alignContent: "center",
-    alignItems: "center"
-  },
-  tokenDetailName: {
-    color: "#333333",
-    fontSize: 14,
-    fontFamily: "bold"
-  },
-  tokenDetailUsd: {
-    color: "#777777",
-    fontSize: 12
-  },
-  stackedCard: {
-    position: 'absolute',
-    backgroundColor: '#fff',
-    elevation: 5,
-    bottom: -35,
-    left: 20,
-    width: '100%',
-    height: 70,
-    borderRadius: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: "space-between",
-    alignItems: 'center',
-  },
-  totalChange: {
-    padding: 15,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '49%'
-  },
-  totalChangeTitle: {
-    backgroundColor: 'transparent'
-  },
-  totalChangeNumber: {
-
-  },
-  rightBorder: {
-    backgroundColor: '#777',
-    paddingLeft: 1,
-    height: 50
-  },
-  graphListContainer: {
-    
-    backgroundColor: "#fff",
-    flexDirection: "column",
-    borderRadius: 5,
-    marginBottom: 5,
-    marginTop: 5,
-    width: '90%',
-    height: 60,
-    marginLeft: '5%',
-    elevation: 2,
-  }
-
-});
+import useTheme from './AppStyles';
 
 const initialState = {
   currentBalance: {
@@ -533,6 +360,7 @@ class WalletHome extends Component {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
     const chart_wh = 150;
     let series = [];
     let sliceColor = [];
@@ -888,6 +716,7 @@ const mapStateToProps = state => ({
   isKeyExported: state.isKeyExported,
   tokenList: state.availableTokens,
   defaultCurrency: state.currentCurrency,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { SET_CURRENT_ROUTE } from "../../../config/actionTypes";
 import { Text } from "../../../components";
-import RF from "react-native-responsive-fontsize";
 import sendUnMark from "./images/ic_send_unmark.png";
 import sendMark from "./images/ic_send_mark.png";
 import transactionsUnMark from "./images/ic_transactions_unmark.png";
@@ -14,60 +13,7 @@ import receiveMark from "./images/ic_receive_mark.png";
 import dashaboardUnMark from "./images/ic_dashboard_unmark.png";
 import dashaboardMark from "./images/ic_dashboard_mark.png";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: "center",
-    flexDirection: "row",
-    width: "100%",
-  },
-
-  gradientHeader: {
-    width: "100%",
-    position: "relative",
-  },
-
-  gradientHeaderShadow: {
-    position: "absolute",
-    width: "92%",
-    marginLeft: "4%",
-    top: -10,
-    height: 10,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15
-  },
-
-  buttonIcon: {
-    height: 15,
-    width: 15
-  },
-
-  buttonTextUnMark: {
-    color: "#9D9D9D",
-    paddingTop: 5,
-    fontSize: RF(2),
-    fontFamily: "Roboto"
-  },
-
-  buttonTextMark: {
-    color: "#359cf8",
-    paddingTop: 5,
-    fontSize: RF(2),
-    fontFamily: "Roboto"
-  },
-
-  button: {
-    alignItems: "center",
-    borderColor: "#3C3749",
-    paddingVertical: 15,
-    width: "25%",
-  },
-
-  activeTab: {
-    borderBottomWidth: 2,
-    borderColor: "#000"
-  }
-});
+import useTheme from './AppStyles';
 
 class Footer extends Component {
   static propTypes = {
@@ -99,6 +45,8 @@ class Footer extends Component {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+    
     const {
       onReceivePress,
       onSendPress,
@@ -195,11 +143,15 @@ class Footer extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  darkTheme: state.darkTheme,
+});
+
 const mapDispatchToProps = dispatch => ({
   setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Footer);

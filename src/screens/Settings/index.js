@@ -14,7 +14,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { GradientBackground, Header, Text } from "../../components";
-import { LOGOUT, SET_CURRENT_ROUTE } from "../../config/actionTypes";
+import { LOGOUT, SET_CURRENT_ROUTE, DARK_THEME } from "../../config/actionTypes";
 import { persistor } from "../../config/store";
 import Passcode from "./Images/ic_passcode.png";
 import Community from "./Images/ic_community.png";
@@ -29,39 +29,7 @@ import _createNewToken from "./Images/createNewToken.png";
 import _defaultCurrency from "./Images/defaultCurrency.png";
 import _masterNode from "./Images/masterNode.png";
 
-const styles = StyleSheet.create({
-  settingsContainer: {
-    flex: 1,
-    height: 50,
-    flexDirection: "row",
-    backgroundColor: "#ffffff",
-    alignContent: "center",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  settingsPadding: {
-    padding: 10,
-    paddingLeft: 10,
-  },
-  ImageWidth: {
-    width: 20,
-    height: 20
-  },
-  buttonCont: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-    alignItems: "center"
-  },
-  linkText: {
-    textAlign: 'left',
-  },
-  xdcText: { fontSize: 18, textAlign: "center", paddingVertical: 20 },
-  menuTitleWrap: { paddingTop: 15, marginLeft: 10, paddingBottom: 15 },
-  menuTitleText: { color: "#000000", fontSize: 18, fontFamily: "bold" },
-
-});
+import useTheme from './AppStyles';
 
 class Settings extends Component {
   static propTypes = {
@@ -108,7 +76,15 @@ class Settings extends Component {
     this.props.navigation.navigate("Settings")
   };
 
+  toggleTheme = () => {
+    console.log('Dark Theme::', !this.props.darkTheme)
+    this.props.setDarkTheme(!this.props.darkTheme)
+  }
+
   render() {
+    console.log('settings>>>>>>>>>>>>>>', this.props.darkTheme);
+    const styles = useTheme(this.props.darkTheme);
+    console.log('@@@@@@@@@@@@@@@@@@', styles)
     return (
       <GradientBackground>
         <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
@@ -124,7 +100,7 @@ class Settings extends Component {
               onBackPress={() => this.goBack()}
               title="Settings"
             />
-            <ScrollView style={{ backgroundColor: "#f3f3f5" }}>
+            <ScrollView style={styles.backWrap}>
             {this.menuTitle("SECURITY")}
             <View style={styles.settingsContainer} >
               <TouchableOpacity
@@ -140,27 +116,59 @@ class Settings extends Component {
               </TouchableOpacity>
             </View>
 
-            {this.subMenu("ExportPrivateKey", "Export Private Key", 'PrivateKey', false, null)}
+            {this.subMenu(styles, "ExportPrivateKey", "Export Private Key", 'PrivateKey', false, null)}
 
-            {this.menuTitle("APP")}
+            {this.menuTitle(styles, "APP")}
 
-            {this.subMenu("CreateNewToken", "Create New Token", 'https://www.mycontract.co', true, null)}
+            <TouchableOpacity
+                      underlayColor="transparent"
+                      style={styles.settingsContainer}
+                      onPress = { () => 
+                          Alert.alert(
+                            'Change Theme',
+                            `Do you want to change the theme from ${this.props.darkTheme ? 'Dark to Light' : 'Light to Dark'}?`,
+                            [
+                              {
+                                text: 'Cancel',
+                                onPress: () => {},
+                                style: 'cancel',
+                              },
+                              {
+                                text: 'OK',
+                                onPress: async () => {
+                                  await this.toggleTheme();
+                                },
+                              },
+                            ],
+                            { cancelable: false },
+                          )
+                      }
+                  >
+              <View style={styles.settingsPadding} >
+                <Image source={_addToken} style={styles.ImageWidth} />
+              </View>
+              <View style={styles.buttonCont} >
+                <Text style={styles.linkText}>Change Theme</Text>
+              </View>
+            </TouchableOpacity>
 
-            {this.subMenu("CreateStableCoin", "Create Stable Coin", 'https://st.mycontract.co', true, null)}
+            {this.subMenu(styles, "CreateNewToken", "Create New Token", 'https://www.mycontract.co', true, null)}
 
-            {this.subMenu("AddNewToken", "Add New Token", 'AddToken', false, null)}
+            {this.subMenu(styles, "CreateStableCoin", "Create Stable Coin", 'https://st.mycontract.co', true, null)}
 
-            {this.subMenu("SetDefaultCurrency", "Set Default Currency", 'CurrencyPicker', false, null)}
+            {this.subMenu(styles, "AddNewToken", "Add New Token", 'AddToken', false, null)}
 
-            {this.subMenu("LoginWebWallet", "Login To Web Wallet", 'https://xinfin.network/#webWallet', true, null)}
+            {this.subMenu(styles, "SetDefaultCurrency", "Set Default Currency", 'CurrencyPicker', false, null)}
 
-            {this.menuTitle("ABOUT")}
+            {this.subMenu(styles, "LoginWebWallet", "Login To Web Wallet", 'https://xinfin.network/#webWallet', true, null)}
 
-            {this.subMenu("setUpMasterNode", "Set Up MasterNode", 'https://www.xinfin.org/setup-masternode.php', true, null)}
+            {this.menuTitle(styles, "ABOUT")}
 
-            {this.subMenu("Support", "Support", 'https://xinfin.org/contactus.php', true, null)}
+            {this.subMenu(styles, "setUpMasterNode", "Set Up MasterNode", 'https://www.xinfin.org/setup-masternode.php', true, null)}
 
-            {this.subMenu("Logout", "Log Out", '', false, 'logout')}
+            {this.subMenu(styles, "Support", "Support", 'https://xinfin.org/contactus.php', true, null)}
+
+            {this.subMenu(styles, "Logout", "Log Out", '', false, 'logout')}
 
             <Text style={styles.xdcText}>
               XDC Wallet
@@ -172,7 +180,7 @@ class Settings extends Component {
     );
   }
 
-  menuTitle(heading) {
+  menuTitle(styles, heading) {
     return (
       <View style={styles.menuTitleWrap}>
         <Text style={styles.menuTitleText}>
@@ -182,7 +190,7 @@ class Settings extends Component {
     );
   }
 
-  subMenu(image, headingTitle, headingScreen, isExternal, isLogout) {
+  subMenu(styles, image, headingTitle, headingScreen, isExternal, isLogout) {
     if (image === "Community") {
       image = Community;
     } else if (image === "LoginWebWallet") {
@@ -278,11 +286,13 @@ class Settings extends Component {
 }
 
 const mapStateToProps = state => ({
-  network: state.network
+  network: state.network,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({
   setRoute: route => dispatch({ type: SET_CURRENT_ROUTE, route }),
+  setDarkTheme: darkTheme => dispatch({ type: DARK_THEME, darkTheme }),
   logout: async () => {
     dispatch({ type: LOGOUT });
     await persistor.flush();

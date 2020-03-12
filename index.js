@@ -10,7 +10,6 @@ import {reduxPersistKey_old} from './src/utils/constants';
 
 const getCurrentRouteName = async navigationState => {
   const pW = await AsyncStorage.getItem(`persist:${reduxPersistKey_old}`);
-  console.log('1111111111111111111111111111111111', pW)
   const _pW = JSON.parse(pW);
   if(_pW && _pW !== 'null') {
     return "AppLoading";
@@ -19,11 +18,9 @@ const getCurrentRouteName = async navigationState => {
   const route = navigationState.routes[navigationState.index];
 
   if (route.routes) {
-    ToastAndroid.show(`DEAD SCREEN 1:::::`, ToastAndroid.LONG);
     return getCurrentRouteName(route);
   }
 
-  ToastAndroid.show(`DEAD SCREEN 2 ${route.routeName}:::::`, ToastAndroid.LONG);
   return route.routeName;
 };
 

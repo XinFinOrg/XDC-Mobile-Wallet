@@ -13,6 +13,7 @@ import {
   SET_WALLET_ADDRESS,
   SET_CURRENT_ROUTE,
   IS_KEY_EXPORTED,
+  DARK_THEME,
 } from './actionTypes';
 import { defaultTokens, currencyList } from '../utils/constants';
 import AnalyticsUtils from '../utils/analytics';
@@ -26,6 +27,7 @@ const defaultState = {
   currencyList: currencyList,
   currentRoute: 'Wallet',
   isKeyExported: false,
+  darkTheme: false,
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -118,6 +120,11 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         walletAddress: action.walletAddress,
+      };
+    case DARK_THEME:
+      return {
+        ...state,
+        darkTheme: action.darkTheme,
       };
     case "persist/REHYDRATE":
       if(action.payload) {

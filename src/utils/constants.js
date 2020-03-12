@@ -84,6 +84,11 @@ const defaultTokens = [
   },
 ];
 
+const Colors = {
+	light: 'white',
+	dark: 'black'
+};
+
 
 const currencyList = [
     'USD',
@@ -111,4 +116,4 @@ const currencyList = [
     'ZAR',
 ];
 
-export { defaultTokens, currencyList, reduxPersistKey, reduxPersistKey_old, dimHeight };
+export { defaultTokens, currencyList, reduxPersistKey, reduxPersistKey_old, dimHeight, Colors };

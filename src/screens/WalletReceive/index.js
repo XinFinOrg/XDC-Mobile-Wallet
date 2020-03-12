@@ -17,40 +17,8 @@ import WalletUtils from "../../utils/wallet";
 import Footer from "../UIComponents/Footer/index";
 import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import ReceiveForm from "../WalletReceive/Form";
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    flex: 1,
-    justifyContent: "space-between",
-    paddingBottom: 0
-  },
-  
-  walletAddress: {
-    paddingHorizontal: 15,
-    color: "#9d9d9d",
-    textAlign: "center",
-    fontFamily: "Roboto"
-  },
-  buttonContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 40
-  },
 
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingBottom: 0,
-    backgroundColor: '#ccc'
-  },
-
-  containerScrollView: {
-    flex: 1,
-  },
-
-  buttonContainer: {
-    paddingHorizontal: 15
-  }
-});
+import useTheme from './AppStyles';
 
 class WalletReceive extends Component {
   static propTypes = {
@@ -154,6 +122,8 @@ onHamBurgerPress = () => {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     let walletReceiveAddress = this.props.walletAddress;
     if(this.props.selectedToken.network === 'public') {
       walletReceiveAddress = this.props.walletAddress;
@@ -195,14 +165,7 @@ onHamBurgerPress = () => {
 
           <View style={styles.containerScrollView}>
             <View
-              style={{
-                position: "relative",
-                flex: 1,
-                top: -20,
-                backgroundColor: "#ccc",
-                alignContent: "center",
-                alignItems: "center"
-              }}
+              style={styles.containerScrollViewChild}
             >
               <View
                 style={{
@@ -241,7 +204,8 @@ onHamBurgerPress = () => {
 
 const mapStateToProps = state => ({
   walletAddress: state.walletAddress,
-  selectedToken: state.selectedToken
+  selectedToken: state.selectedToken,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

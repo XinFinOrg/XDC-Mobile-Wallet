@@ -11,40 +11,7 @@ import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    flex: 1,
-    justifyContent: "space-between",
-    paddingBottom: 0
-  },
-  
-  walletAddress: {
-    paddingHorizontal: 15,
-    color: "#9d9d9d",
-    textAlign: "center",
-    fontFamily: "Roboto"
-  },
-  buttonContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 40
-  },
-
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingBottom: 0,
-    backgroundColor: '#ccc'
-  },
-
-  containerScrollView: {
-    flex: 1,
-  },
-
-  buttonContainer: {
-    paddingHorizontal: 15
-  }
-});
+import useTheme from './AppStyles';
 
 class WalletTransactions extends Component {
   static propTypes = {
@@ -219,6 +186,8 @@ onHamBurgerPress = () => {
 };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -243,14 +212,7 @@ onHamBurgerPress = () => {
 
           <View style={styles.containerScrollView}>
             <View
-              style={{
-                position: "relative",
-                flex: 1,
-                top: -20,
-                backgroundColor: "#ccc",
-                alignContent: "center",
-                alignItems: "center"
-              }}
+              style={styles.containerScrollViewChild}
             >
               <View
                 style={{
@@ -271,6 +233,7 @@ onHamBurgerPress = () => {
                     walletAddress={this.props.walletAddress}
                     onRefresh={this.onRefresh}
                     refreshing={this.state.refreshingTransactions}
+                    darkTheme={this.props.darkTheme}
                   />
                 )}
 
@@ -300,6 +263,7 @@ const mapStateToProps = state => ({
   callToActionDismissed: state.callToActionDismissed,
   selectedToken: state.selectedToken,
   walletAddress: state.walletAddress,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

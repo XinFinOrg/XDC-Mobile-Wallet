@@ -16,71 +16,7 @@ import { Text } from '../../../../components';
 import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
 
-const styles = StyleSheet.create({
-  formInputRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  formInput: {
-    color: '#000',
-    flex: 1,
-    flexGrow: 1,
-    fontFamily: 'Roboto',
-    fontSize: 16,
-    paddingRight: 40,
-  },
-  cameraIcon: {
-    height: 23,
-    width: 30,
-  },
-  tokenSymbol: {
-    color: '#000',
-    fontSize: 18,
-  },
-  arrowIcon: {
-    height: 10,
-    width: 11,
-    marginLeft: 10,
-  },
-
-  // new styles
-  container: {
-    flex: 1,
-    borderRadius: 3,
-    height: "100%",
-    width: "100%",
-    paddingLeft: 17,
-    paddingRight: 17,
-    paddingTop: 10,
-    backgroundColor: "#ffffff"
-  },
-  fromText: {
-    color: "#71869a",
-    fontSize: 18,
-    textAlign: "left"
-  },
-  errorText: {
-    color: "#ff9b22"
-  },
-  tokenSymbol: {
-    color: "#000",
-    fontSize: 18
-  },
-  arrowIcon: {
-    height: 10,
-    width: 11,
-    marginLeft: 10
-  },
-  continueButton: {
-    height: 45,
-    alignItems: "center",
-    borderRadius: 30,
-    backgroundColor: "#359cf8",
-    justifyContent: "center",
-    marginLeft: 25,
-    marginRight: 25
-  },
-});
+import useTheme from './AppStyles';
 
 class Form extends Component {
   static propTypes = {
@@ -114,6 +50,8 @@ class Form extends Component {
   }
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     const {
       address,
       amount,
@@ -122,6 +60,7 @@ class Form extends Component {
       onCameraPress,
       onTokenChangeIconPress,
       selectedToken,
+      darkTheme
     } = this.props;
 
     let walletReceiveAddress = this.props.walletAddress;
@@ -146,8 +85,8 @@ class Form extends Component {
               editable={false}
               multiline={true}
               placeholder={walletReceiveAddress}
-              placeholderTextColor="#000000"
-              underlineColorAndroid="#000000"
+              placeholderTextColor={darkTheme ? "#fff" : "#000"}
+              underlineColorAndroid={darkTheme ? "#fff" : "#000"}
             />
             <Text style={styles.fromText}>To</Text>
             <View style={styles.formInputRow}>
@@ -155,7 +94,7 @@ class Form extends Component {
                 autoCorrect={false}
                 onChangeText={onAddressChange}
                 placeholder={selectedToken.network === "public" ? '0x...' : 'xdc..'}
-                placeholderTextColor="#9d9d9d"
+                placeholderTextColor={darkTheme ? "#727272" : "#9d9d9d"}
                 onSubmitEditing={() => {
                   this.amountInput.focus();
                 }}
@@ -165,7 +104,7 @@ class Form extends Component {
                 returnKeyType="next"
                 selectionColor="#4D00FF"
                 style={styles.formInput}
-                underlineColorAndroid="#000000"
+                underlineColorAndroid={darkTheme ? "#fff" : "#000"}
                 value={address}
               />
               <TouchableOpacity underlayColor="transparent" onPress={onCameraPress} style={{position: 'absolute', right: 0}}>
@@ -180,14 +119,14 @@ class Form extends Component {
                   keyboardType="numeric"
                   onChangeText={onAmountChange}
                   placeholder="1000"
-                  placeholderTextColor="#9d9d9d"
+                  placeholderTextColor={darkTheme ? "#727272" : "#9d9d9d"}
                   ref={input => {
                     this.amountInput = input;
                   }}
                   returnKeyType="done"
                   selectionColor="#4D00FF"
                   style={styles.formInput}
-                  underlineColorAndroid="#000000"
+                  underlineColorAndroid={darkTheme ? "#fff" : "#000"}
                   value={amount}
                 />
                 {/* <Text style={styles.errorText}>Insuffiecient space</Text> */}
@@ -238,7 +177,8 @@ class Form extends Component {
 const mapStateToProps = state => ({
   selectedToken: state.selectedToken,
   walletAddress: state.walletAddress,
-  defaultCurrency: state.currentCurrency
+  defaultCurrency: state.currentCurrency,
+  darkTheme: state.darkTheme,
 });
 
 export default connect(mapStateToProps)(Form);

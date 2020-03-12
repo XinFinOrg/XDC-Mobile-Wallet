@@ -16,106 +16,7 @@ import send from "../TransactionsList/Send.png";
 import receive from "../TransactionsList/Receive.png";
 import {dimHeight} from '../../../../utils/constants';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderRadius: 10,
-    paddingLeft: 17,
-    paddingRight: 17,
-    paddingTop: 10,
-    backgroundColor: "#fff"
-  },
-
-  itemContainer: {
-    flex: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginBottom: 20,
-    backgroundColor: "#ffffff"
-  },
-
-  itemTitle: {
-    color: "#000",
-    fontSize: 20,
-    fontFamily: "Roboto"
-  },
-  emptyListText: {
-    color: "#000",
-    textAlign: "center",
-    fontSize: 20,
-    paddingTop: 20,
-    fontFamily: "Roboto"
-  },
-  ModalView: {
-    backgroundColor: "#fff",
-    padding: 20
-  },
-  ModalItem: {
-    padding: 5,
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#555",
-    fontFamily: "Roboto"
-  },
-  ModalItemTitle: {
-    color: "#000",
-    fontSize: 18,
-    fontFamily: "Roboto"
-  },
-  ModalItemTitleLink: {
-    color: "#2C7ACB",
-    fontSize: 18,
-    fontFamily: "Roboto"
-  },
-  ModalClose: {
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: 15,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 15,
-  },
-  createWalletBtn: {
-    height: 40,
-    width: '50%',
-    alignItems: "center",
-    borderRadius: 30,
-    backgroundColor: "#359cf8",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  createButtonText: {
-    backgroundColor: 'transparent',
-    color: '#ffffff',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  },
-  timeText: {
-    fontSize: 12
-  },
-  fontSend: {
-    fontSize: 14,
-    fontFamily: "bold",
-    color: "#ff9b22"
-  },
-  fontReceive: {
-    fontSize: 14,
-    fontFamily: "bold",
-    color: "#15d291"
-  }
-});
+import useTheme from './AppStyles';
 
 export default class TransactionsList extends Component {
   state = {
@@ -130,6 +31,7 @@ export default class TransactionsList extends Component {
   static propTypes = {
     onRefresh: PropTypes.func.isRequired,
     refreshing: PropTypes.bool.isRequired,
+    darkTheme: PropTypes.bool,
     selectedToken: PropTypes.shape({
       symbol: PropTypes.string.isRequired
     }).isRequired,
@@ -152,12 +54,15 @@ export default class TransactionsList extends Component {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     let {
       onRefresh,
       refreshing,
       selectedToken,
       transactions,
-      walletAddress
+      walletAddress,
+      darkTheme
     } = this.props;
 
     if(selectedToken.network != 'public') {
@@ -244,12 +149,12 @@ export default class TransactionsList extends Component {
                             style={{
                               fontSize: 16,
                               fontFamily: "bold",
-                              color: "#000"
+                              color: `${darkTheme ? "#fff" : '#000'}`
                             }}
                           >
                             {item.from === walletAddress ? 'Sent' : 'Received'}
                           </Text>
-                          <Text style={{ fontSize: 12 }}>From : {item.from}</Text>
+                          <Text style={{ fontSize: 12, color: `${darkTheme ? "#fff" : '#000'}` }}>From : {item.from}</Text>
                         </View>
                         <View style={{ flex: 0.3, flexDirection: "column" }}>
                           <Text
@@ -263,7 +168,7 @@ export default class TransactionsList extends Component {
                               ? `- ${item.value} ${selectedToken.symbol}`
                               : `+ ${item.value} ${selectedToken.symbol}`}
                           </Text>
-                          <Text style={styles.timeText}>{moment(item.timestamp * 1000).fromNow()} </Text>
+                          <Text style={{fontSize: 12, color: `${darkTheme ? "#fff" : '#000'}`}}>{moment(item.timestamp * 1000).fromNow()} </Text>
                         </View>
                       </View>
                     </View>
