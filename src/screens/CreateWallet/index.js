@@ -241,6 +241,7 @@ class CreateWallet extends Component {
 const mapStateToProps = state => ({
   pinCode: state.pinCode,
   currentRoute: state.currentRoute,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

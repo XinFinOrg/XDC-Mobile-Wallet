@@ -10,21 +10,7 @@ import {
 } from '../../components';
 import LinearGradient from "react-native-linear-gradient";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-    paddingBottom: 15,
-  },
-  createPINText: {
-    color: '#ffffff',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontFamily: 'Roboto',
-  },
-});
+import useTheme from './AppStyles';
 
 class PinCode extends Component {
   static propTypes = {
@@ -95,6 +81,8 @@ class PinCode extends Component {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     const headerTitle = this.props.currentRoute == "CreateWallet" ? "Enter Current Pin" : "Enter Pin"
 
     let header;
@@ -132,6 +120,7 @@ class PinCode extends Component {
 const mapStateToProps = state => ({
   pinCode: state.pinCode,
   currentRoute: state.currentRoute,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

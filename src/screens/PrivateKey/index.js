@@ -13,57 +13,7 @@ import Footer from '../UIComponents/Footer/';
 import copyClip from './images/copy-content.png';
 import { SET_CURRENT_ROUTE } from '../../config/actionTypes'
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  privateKeyTitle: {
-    paddingHorizontal: 15,
-    color: '#000',
-    textAlign: 'center',
-    paddingBottom: 20,
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  },
-  privateKeyWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%'
-  },
-  privateKeyWrap: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '85%'
-  },
-  privateKey: {
-    paddingHorizontal: 15,
-    color: '#9d9d9d',
-    textAlign: 'center',
-    fontFamily: 'Roboto',
-  },
-  rowIcon: {
-    backgroundColor: 'transparent',
-    paddingHorizontal: 10,
-    height: 25,
-    width: 25,
-  },
-  buttonContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 40,
-  },
-  warning:{
-    paddingHorizontal:20,
-    paddingBottom: 20,
-    color: "#000",
-    textAlign:"center",
-    fontFamily: 'Roboto',
-  },
-});
+import useTheme from './AppStyles';
 
 class PrivateKey extends Component {
   static propTypes = {
@@ -91,6 +41,8 @@ onHamBurgerPress = () => {
 };
 
   render() {
+    
+    const styles = useTheme(this.props.darkTheme);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -154,6 +106,7 @@ onHamBurgerPress = () => {
 
 const mapStateToProps = state => ({
   privateKey: state.privateKey,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

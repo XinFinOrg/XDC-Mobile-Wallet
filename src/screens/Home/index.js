@@ -11,6 +11,9 @@ import PropTypes from "prop-types";
 import logo from "./images/Logo111.png";
 import LinearGradient from "react-native-linear-gradient";
 
+import useTheme from './AppStyles';
+
+
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -19,6 +22,9 @@ class Home extends Component {
   };
 
   render() {
+    
+    const styles = useTheme(this.props.darkTheme);
+    
     return (
       <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
         <View style={styles.logoContainer}>
@@ -53,65 +59,9 @@ class Home extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    flex: 1,
-    paddingBottom: 20
-  },
-  logoContainer: {
-    paddingTop: 120,
-    alignItems: "center",
-    flexGrow: 1,
-    justifyContent: "center",
-    width: "100%"
-  },
-  buttonsContainer: {
-    paddingHorizontal: 15,
-    paddingBottom: 50,
-    width: "100%"
-  },
-  recoverWalletBtn: {
-    height: 50,
-    alignItems: "center",
-    borderRadius: 30,
-    fontFamily: "montserratregular",
-    backgroundColor: "#ffffff",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  createWalletBtn: {
-    height: 50,
-    alignItems: "center",
-    borderRadius: 30,
-    marginBottom: 20,
-    fontFamily: "montserratregular",
-    backgroundColor: "#359cf8",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  logoIcon: {
-    width: 160,
-    height: 160
-  },
-  createButtonText: {
-    backgroundColor: 'transparent',
-    color: '#ffffff',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  },
-  recoverButtonText: {
-    backgroundColor: 'transparent',
-    color: '#359cf8',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  }
-});
-
 const mapStateToProps = state => ({
-  walletAddress: state.walletAddress
+  walletAddress: state.walletAddress,
+  darkTheme: state.darkTheme,
 });
 
 export default connect(mapStateToProps)(Home);

@@ -71,7 +71,7 @@ class WalletHome extends Component {
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired
     }).isRequired,
-    walletAddress: PropTypes.string
+    walletAddress: PropTypes.string,
   };
 
   static defaultProps = {
@@ -190,7 +190,7 @@ class WalletHome extends Component {
       tokenBalances: stateBalanceObj
     });
 
-    console.log('###########', token.symbol, this.state.tokenBalancesLength.length, this.props.tokenList.length);
+    // console.log('###########', token.symbol, this.state.tokenBalancesLength.length, this.props.tokenList.length);
     
     if(this.state.tokenBalancesLength.length == this.props.tokenList.length) {
       this.toggleLoadingModal();  

@@ -36,7 +36,6 @@ class AppLoading extends Component {
     }
 
     if (this.props.walletAddress) {
-      console.log('@###@@#@#@', await AsyncStorage.getAllKeys());
       // await this.migrateWallet();
       return this.props.navigation.navigate('PinCode');
     }
@@ -48,7 +47,6 @@ class AppLoading extends Component {
     const xyz = await AsyncStorage.getAllKeys();
     const pW = await AsyncStorage.getItem(`persist:${reduxPersistKey_old}`);
     const _pW = JSON.parse(pW);
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', _pW);
     if(_pW && _pW !== 'null') {
       let pWWA = _pW.walletAddress;
       let pWPK = _pW.privateKey;

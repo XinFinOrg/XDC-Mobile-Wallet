@@ -82,9 +82,9 @@ class Settings extends Component {
   }
 
   render() {
-    console.log('settings>>>>>>>>>>>>>>', this.props.darkTheme);
+    // console.log('settings>>>>>>>>>>>>>>', this.props.darkTheme);
     const styles = useTheme(this.props.darkTheme);
-    console.log('@@@@@@@@@@@@@@@@@@', styles)
+    // console.log('@@@@@@@@@@@@@@@@@@', styles)
     return (
       <GradientBackground>
         <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>

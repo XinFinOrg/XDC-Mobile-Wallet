@@ -8,13 +8,7 @@ import { SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 import LinearGradient from "react-native-linear-gradient";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-});
+import useTheme from './AppStyles';
 
 class CurrencyPicker extends Component {
   static propTypes = {
@@ -92,6 +86,9 @@ class CurrencyPicker extends Component {
   };
 
   render() {
+    
+    const styles = useTheme(this.props.darkTheme);
+    
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -135,6 +132,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   currencyList: state.currencyList,
+  darkTheme: state.darkTheme,
 });
 
 export default connect(

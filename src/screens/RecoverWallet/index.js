@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import {
   Header,
   Text,
@@ -17,87 +18,9 @@ import LinearGradient from "react-native-linear-gradient";
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-    paddingBottom: 15,
-  },
-  formElement: {
-    borderBottomColor: '#fff',
-    borderBottomWidth: 1,
-    paddingTop: Platform.OS === 'ios' ? 0 : 0,
-    marginHorizontal: 10
-  },
-  labelText: {
-    fontSize: 20,
-    color: '#ffffff',
-    fontFamily: 'Roboto',
-  },
-  formInputRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  formInput: {
-    color: '#fff',
-    flex: 1,
-    flexGrow: 1,
-    fontFamily: 'Roboto',
-    fontSize: 16,
-  },
-  buttonContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 40,
-  },
-  recoverWalletBtn: {
-    height: 50,
-    alignItems: "center",
-    borderRadius: 30,
-    fontFamily: "montserratregular",
-    backgroundColor: "#ffffff",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  createWalletBtn: {
-    height: 50,
-    alignItems: "center",
-    borderRadius: 30,
-    marginBottom: 20,
-    fontFamily: "montserratregular",
-    backgroundColor: "#359cf8",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  createButtonText: {
-    backgroundColor: 'transparent',
-    color: '#ffffff',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  },
-  recoverButtonText: {
-    backgroundColor: 'transparent',
-    color: '#359cf8',
-    fontSize: 18,
-    fontFamily: 'Roboto',
-  },
-  warningContainer:{
-    flex: 1,
-    justifyContent: "flex-start",
-    paddingHorizontal: 10,
-  },
-  warning:{
-    padding:10,
-    paddingVertical: 50,
-    color:"#ffffff",
-    zIndex: 1,
-    fontFamily: 'Roboto',
-  },
-});
+import useTheme from './AppStyles';
 
-export default class CreateWallet extends Component {
+class RecoverWallet extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       goBack: PropTypes.func.isRequired,
@@ -138,6 +61,8 @@ export default class CreateWallet extends Component {
   };
 
   render() {
+    const styles = useTheme(this.props.darkTheme);
+
     return (
       <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
         <SafeAreaView style={styles.container}>
@@ -189,3 +114,13 @@ export default class CreateWallet extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  darkTheme: state.darkTheme,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(RecoverWallet);
