@@ -10,6 +10,7 @@ import {
 import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -192,7 +193,7 @@ onHamBurgerPress = () => {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-            colors={['#359ff8', '#325efd']}
+            colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}

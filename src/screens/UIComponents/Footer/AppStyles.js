@@ -70,7 +70,7 @@ const lightStyles = StyleSheet.create({
 
 const darkStyles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.dark,
+        backgroundColor: Colors.darkPrimaryVariant,
         alignItems: "center",
         flexDirection: "row",
         width: "100%",

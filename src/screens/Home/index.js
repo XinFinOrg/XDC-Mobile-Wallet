@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import logo from "./images/Logo111.png";
 import LinearGradient from "react-native-linear-gradient";
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -26,7 +27,7 @@ class Home extends Component {
     const styles = useTheme(this.props.darkTheme);
     
     return (
-      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
+      <LinearGradient colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light} style={styles.container}>
         <View style={styles.logoContainer}>
           <Image source={logo} style={styles.logoIcon} />
         </View>

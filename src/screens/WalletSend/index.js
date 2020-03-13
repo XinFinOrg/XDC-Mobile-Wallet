@@ -24,6 +24,7 @@ import WalletUtils from "../../utils/wallet";
 import Footer from "../UIComponents/Footer/index";
 import { SET_CURRENT_ROUTE } from "../../config/actionTypes";
 import Form from "./components/Form";
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -328,7 +329,7 @@ onHamBurgerPress = () => {
               />
           }>
           <LinearGradient
-            colors={['#359ff8', '#325efd']}
+            colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}

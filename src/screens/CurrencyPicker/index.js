@@ -7,6 +7,7 @@ import { GradientBackground, Header, Menu } from '../../components';
 import { SET_CURRENCY, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
 import LinearGradient from "react-native-linear-gradient";
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -93,7 +94,7 @@ class CurrencyPicker extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-              colors={['#359ff8', '#325efd']}
+              colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
               locations={[0, 1]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}

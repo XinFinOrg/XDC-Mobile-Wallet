@@ -3,7 +3,7 @@ import {Colors} from '../../utils/constants';
 
 const cColors = {
     lightContainerBG: "#eee",
-    darkContainerBG: "#222",
+    darkContainerBG: Colors.darkPrimary,
     lightModalItemC: "#555",
     darkModalItemC: "#999",
     lightCircleShapeViewXDCBG: "#1bf2ff",
@@ -245,7 +245,7 @@ const darkStyles = StyleSheet.create({
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: 'center',
-      backgroundColor: Colors.dark,
+      backgroundColor: Colors.darkSecondary,
       width: '90%',
       marginLeft: '5%',
       paddingVertical: 20,
@@ -271,7 +271,7 @@ const darkStyles = StyleSheet.create({
     },
     stackedCard: {
       position: 'absolute',
-      backgroundColor: Colors.dark,
+      backgroundColor: Colors.darkSecondaryVariant,
       elevation: 5,
       bottom: -35,
       left: 20,
@@ -289,7 +289,7 @@ const darkStyles = StyleSheet.create({
       height: 50
     },
     graphListContainer: {  
-      backgroundColor: Colors.dark,
+      backgroundColor: Colors.darkSecondary,
       flexDirection: "column",
       borderRadius: 5,
       marginBottom: 5,

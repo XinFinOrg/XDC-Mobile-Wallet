@@ -13,6 +13,7 @@ import LinearGradient from "react-native-linear-gradient";
 
 import { SET_PIN_CODE, SET_CURRENT_ROUTE } from '../../config/actionTypes';
 import Footer from '../UIComponents/Footer/';
+import {gradientColors} from '../../utils/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -202,7 +203,7 @@ class CreateWallet extends Component {
     : null;
 
     return (
-      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
+      <LinearGradient colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light} style={styles.container}>
         <SafeAreaView style={styles.container}>
           <View style={styles.topContainer}>
             <View style={styles.explanatoryTextContainer}>

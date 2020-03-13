@@ -12,6 +12,7 @@ import {
 import Footer from '../UIComponents/Footer/';
 import copyClip from './images/copy-content.png';
 import { SET_CURRENT_ROUTE } from '../../config/actionTypes'
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -47,7 +48,7 @@ onHamBurgerPress = () => {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-              colors={['#359ff8', '#325efd']}
+              colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
               locations={[0, 1]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}

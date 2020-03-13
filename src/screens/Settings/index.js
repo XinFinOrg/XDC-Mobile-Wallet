@@ -28,6 +28,7 @@ import _currency from "./Images/webwallet.png";
 import _createNewToken from "./Images/createNewToken.png";
 import _defaultCurrency from "./Images/defaultCurrency.png";
 import _masterNode from "./Images/masterNode.png";
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -89,7 +90,7 @@ class Settings extends Component {
       <GradientBackground>
         <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
           <LinearGradient
-            colors={['#359ff8', '#325efd']}
+            colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}

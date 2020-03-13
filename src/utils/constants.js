@@ -85,10 +85,18 @@ const defaultTokens = [
 ];
 
 const Colors = {
-	light: 'white',
-	dark: 'black'
+	light: '#ffffff',
+  dark: '#000000',
+  darkPrimary: '#0e1215',
+  darkPrimaryVariant: '#000000',
+  darkSecondary: '#252a2d',
+  darkSecondaryVariant: '#323a3d',
 };
 
+const gradientColors = {
+  light: ['#359ff8', '#325efd'],
+  dark: ['#000000', '#000000']
+}
 
 const currencyList = [
     'USD',
@@ -116,4 +124,4 @@ const currencyList = [
     'ZAR',
 ];
 
-export { defaultTokens, currencyList, reduxPersistKey, reduxPersistKey_old, dimHeight, Colors };
+export { defaultTokens, currencyList, reduxPersistKey, reduxPersistKey_old, dimHeight, Colors, gradientColors };

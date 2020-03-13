@@ -9,6 +9,7 @@ import {
   PinKeyboard,
 } from '../../components';
 import LinearGradient from "react-native-linear-gradient";
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -96,7 +97,7 @@ class PinCode extends Component {
         title="" />
     }
     return (
-      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
+      <LinearGradient colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light} style={styles.container}>
         <SafeAreaView style={styles.container}>
           <View style={{}}>
             {header}

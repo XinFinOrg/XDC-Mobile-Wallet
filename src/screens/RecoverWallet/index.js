@@ -17,6 +17,7 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
+import {gradientColors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
 
@@ -64,7 +65,7 @@ class RecoverWallet extends Component {
     const styles = useTheme(this.props.darkTheme);
 
     return (
-      <LinearGradient colors={["#359ff8", "#325efd"]} style={styles.container}>
+      <LinearGradient colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light} style={styles.container}>
         <SafeAreaView style={styles.container}>
           <Header
             title="Recover wallet"

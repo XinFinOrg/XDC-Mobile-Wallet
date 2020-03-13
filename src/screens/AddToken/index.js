@@ -8,6 +8,7 @@ import { ADD_TOKEN, SET_DEFAULT_TOKEN, SET_CURRENT_ROUTE } from '../../config/ac
 import AnalyticsUtils from '../../utils/analytics';
 import Footer from '../UIComponents/Footer/index';
 import LinearGradient from "react-native-linear-gradient";
+import {gradientColors} from '../../utils/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -161,7 +162,7 @@ class AddToken extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <LinearGradient
-              colors={['#359ff8', '#325efd']}
+              colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
               locations={[0, 1]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}

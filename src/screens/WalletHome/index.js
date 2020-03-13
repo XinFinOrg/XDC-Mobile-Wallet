@@ -34,9 +34,9 @@ import {
 } from "../../config/actionTypes";
 import WalletUtils from "../../utils/wallet";
 import ExpandableView from "./components/ExpandableView";
+import {gradientColors, Colors} from '../../utils/constants';
 
 import useTheme from './AppStyles';
-
 const initialState = {
   currentBalance: {
     balance: 0,
@@ -523,7 +523,7 @@ class WalletHome extends Component {
           contentContainerStyle={styles.container}
           >
         <LinearGradient
-            colors={['#359ff8', '#325efd']}
+            colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -546,12 +546,14 @@ class WalletHome extends Component {
                     series={series}
                     sliceColor={sliceColor}
                     doughnut={true}
+                    coverFill={this.props.darkTheme ? Colors.darkSecondary : Colors.light}
                     coverRadius={0.8}
                   />
                     : <PieChart
                     chart_wh={chart_wh}
                     series={[1]}
                     sliceColor={['#777777']}
+                    coverFill={this.props.darkTheme ? Colors.darkSecondary : Colors.light}
                     doughnut={true}
                     coverRadius={0.8}
                   /> }
@@ -662,7 +664,7 @@ class WalletHome extends Component {
               <View style={styles.ModalView}>
                 <Text style={styles.warning}>XDC Wallet does not hold your keys for you. We cannot access accounts, recover keys, reset passwords, nor reverse transactions. So store your private key at safe place by going to Export Private Key menu.</Text>
                 <LinearGradient
-                  colors={['#359ff8', '#325efd']}
+                  colors={this.props.darkTheme ? gradientColors.dark : gradientColors.light}
                   locations={[0, 1]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
