@@ -137,7 +137,7 @@ const darkStyles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         marginBottom: 20,
-        backgroundColor: Colors.dark
+        backgroundColor: Colors.darkSecondary
       },
     
       itemTitle: {

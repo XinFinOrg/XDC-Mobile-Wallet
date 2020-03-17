@@ -70,7 +70,7 @@ const darkStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         paddingBottom: 0,
-        backgroundColor: cColors.darkContainerBG
+        backgroundColor: Colors.darkPrimary
       },
       walletAddress: {
         paddingHorizontal: 15,
@@ -87,13 +87,13 @@ const darkStyles = StyleSheet.create({
         paddingRight: 17,
         paddingTop: 10,
         paddingVertical: 15,
-        backgroundColor: Colors.dark
+        backgroundColor: Colors.darkSecondaryVariant
       },
       containerScrollViewChild: {
         position: "relative",
         flex: 1,
         top: -20,
-        backgroundColor: cColors.darkContainerBG,
+        backgroundColor: Colors.darkPrimary,
         alignContent: "center",
         alignItems: "center"
       }

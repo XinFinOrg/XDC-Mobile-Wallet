@@ -78,12 +78,6 @@ const common = StyleSheet.create({
         alignContent: "center",
         alignItems: "center"
     },
-    totalChangeTitle: {
-      backgroundColor: 'transparent'
-    },
-    totalChangeNumber: {
-  
-    },
 });
 
 const lightStyles = StyleSheet.create({
@@ -190,8 +184,18 @@ const lightStyles = StyleSheet.create({
       height: 60,
       marginLeft: '5%',
       elevation: 2,
-    }
+    },
+    totalChangeTitle: {
+      backgroundColor: 'transparent',
+    },
+    
+    totalChangeNumber: {
   
+    },
+    tokenDetailData: {
+      color: "#565e66", 
+      fontSize: 18
+    }
 });
 
 const darkStyles = StyleSheet.create({
@@ -298,8 +302,19 @@ const darkStyles = StyleSheet.create({
       height: 60,
       marginLeft: '5%',
       elevation: 2,
+    },
+    totalChangeTitle: {
+      backgroundColor: 'transparent',
+      color: Colors.light
+    },
+    
+    totalChangeNumber: {
+      color: Colors.light
+    },
+    tokenDetailData: {
+      color: Colors.light, 
+      fontSize: 18
     }
-  
 });
 
 export default function useTheme(darkTheme) {

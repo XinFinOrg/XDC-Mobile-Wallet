@@ -53,7 +53,7 @@ const darkStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         paddingBottom: 0,
-        backgroundColor: cColors.darkContainerBG
+        backgroundColor: Colors.darkPrimary
       },
     
       walletAddress: {
@@ -66,7 +66,7 @@ const darkStyles = StyleSheet.create({
         position: "relative",
         flex: 1,
         top: -20,
-        backgroundColor: cColors.darkContainerBG,
+        backgroundColor: Colors.darkPrimary,
         alignContent: "center",
         alignItems: "center"
       }

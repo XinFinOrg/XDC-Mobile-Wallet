@@ -95,6 +95,23 @@ const lightStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Roboto',
       },
+      addressCopySec: {
+        flex: 1,
+        borderRadius: 30,
+        height: 40,
+        width: "100%",
+        flexDirection: "row",
+        backgroundColor: "#fff",
+        alignContent: "center",
+        alignItems: "center",
+        elevation: 2
+      },
+      walletAddressText: { 
+        textAlign: "center", 
+        fontSize: 14, 
+        paddingVertical: 5, 
+        paddingHorizontal: 10 
+      }
 });
 
 const darkStyles = StyleSheet.create({
@@ -104,7 +121,7 @@ const darkStyles = StyleSheet.create({
         paddingLeft: 17,
         paddingRight: 17,
         paddingTop: 10,
-        backgroundColor: Colors.dark
+        backgroundColor: Colors.darkSecondaryVariant
       },
       fromText: {
         color: cColors.darkFromTextC,
@@ -121,7 +138,7 @@ const darkStyles = StyleSheet.create({
         marginRight: 25
       },
       stackedContainer: {
-        backgroundColor: Colors.dark,
+        backgroundColor: 'transparent',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -133,7 +150,7 @@ const darkStyles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         borderRadius: 8,
-        backgroundColor: Colors.dark,
+        backgroundColor: 'transparent',
         paddingVertical: 5,
         width: 160,
       },
@@ -160,6 +177,24 @@ const darkStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Roboto',
       },
+      addressCopySec: {
+        flex: 1,
+        borderRadius: 30,
+        height: 40,
+        width: "100%",
+        flexDirection: "row",
+        backgroundColor: "transparent",
+        alignContent: "center",
+        alignItems: "center",
+        elevation: 2
+      },
+      walletAddressText: { 
+        textAlign: "center", 
+        fontSize: 14, 
+        paddingVertical: 5, 
+        paddingHorizontal: 10,
+        color: Colors.light
+      }
 });
 
 export default function useTheme(darkTheme) {

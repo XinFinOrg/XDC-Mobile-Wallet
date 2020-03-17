@@ -44,7 +44,7 @@ const darkStyles = StyleSheet.create({
       flex: 1,
       height: 50,
       flexDirection: "row",
-      backgroundColor: Colors.dark,
+      backgroundColor: Colors.darkSecondary,
       alignContent: "center",
       alignItems: "center",
       marginBottom: 4,
@@ -55,7 +55,7 @@ const darkStyles = StyleSheet.create({
     },
     menuTitleText: { color: Colors.light, fontSize: 18, fontFamily: "bold" },
     xdcText: { fontSize: 18, textAlign: "center", paddingVertical: 20, color: Colors.light },
-    backWrap: { backgroundColor: '#444444'},
+    backWrap: { backgroundColor: Colors.darkPrimary},
 });
 
 export default function useTheme(darkTheme) {

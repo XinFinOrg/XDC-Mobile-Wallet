@@ -434,7 +434,7 @@ class WalletHome extends Component {
                 
                   {token.type ?
                     <View style={{ flexDirection: "column", marginLeft: 10 }}>
-                      <Text style={{ color: "#565e66", fontSize: 18 }}>
+                      <Text style={styles.tokenDetailData}>
                         {token.tName}
                       </Text>
                       <Text style={{ color: "#71869a", fontSize: 12 }}>
@@ -442,7 +442,7 @@ class WalletHome extends Component {
                       </Text>
                     </View>
                   : <View style={{ flexDirection: "column", marginLeft: 10 }}>
-                      <Text style={{ color: "#565e66", fontSize: 18 }}>
+                      <Text style={styles.tokenDetailData}>
                         {token.tName}
                       </Text>
                     </View>}
@@ -456,7 +456,7 @@ class WalletHome extends Component {
                 }}
               >
                 <View style={{ flexDirection: "column", marginRight: 10 }}>
-                  <Text style={{ color: "#565e66", fontSize: 18  }}>
+                  <Text style={styles.tokenDetailData}>
                       {this.props.defaultCurrency}: {this.state.usdBalanceArray[token.symbol] >= 0 ? this.state.usdBalanceArray[token.symbol].toFixed(2) : '...'}
                   </Text>
                   {/* <Text style={{ color: "#15d291", fontSize: 12 }}>

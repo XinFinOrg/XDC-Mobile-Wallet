@@ -43,17 +43,7 @@ class ReceiveForm extends Component {
               }}
             >
               <View
-                style={{
-                  flex: 1,
-                  borderRadius: 30,
-                  height: 40,
-                  width: "100%",
-                  flexDirection: "row",
-                  backgroundColor: "#ffffff",
-                  alignContent: "center",
-                  alignItems: "center",
-                  elevation: 2
-                }}
+                style={styles.addressCopySec}
               >
                 <View
                   style={{
@@ -62,7 +52,7 @@ class ReceiveForm extends Component {
                     alignItems: "center"
                   }}
                 >
-                  <Text style={{ textAlign: "center", fontSize: 14, paddingVertical: 5, paddingHorizontal: 10 }}>
+                  <Text style={styles.walletAddressText}>
                     {this.props.walletReceiveAddress}
                   </Text>
                 </View>
