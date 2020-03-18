@@ -14,31 +14,7 @@ import Text from '../Text';
 import arrow from './images/arrow.png';
 import check from './images/success.png'
 
-const styles = StyleSheet.create({
-  listContainer: {
-    flexGrow: 0,
-    backgroundColor: '#ffffff',
-  },
-  rowContainer: {
-    borderBottomWidth: 2,
-    borderColor: '#359ff8',
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  rowText: {
-    color: '#000',
-    fontSize: 18,
-    height: '100%',
-    fontFamily: 'Roboto',
-  },
-  rowIcon: {
-    height: 25,
-    width: 25,
-  },
-});
+import useTheme from './AppStyles';
 
 class Menu extends Component {
   static propTypes = {
@@ -53,6 +29,9 @@ class Menu extends Component {
   };
 
   renderOption = (option, index) => {
+    
+    const styles = useTheme(this.props.darkTheme);
+
     if (option.swipeToDelete) {
       const swipeoutButtons = [
         {
@@ -89,6 +68,9 @@ class Menu extends Component {
   };
 
   render() {
+    
+    const styles = useTheme(this.props.darkTheme);
+
     return (
       <ScrollView style={styles.listContainer}>
         {this.props.options.map(this.renderOption)}
@@ -99,6 +81,7 @@ class Menu extends Component {
 
 const mapStateToProps = state => ({
   defaultCurrency: state.currentCurrency,
+  darkTheme: state.darkTheme,
 });
 
 export default connect(mapStateToProps)(Menu);

@@ -1,5 +1,4 @@
 import {StyleSheet, Platform} from 'react-native';
-import RF from "react-native-responsive-fontsize";
 import {Colors} from '../../utils/constants';
 
 const cColors = {
@@ -8,18 +7,8 @@ const cColors = {
 }
 
 const common = StyleSheet.create({
-    container: {
-        backgroundColor: 'transparent',
-        flex: 1,
-        justifyContent: 'space-between',
-      },
-      privateKeyWrapper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%'
-      },
-      rowIcon: {
+    
+    rowIcon: {
         backgroundColor: 'transparent',
         paddingHorizontal: 10,
         height: 25,
@@ -36,13 +25,6 @@ const common = StyleSheet.create({
         alignItems: 'center',
         width: '85%'
       },
-      warning:{
-        paddingHorizontal:20,
-        paddingBottom: 20,
-        color: "#000",
-        textAlign:"center",
-        fontFamily: 'Roboto',
-      },
       
 });
 
@@ -55,10 +37,30 @@ const lightStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Roboto',
       },
+      container: {
+        backgroundColor: 'transparent',
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: Colors.light
+      },
       privateKey: {
         paddingHorizontal: 15,
         color: cColors.lightPrivateKeyC,
         textAlign: 'center',
+        fontFamily: 'Roboto',
+      },
+      privateKeyWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: Colors.light
+      },
+      warning:{
+        paddingHorizontal:20,
+        paddingBottom: 20,
+        color: Colors.dark,
+        textAlign:"center",
         fontFamily: 'Roboto',
       },
 });
@@ -72,10 +74,30 @@ const darkStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Roboto',
       },
+      container: {
+        backgroundColor: 'transparent',
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: Colors.darkPrimary
+      },
       privateKey: {
         paddingHorizontal: 15,
         color: cColors.darkPrivateKeyC,
         textAlign: 'center',
+        fontFamily: 'Roboto',
+      },
+      privateKeyWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: Colors.darkPrimary
+      },
+      warning:{
+        paddingHorizontal:20,
+        paddingBottom: 20,
+        color: Colors.light,
+        textAlign:"center",
         fontFamily: 'Roboto',
       },
 });

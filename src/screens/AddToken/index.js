@@ -10,18 +10,7 @@ import Footer from '../UIComponents/Footer/index';
 import LinearGradient from "react-native-linear-gradient";
 import {gradientColors} from '../../utils/constants';
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  buttonContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 40,
-    paddingBottom: 20,
-  },
-});
+import useTheme from './AppStyles';
 
 class AddToken extends Component {
   static propTypes = {
@@ -157,6 +146,9 @@ class AddToken extends Component {
   };
 
   render() {
+
+    
+    const styles = useTheme(this.props.darkTheme);
     
     return (
       <GradientBackground>
@@ -193,6 +185,7 @@ class AddToken extends Component {
               this.setState({ network })}}
             symbol={this.state.symbol}
             network={this.state.network}
+            darkTheme={this.props.darkTheme}
           />
           <View style={styles.buttonContainer}>
             <SecondaryButton
@@ -226,6 +219,7 @@ class AddToken extends Component {
 const mapStateToProps = state => ({
   network: state.network,
   tokenList: state.availableTokens,
+  darkTheme: state.darkTheme,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -14,41 +14,7 @@ import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 import cameraIcon from './images/camera.png';
 
-const styles = StyleSheet.create({
-  formElement: {
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
-    paddingHorizontal: 15,
-    paddingTop: Platform.OS === 'ios' ? 20 : 30,
-    paddingBottom: 15,
-  },
-  formLabel: {
-    color: '#000',
-    fontFamily: 'Roboto',
-    paddingLeft: Platform.OS === 'ios' ? 0 : 4,
-    paddingBottom: Platform.OS === 'ios' ? 10 : 0,
-  },
-  formInputRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  formInput: {
-    color: '#000',
-    flex: 1,
-    flexGrow: 1,
-    // fontFamily: 'Roboto',
-  },
-  formInputNetwork: {
-    color: '#000',
-    flex: 1,
-    flexGrow: 1,
-    fontFamily: 'Roboto',
-  },
-  cameraIcon: {
-    height: 23,
-    width: 30,
-  },
-});
+import useTheme from './AppStyles';
 
 export default class Form extends Component {
   static propTypes = {
@@ -88,7 +54,10 @@ export default class Form extends Component {
       onNetworkChange,
       symbol,
       network,
+      darkTheme,
     } = this.props;
+    
+    const styles = useTheme(darkTheme);
 
     const ScrollContainer =
       Platform.OS === 'ios' ? KeyboardAwareScrollView : ScrollView;
