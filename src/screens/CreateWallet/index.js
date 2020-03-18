@@ -104,9 +104,32 @@ class CreateWallet extends Component {
       }),
       () => {
         if (this.state.pinCode.length === 4) {
-          this.setState({
-            isConfirmation: true,
-          });
+          if(this.props.pinCode != undefined && this.props.currentRoute == "CreateWallet") {
+            if(this.props.pinCode == this.state.pinCode) {
+              this.setState(
+                {
+                  pinCode: '',
+                  confirmationPinCode: '',
+                  isConfirmation: false,
+                  isDisabled: false,
+                },
+                () => {
+                  Alert.alert(
+                    'PIN Code',
+                    "Please use different PIN code.",
+                  );
+                },
+              );
+            } else {
+              this.setState({
+                isConfirmation: true,
+              });
+            }
+          } else {
+            this.setState({
+              isConfirmation: true,
+            });
+          }
         }
       },
     );
